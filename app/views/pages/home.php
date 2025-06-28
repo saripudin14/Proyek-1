@@ -1,41 +1,73 @@
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth">
+<html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Paris Plastik</title>
-    <link href="/proyek-1/public/css/output.css" rel="stylesheet">
+    <title>Paris Plastik | Toko Plastik Modern</title>
+    <meta name="description" content="Supplier produk plastik berkualitas, harga grosir, pelayanan ramah, dan pengiriman cepat.">
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@preline/preline@2.0.0/dist/preline.min.js"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .nav-link-underline {
+            position: relative;
+        }
+        .nav-link-underline::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%) scaleX(0);
+            transform-origin: center;
+            width: 100%;
+            height: 2px;
+            background-color: #0ea5e9;
+            transition: transform 0.3s ease-out;
+        }
+        .nav-link-underline:hover::after {
+            transform: translateX(-50%) scaleX(1);
+        }
+        .hero-bg {
+            background-image: linear-gradient(rgba(2,132,199,0.7),rgba(2,132,199,0.7)), url('https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+        .glass {
+            background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(6px);
+            border-radius: 1rem;
+            box-shadow: 0 8px 32px 0 rgba(31,38,135,0.15);
+        }
+        .feature-icon {
+            background: linear-gradient(135deg, #0ea5e9 60%, #38bdf8 100%);
+        }
+        .cta-btn {
+            box-shadow: 0 4px 14px 0 rgba(14,165,233,0.15);
+        }
+        .cta-btn:hover {
+            box-shadow: 0 8px 24px 0 rgba(14,165,233,0.25);
+        }
+    </style>
 </head>
-<body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+
+<body class="bg-gradient-to-br from-sky-50 to-white dark:from-gray-900 dark:to-gray-950 min-h-screen font-sans">
     <!-- Navigation -->
-    <nav class="bg-white dark:bg-gray-800 shadow-sm sticky top-0 z-50 transition-colors duration-300">
+    <nav class="bg-white/90 dark:bg-gray-800/90 shadow-sm sticky top-0 z-50 backdrop-blur-md border-b border-sky-100 dark:border-gray-700">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
                 <!-- Logo -->
-                <div class="flex-shrink-0">
-                    <a href="/proyek-1/public/" class="flex items-center">
-                        <span class="text-2xl font-bold text-blue-600 dark:text-blue-400">Paris Plastik</span>
+                <div class="flex-shrink-0 flex items-center gap-2">
+                    <a href="#" class="text-2xl font-extrabold text-sky-600 dark:text-sky-300 tracking-tight flex items-center gap-2">
+                        Paris Plastik
                     </a>
                 </div>
                 <!-- Menu tengah desktop -->
                 <div class="hidden sm:flex sm:space-x-8 absolute left-1/2 transform -translate-x-1/2">
-                    <a href="/proyek-1/public/" class="border-blue-500 text-gray-900 dark:text-white inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Home</a>
-                    <a href="#about" class="nav-link-underline text-gray-500 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-300 inline-flex items-center px-1 pt-1 text-sm font-medium transition-colors duration-300">About Us</a>
-                    <a href="/proyek-1/public/?url=produk" class="nav-link-underline text-gray-500 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-300 inline-flex items-center px-1 pt-1 text-sm font-medium transition-colors duration-300">Products</a>
-                </div>
-                <!-- Icon tombol kanan desktop -->
-                <div class="hidden sm:flex sm:items-center space-x-4">
-                    <button class="relative p-1 text-gray-400 hover:text-gray-500 dark:hover:text-gray-300">
-                        <i class="fas fa-shopping-cart text-lg"></i>
-                        <span class="absolute -top-1 -right-1 px-1.5 py-0.5 text-xs font-bold text-white bg-blue-600 rounded-full">0</span>
-                    </button>
-                    <button id="theme-toggle" class="p-1 text-gray-400 hover:text-gray-500 dark:hover:text-gray-300">
-                        <i class="fas fa-moon text-lg dark:hidden"></i>
-                        <i class="fas fa-sun text-lg hidden dark:inline"></i>
-                    </button>
+                    <a href="#" class="nav-link-underline text-sky-700 dark:text-white px-3 py-2 text-base font-semibold">Home</a>
+                    <a href="#about" class="nav-link-underline text-gray-500 dark:text-gray-300 hover:text-sky-600 dark:hover:text-sky-300 px-3 py-2 text-base font-semibold transition-colors duration-300">Tentang</a>
+                    <a href="product.html" class="nav-link-underline text-gray-500 dark:text-gray-300 hover:text-sky-600 dark:hover:text-sky-300 px-3 py-2 text-base font-semibold transition-colors duration-300">Produk</a>
                 </div>
                 <!-- Mobile menu button -->
                 <div class="sm:hidden">
@@ -46,16 +78,16 @@
             </div>
         </div>
         <!-- Mobile Menu -->
-        <div id="mobile-menu" class="sm:hidden hidden px-4 pb-4">
-            <a href="/proyek-1/public/" class="block text-base font-medium text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400">Home</a>
-            <a href="#about" class="nav-link-underline block text-base font-medium text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300">About Us</a>
-            <a href="/proyek-1/public/?url=produk" class="nav-link-underline block text-base font-medium text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300">Products</a>
-            <div class="pt-3">
-                <button class="relative p-1 text-gray-400 hover:text-gray-500 dark:hover:text-gray-300">
+        <div id="mobile-menu" class="sm:hidden hidden px-4 pb-4 bg-white/95 dark:bg-gray-800/95 rounded-b-lg shadow animate-fade-in">
+            <a href="#" class="block text-base font-semibold text-sky-700 dark:text-white hover:text-sky-600 dark:hover:text-sky-300 py-2">Home</a>
+            <a href="#about" class="nav-link-underline block text-base font-semibold text-gray-700 dark:text-gray-200 hover:text-sky-600 dark:hover:text-sky-300 py-2 transition-colors duration-300">Tentang</a>
+            <a href="product.html" class="nav-link-underline block text-base font-semibold text-gray-700 dark:text-gray-200 hover:text-sky-600 dark:hover:text-sky-300 py-2 transition-colors duration-300">Produk</a>
+            <div class="pt-3 flex gap-3">
+                <button class="relative p-1 text-gray-400 hover:text-sky-600 dark:hover:text-sky-300">
                     <i class="fas fa-shopping-cart text-lg"></i>
-                    <span class="absolute -top-1 -right-1 px-1.5 py-0.5 text-xs font-bold text-white bg-blue-600 rounded-full">0</span>
+                    <span class="absolute -top-1 -right-1 px-1.5 py-0.5 text-xs font-bold text-white bg-sky-600 rounded-full">3</span>
                 </button>
-                <button id="theme-toggle-mobile" class="p-1 text-gray-400 hover:text-gray-500 dark:hover:text-gray-300">
+                <button id="theme-toggle-mobile" class="p-1 text-gray-400 hover:text-sky-600 dark:hover:text-sky-300">
                     <i class="fas fa-moon text-lg dark:hidden"></i>
                     <i class="fas fa-sun text-lg hidden dark:inline"></i>
                 </button>
@@ -63,178 +95,242 @@
         </div>
     </nav>
     <!-- Hero Section -->
-    <section class="hero-bg text-white py-20 md:py-32 flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-600 to-blue-400">
+    <section class="hero-bg min-h-[55vh] flex items-center justify-center py-12 md:py-20">
         <div class="container mx-auto px-4 text-center">
-            <h1 class="text-4xl tracking-tight font-extrabold sm:text-5xl md:text-6xl animate-fade-in">
-                <span class="block">Supplier Produk Plastik</span>
-                <span class="block text-blue-200 dark:text-blue-300 delay-100">Berkualitas</span>
-            </h1>
-            <p class="text-base text-blue-100 dark:text-blue-200 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-auto delay-200">
-                Menyediakan berbagai macam produk plastik untuk kebutuhan rumah tangga, industri, dan usaha Anda dengan kualitas terbaik dan harga bersaing.
-            </p>
-        </div>
-    </section>
-    <section id="about" class="py-12 bg-white">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-4">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2">Tentang Kami</h2>
-            </div>
-            <div class="flex flex-col md:flex-row items-center justify-between">
-                <div class="w-full md:w-1/2 mb-8 md:mb-0">
-                    <div class="relative">
-                        <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Toko Plastik" class="rounded-lg shadow-lg relative z-10 w-full h-auto">
-                    </div>
-                </div>
-                <div class="w-full md:w-1/2 md:pl-12">
-                    <h3 class="text-2xl font-semibold text-gray-800 mb-4">Pilihan Tepat di Tengah Pasar Tradisional</h3>
-                    <p class="text-gray-600 mb-6 text-justify">
-                        Kami adalah supplier plastik terpercaya di pasar tradisional, menyediakan produk berkualitas untuk kebutuhan rumah tangga, usaha, dan industri. Dengan pengalaman bertahun-tahun, kami berkomitmen memberikan harga terbaik dan pelayanan ramah.
-                    </p>
-                    <div class="flex flex-wrap justify-start gap-4">
-                        <a href="tel:081234567890" class="inline-flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 px-6 rounded-lg transition duration-300">
-                            Tanya atau Pesan Sekarang
-                            <i class="fas fa-phone-alt"></i>
-                        </a>
-                        <a href="/proyek-1/public/?url=produk" class="inline-flex items-center gap-2 border border-blue-500 text-blue-500 hover:bg-blue-50 font-medium py-3 px-6 rounded-lg transition duration-300">
-                            Lihat Katalog Produk
-                            <i class="fas fa-shopping-cart"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="py-12 bg-gray-100 dark:bg-gray-800 transition-colors duration-300">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="lg:text-center">
-                <h2 class="pt-3 pb-3 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-4xl animate-fade-in">
-                    Mengapa Harus Memilih Kami ?
-                </h2>
-                <p class="max-w-2xl mx-auto text-lg text-gray-600 dark:text-gray-300">
-                    Kami berkomitmen untuk memberikan pengalaman belanja yang nyaman, menyenangkan, dan memuaskan bagi setiap pelanggan, mulai dari kualitas produk hingga pelayanan terbaik.
+            <div class="glass p-10 md:p-20 inline-block shadow-2xl animate-fade-in">
+                <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight text-white drop-shadow-2xl mb-6 animate-fade-in" style="text-shadow: 0 6px 24px rgba(0,0,0,0.45);">
+                    Supplier Produk Plastik<br>
+                    <span class="text-sky-200 dark:text-sky-300 text-4xl md:text-5xl block mt-4 font-black tracking-wide drop-shadow-[0_6px_24px_rgba(0,0,0,0.55)]" style="letter-spacing:2px;">Berkualitas & Terpercaya</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-white mb-10 animate-fade-in delay-100 max-w-2xl mx-auto font-semibold drop-shadow-xl" style="color:#fff; text-shadow: 0 2px 12px rgba(0,0,0,0.35);">
+                    Menyediakan berbagai macam produk plastik untuk kebutuhan rumah tangga, industri, dan usaha Anda dengan kualitas terbaik dan harga bersaing.
                 </p>
-            </div>
-            <div class="mt-12 grid gap-10 md:grid-cols-2 lg:grid-cols-3">
-                <div class="relative animate-fade-in delay-100">
-                    <div class="flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white absolute">
-                        <i class="fas fa-check text-xl"></i>
-                    </div>
-                    <div class="ml-16">
-                        <p class="text-lg font-medium text-gray-900 dark:text-white">Produk Berkualitas</p>
-                        <p class="mt-2 text-base text-gray-500 dark:text-gray-300">
-                            Kami menyediakan plastik pilihan dengan daya tahan tinggi, cocok untuk kebutuhan rumah tangga hingga usaha.
-                        </p>
-                    </div>
-                </div>
-                <div class="relative animate-fade-in delay-200">
-                    <div class="flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white absolute">
-                        <i class="fas fa-tags text-xl"></i>
-                    </div>
-                    <div class="ml-16">
-                        <p class="text-lg font-medium text-gray-900 dark:text-white">Harga Terjangkau</p>
-                        <p class="mt-2 text-base text-gray-500 dark:text-gray-300">
-                            Harga langsung dari pusat grosir pasar, lebih hemat untuk pembelian besar maupun kecil.
-                        </p>
-                    </div>
-                </div>
-                <div class="relative animate-fade-in delay-300">
-                    <div class="flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white absolute">
-                        <i class="fas fa-truck text-xl"></i>
-                    </div>
-                    <div class="ml-16">
-                        <p class="text-lg font-medium text-gray-900 dark:text-white">Pengiriman Cepat & Fleksibel</p>
-                        <p class="mt-2 text-base text-gray-500 dark:text-gray-300">
-                            Kami siap antar ke rumah, toko, atau kios Anda di area sekitar pasar, termasuk pesanan dalam jumlah besar.
-                        </p>
-                    </div>
-                </div>
-                <div class="relative animate-fade-in delay-400">
-                    <div class="flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white absolute">
-                        <i class="fas fa-undo text-xl"></i>
-                    </div>
-                    <div class="ml-16">
-                        <p class="text-lg font-medium text-gray-900 dark:text-white">Penukaran Mudah</p>
-                        <p class="mt-2 text-base text-gray-500 dark:text-gray-300">
-                            Tidak cocok? Tenang, proses penukaran bisa langsung dilakukan di toko tanpa ribet.
-                        </p>
-                    </div>
-                </div>
-                <div class="relative animate-fade-in delay-500">
-                    <div class="flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white absolute">
-                        <i class="fas fa-lock text-xl"></i>
-                    </div>
-                    <div class="ml-16">
-                        <p class="text-lg font-medium text-gray-900 dark:text-white">Transaksi Aman & Nyaman</p>
-                        <p class="mt-2 text-base text-gray-500 dark:text-gray-300">
-                            Kami mendukung pembayaran tunai, transfer bank, dan selalu menyediakan bukti transaksi resmi.
-                        </p>
-                    </div>
-                </div>
-                <div class="relative animate-fade-in delay-600">
-                    <div class="flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white absolute">
-                        <i class="fas fa-headset text-xl"></i>
-                    </div>
-                    <div class="ml-16">
-                        <p class="text-lg font-medium text-gray-900 dark:text-white">Pelayanan Ramah Setiap Hari</p>
-                        <p class="mt-2 text-base text-gray-500 dark:text-gray-300">
-                            Staf kami akan dengan senang hati membantu Anda memilih produk plastik terbaik sesuai kebutuhan.
-                        </p>
-                    </div>
+                <div class="flex flex-wrap justify-center gap-4 animate-fade-in delay-200">
+                    <a href="#about" class="cta-btn inline-flex items-center gap-2 bg-sky-600 hover:bg-sky-700 text-white font-semibold py-3 px-8 rounded-lg transition duration-300 shadow-lg text-lg">
+                        Tentang Kami <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <a href="product.html" class="cta-btn inline-flex items-center gap-2 border border-sky-600 text-sky-600 hover:bg-sky-50 font-semibold py-3 px-8 rounded-lg transition duration-300 bg-white/80 text-lg">
+                        Lihat Produk <i class="fas fa-shopping-cart"></i>
+                    </a>
                 </div>
             </div>
         </div>
     </section>
-    <!-- Footer Section -->
-    <footer class="bg-blue-800 text-white">
-        <div class="container mx-auto px-4 py-8">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-                <div class="w-full text-left">
-                    <h3 class="text-xl font-bold mb-3">Lokasi Kami</h3>
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.676710799187!2d106.82834531532148!3d-6.176534462244412!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f3f2cfe41989%3A0x4030bfbca7c8a10!2sPasar%20Senin!5e0!3m2!1sen!2sid!4v1618295947309!5m2!1sen!2sid" width="100%" height="180" style="border:0;" allowfullscreen="" loading="lazy" class="rounded-md shadow-md max-w-md"></iframe>
+    <!-- About Section -->
+    <section id="about" class="py-24 bg-gradient-to-br from-white via-sky-50 to-emerald-50 dark:from-gray-900 dark:via-gray-900 dark:to-sky-950">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl md:text-4xl font-extrabold text-sky-700 dark:text-sky-300 mb-2">Tentang Kami</h2>
+                <p class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">Paris Plastik adalah toko plastik modern yang menyediakan produk plastik berkualitas untuk kebutuhan rumah tangga, industri, dan usaha Anda. Kami berkomitmen memberikan pelayanan terbaik, harga bersaing, dan pengiriman cepat.</p>
+            </div>
+            <div class="flex flex-col md:flex-row items-center justify-between gap-10">
+                <div class="w-full md:w-1/2 mb-8 md:mb-0 animate-fade-in delay-100">
+                    <div class="relative rounded-xl overflow-hidden shadow-xl">
+                        <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Toko Plastik" class="w-full h-72 object-cover object-center">
+                        <div class="absolute inset-0 bg-gradient-to-t from-sky-900/40 to-transparent"></div>
+                    </div>
                 </div>
-                <div class="w-full text-left">
+                <div class="w-full md:w-1/2 md:pl-12 animate-fade-in delay-200">
+                    <h3 class="text-2xl font-bold text-sky-700 dark:text-sky-300 mb-4">Pilihan Tepat di Tengah Pasar Tradisional</h3>
+                    <ul class="space-y-3 text-gray-700 dark:text-gray-200 text-lg">
+                        <li><i class="fas fa-check-circle text-sky-600 mr-2"></i>Produk plastik lengkap & berkualitas</li>
+                        <li><i class="fas fa-check-circle text-sky-600 mr-2"></i>Harga grosir & eceran bersaing</li>
+                        <li><i class="fas fa-check-circle text-sky-600 mr-2"></i>Pelayanan ramah & profesional</li>
+                        <li><i class="fas fa-check-circle text-sky-600 mr-2"></i>Pengiriman cepat & fleksibel</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-gradient-to-b from-sky-50 via-white to-emerald-100 dark:from-gray-900 dark:via-slate-900 dark:to-sky-950 relative overflow-hidden">
+        <div class="absolute inset-0 pointer-events-none select-none opacity-50 dark:opacity-40">
+            <svg class="absolute top-0 left-0 w-80 h-80 text-sky-100 dark:text-gray-800 blur-3xl" fill="currentColor" viewBox="0 0 400 400">
+                <circle cx="200" cy="200" r="200" />
+            </svg>
+            <svg class="absolute bottom-0 right-0 w-96 h-96 text-emerald-100 dark:text-gray-800 blur-3xl" fill="currentColor" viewBox="0 0 400 400">
+                <circle cx="200" cy="200" r="200" />
+            </svg>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-extrabold tracking-tight text-slate-800 dark:text-sky-300 sm:text-4xl animate-fade-in drop-shadow-lg">Mengapa Memilih Kami?</h2>
+                <p class="max-w-2xl mx-auto text-lg text-gray-600 dark:text-gray-400 mt-4">Kami berkomitmen untuk memberikan pengalaman belanja yang nyaman, menyenangkan, dan memuaskan bagi setiap pelanggan.</p>
+            </div>
+
+            <div class="grid gap-x-8 gap-y-12 md:grid-cols-2 lg:grid-cols-3">
+                
+                <div class="flex items-start gap-5 animate-fade-in delay-100 group">
+                    <div class="flex-shrink-0">
+                        <span class="flex items-center justify-center h-16 w-16 rounded-2xl text-white shadow-lg text-3xl transition-all duration-300 ring-4 ring-white/50 dark:ring-gray-800/50 bg-gradient-to-br from-sky-500 to-sky-600 group-hover:scale-110 group-hover:-rotate-6">
+                            <i class="fas fa-check"></i>
+                        </span>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-800 dark:text-sky-300 mb-1 transition group-hover:text-emerald-600 dark:group-hover:text-emerald-400">Produk Berkualitas</h3>
+                        <p class="text-base text-gray-500 dark:text-gray-400">Plastik pilihan dengan daya tahan tinggi, cocok untuk kebutuhan rumah tangga hingga usaha.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-5 animate-fade-in delay-200 group">
+                    <div class="flex-shrink-0">
+                        <span class="flex items-center justify-center h-16 w-16 rounded-2xl text-white shadow-lg text-3xl transition-all duration-300 ring-4 ring-white/50 dark:ring-gray-800/50 bg-gradient-to-br from-sky-500 to-sky-600 group-hover:scale-110 group-hover:-rotate-6">
+                            <i class="fas fa-tags"></i>
+                        </span>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-800 dark:text-sky-300 mb-1 transition group-hover:text-emerald-600 dark:group-hover:text-emerald-400">Harga Terjangkau</h3>
+                        <p class="text-base text-gray-500 dark:text-gray-400">Harga langsung dari pusat grosir pasar, lebih hemat untuk pembelian besar maupun kecil.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-5 animate-fade-in delay-300 group">
+                    <div class="flex-shrink-0">
+                        <span class="flex items-center justify-center h-16 w-16 rounded-2xl text-white shadow-lg text-3xl transition-all duration-300 ring-4 ring-white/50 dark:ring-gray-800/50 bg-gradient-to-br from-sky-500 to-sky-600 group-hover:scale-110 group-hover:-rotate-6">
+                            <i class="fas fa-truck"></i>
+                        </span>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-800 dark:text-sky-300 mb-1 transition group-hover:text-emerald-600 dark:group-hover:text-emerald-400">Pengiriman Cepat & Fleksibel</h3>
+                        <p class="text-base text-gray-500 dark:text-gray-400">Siap antar ke rumah, toko, atau kios Anda di area sekitar pasar, termasuk pesanan besar.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-5 animate-fade-in delay-400 group">
+                    <div class="flex-shrink-0">
+                        <span class="flex items-center justify-center h-16 w-16 rounded-2xl text-white shadow-lg text-3xl transition-all duration-300 ring-4 ring-white/50 dark:ring-gray-800/50 bg-gradient-to-br from-sky-500 to-sky-600 group-hover:scale-110 group-hover:-rotate-6">
+                            <i class="fas fa-undo"></i>
+                        </span>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-800 dark:text-sky-300 mb-1 transition group-hover:text-emerald-600 dark:group-hover:text-emerald-400">Penukaran Mudah</h3>
+                        <p class="text-base text-gray-500 dark:text-gray-400">Tidak cocok? Proses penukaran bisa langsung di toko tanpa ribet.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-5 animate-fade-in delay-500 group">
+                    <div class="flex-shrink-0">
+                        <span class="flex items-center justify-center h-16 w-16 rounded-2xl text-white shadow-lg text-3xl transition-all duration-300 ring-4 ring-white/50 dark:ring-gray-800/50 bg-gradient-to-br from-sky-500 to-sky-600 group-hover:scale-110 group-hover:-rotate-6">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-800 dark:text-sky-300 mb-1 transition group-hover:text-emerald-600 dark:group-hover:text-emerald-400">Transaksi Aman & Nyaman</h3>
+                        <p class="text-base text-gray-500 dark:text-gray-400">Mendukung pembayaran tunai, transfer bank, dan selalu menyediakan bukti transaksi resmi.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-5 animate-fade-in delay-600 group">
+                    <div class="flex-shrink-0">
+                        <span class="flex items-center justify-center h-16 w-16 rounded-2xl text-white shadow-lg text-3xl transition-all duration-300 ring-4 ring-white/50 dark:ring-gray-800/50 bg-gradient-to-br from-sky-500 to-sky-600 group-hover:scale-110 group-hover:-rotate-6">
+                            <i class="fas fa-headset"></i>
+                        </span>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-800 dark:text-sky-300 mb-1 transition group-hover:text-emerald-600 dark:group-hover:text-emerald-400">Pelayanan Ramah</h3>
+                        <p class="text-base text-gray-500 dark:text-gray-400">Staf kami siap membantu Anda memilih produk plastik terbaik sesuai kebutuhan.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-sky-800 text-white">
+        <div class="container mx-auto px-4 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                <div>
+                    <h3 class="text-xl font-bold mb-3">Lokasi Kami</h3>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.4977418860835!2d106.88535447440961!3d-6.197870460716725!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f5045d4c5cc5%3A0x3e9a9ec26746ed3d!2sParis%20Plastik!5e0!3m2!1sen!2sid!4v1751128962289!5m2!1sen!2sid" width="100%" height="180" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="rounded-md shadow-md max-w-md"></iframe>
+                </div>
+                <div>
                     <h3 class="text-xl font-bold mb-3">Hubungi Kami</h3>
                     <div class="space-y-3">
                         <div class="flex items-start space-x-3">
-                            <svg class="h-5 w-5 mt-1 text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
-                            <p class="text-gray-300 text-sm">Jl. Pinang Raya No.23, RT.9/RW.8, Rawamangun, Kec. Pulo Gadung, Kota Jakarta Timur, Daerah Khusus Ibukota Jakarta 13220</p>
+                            <i class="fas fa-map-marker-alt text-sky-300 mt-1"></i>
+                            <p class="text-gray-200 text-sm">Jl. Pinang Raya No.23, RT.9/RW.8, Rawamangun, Kec. Pulo Gadung, Kota Jakarta Timur, Daerah Khusus Ibukota Jakarta 13220</p>
                         </div>
                         <div class="flex items-center space-x-3">
-                            <svg class="h-5 w-5 text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                            </svg>
-                            <p class="text-gray-300">0812-3456-7890</p>
+                            <i class="fas fa-phone-alt text-sky-300"></i>
+                            <p class="text-gray-200">0822-6074-7187</p>
                         </div>
                         <div class="flex items-center space-x-3">
-                            <svg class="h-5 w-5 text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                            </svg>
-                            <p class="text-gray-300">info@plastindo.com</p>
+                            <i class="fas fa-envelope text-sky-300"></i>
+                            <p class="text-gray-200">farisplastik@gmail.com</p>
                         </div>
                     </div>
                     <h3 class="text-lg font-semibold mt-5 mb-2">Ikuti Kami</h3>
-                    <div class="flex space-x-4">
-                        <a href="#" class="text-gray-300 hover:text-white"><i class="fab fa-facebook-f text-xl"></i></a>
-                        <a href="#" class="text-gray-300 hover:text-white"><i class="fab fa-instagram text-xl"></i></a>
-                        <a href="#" class="text-gray-300 hover:text-white"><i class="fab fa-whatsapp text-xl"></i></a>
-                        <a href="#" class="text-gray-300 hover:text-white"><i class="fab fa-tiktok text-xl"></i></a>
+                    <div class="flex space-x-4 mt-1">
+                        <a href="#" class="w-10 h-10 bg-slate-700/50 hover:bg-sky-500 rounded-full flex items-center justify-center text-sky-300 hover:text-white transition-colors"><i class="fab fa-facebook-f text-lg"></i></a>
+                        <a href="#" class="w-10 h-10 bg-slate-700/50 hover:bg-pink-500 rounded-full flex items-center justify-center text-sky-300 hover:text-white transition-colors"><i class="fab fa-instagram text-lg"></i></a>
+                        <a href="#" class="w-10 h-10 bg-slate-700/50 hover:bg-green-500 rounded-full flex items-center justify-center text-sky-300 hover:text-white transition-colors"><i class="fab fa-whatsapp text-lg"></i></a>
+                        <a href="#" class="w-10 h-10 bg-slate-700/50 hover:bg-black rounded-full flex items-center justify-center text-sky-300 hover:text-white transition-colors"><i class="fab fa-tiktok text-lg"></i></a>
                     </div>
                 </div>
             </div>
-            <div class="border-t border-blue-700 mt-8 pt-6">
-                <div class="flex flex-col-reverse md:flex-row md:justify-between md:items-center gap-4">
-                    <div class="text-sm text-gray-300">&copy; 2025 PlastikJaya. Hak Cipta Dilindungi.</div>
-                    <div class="flex flex-wrap gap-4 text-sm">
-                        <a href="#" class="text-gray-300 hover:text-white transition">Syarat & Ketentuan</a>
-                        <a href="#" class="text-gray-300 hover:text-white transition">Kebijakan Privasi</a>
-                    </div>
+            <div class="border-t border-sky-700 mt-8 pt-6 flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+                <div class="text-sm text-gray-200">&copy; 2025 Paris Plastik. Hak Cipta Dilindungi.</div>
+                <div class="flex flex-wrap gap-4 text-sm">
+                    <a href="#" class="text-gray-200 hover:text-white transition">Syarat & Ketentuan</a>
+                    <a href="#" class="text-gray-200 hover:text-white transition">Kebijakan Privasi</a>
                 </div>
             </div>
         </div>
     </footer>
-    <script src="/proyek-1/public/js/index.js"></script>
+
+    <script>
+        const html = document.documentElement;
+        const menuToggle = document.getElementById('mobile-menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        const themeToggles = document.querySelectorAll('#theme-toggle, #theme-toggle-mobile');
+        let isOpen = false;
+        menuToggle.addEventListener('click', () => {
+            if (!isOpen) {
+                mobileMenu.classList.remove('hidden');
+                mobileMenu.classList.remove('animate-slide-up');
+                mobileMenu.classList.add('animate-slide-down');
+                menuIcon.classList.replace('fa-bars', 'fa-times');
+                isOpen = true;
+            } else {
+                mobileMenu.classList.remove('animate-slide-down');
+                mobileMenu.classList.add('animate-slide-up');
+                setTimeout(() => {
+                    mobileMenu.classList.add('hidden');
+                }, 200);
+                menuIcon.classList.replace('fa-times', 'fa-bars');
+                isOpen = false;
+            }
+        });
+        themeToggles.forEach(btn => {
+            btn.addEventListener('click', () => {
+                html.classList.toggle('dark');
+            });
+        });
+    </script>
+    <style>
+        @keyframes slideDown {
+            0% { opacity: 0; transform: translateY(-10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideUp {
+            0% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(-10px); }
+        }
+        .animate-slide-down { animation: slideDown 0.3s ease-out forwards; }
+        .animate-slide-up { animation: slideUp 0.2s ease-in forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in { animation: fadeIn 0.8s ease-out forwards; }
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        .delay-500 { animation-delay: 0.5s; }
+        .delay-600 { animation-delay: 0.6s; }
+    </style>
 </body>
+
 </html>
