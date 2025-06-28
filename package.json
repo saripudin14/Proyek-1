@@ -1,0 +1,11 @@
+{
+  "name": "proyek-1",
+  "version": "1.0.0",
+  "scripts": {
+    "build:css": "npx tailwindcss -i ./tailwind/input.css -o ./public/css/output.css --minify",
+    "watch:css": "npx tailwindcss -i ./tailwind/input.css -o ./public/css/output.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.0"
+  }
+}
