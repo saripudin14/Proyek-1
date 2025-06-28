@@ -6,50 +6,43 @@ class Order {
     public function __construct() {
         $this->db = Database::getInstance();
     }
+    // Membuat order baru (hanya untuk user yang sudah login, user_id wajib)
     public function createOrder($data) {
-        // Buat nomor invoice unik
-        $nomor_invoice = 'INV-' . date('YmdHis') . '-' . rand(100,999);
-        // Ambil harga produk
-        $stmt = $this->db->prepare('SELECT harga_jual FROM products WHERE id = :id');
-        $stmt->execute(['id' => $data['product_id']]);
-        $product = $stmt->fetch(PDO::FETCH_ASSOC);
-        $harga = $product ? $product['harga_jual'] : 0;
-        $subtotal = $harga * $data['jumlah'];
         // Insert ke orders
-        $stmt = $this->db->prepare('INSERT INTO orders (customer_id, nomor_invoice, total_harga, status_pesanan, tipe_pesanan, alamat_pengiriman, catatan_pesanan) VALUES (:customer_id, :nomor_invoice, :total_harga, :status_pesanan, :tipe_pesanan, :alamat_pengiriman, :catatan_pesanan)');
+        $stmt = $this->db->prepare('INSERT INTO orders (user_id, total, status, shipping_address) VALUES (:user_id, :total, :status, :shipping_address)');
         $stmt->execute([
-            'customer_id' => $data['customer_id'],
-            'nomor_invoice' => $nomor_invoice,
-            'total_harga' => $subtotal,
-            'status_pesanan' => $data['status_pesanan'],
-            'tipe_pesanan' => $data['tipe_pesanan'],
-            'alamat_pengiriman' => $data['alamat_pengiriman'],
-            'catatan_pesanan' => $data['catatan_pesanan']
+            'user_id' => $data['user_id'],
+            'total' => $data['total'],
+            'status' => $data['status'],
+            'shipping_address' => $data['shipping_address']
         ]);
         $order_id = $this->db->lastInsertId();
-        // Insert ke order_details
-        $stmt = $this->db->prepare('INSERT INTO order_details (order_id, product_id, jumlah, harga_saat_transaksi, subtotal) VALUES (:order_id, :product_id, :jumlah, :harga, :subtotal)');
+        // Insert ke order_items (hanya satu produk per order untuk form sederhana)
+        $stmt = $this->db->prepare('INSERT INTO order_items (order_id, product_id, product_name, price, quantity, unit) VALUES (:order_id, :product_id, :product_name, :price, :quantity, :unit)');
         $stmt->execute([
             'order_id' => $order_id,
             'product_id' => $data['product_id'],
-            'jumlah' => $data['jumlah'],
-            'harga' => $harga,
-            'subtotal' => $subtotal
+            'product_name' => $data['product_name'],
+            'price' => $data['price'],
+            'quantity' => $data['quantity'],
+            'unit' => $data['unit']
         ]);
         return $order_id;
     }
-    public function getAllWithCustomer() {
-        $sql = 'SELECT o.*, c.nama_lengkap as customer_nama, c.email as customer_email FROM orders o LEFT JOIN customers c ON o.customer_id = c.id ORDER BY o.tanggal_pesanan DESC';
+    // Ambil semua order beserta user (admin view)
+    public function getAllWithUser() {
+        $sql = 'SELECT o.*, u.name as user_name, u.email as user_email FROM orders o LEFT JOIN users u ON o.user_id = u.id ORDER BY o.created_at DESC';
         $stmt = $this->db->query($sql);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    // Ambil detail order beserta item
     public function findByIdWithDetails($id) {
-        $sql = 'SELECT o.*, c.nama_lengkap as customer_nama, c.email as customer_email FROM orders o LEFT JOIN customers c ON o.customer_id = c.id WHERE o.id = :id';
+        $sql = 'SELECT o.*, u.name as user_name, u.email as user_email FROM orders o LEFT JOIN users u ON o.user_id = u.id WHERE o.id = :id';
         $stmt = $this->db->prepare($sql);
         $stmt->execute(['id' => $id]);
         $order = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($order) {
-            $sql2 = 'SELECT od.*, p.nama_produk, p.kode_produk FROM order_details od LEFT JOIN products p ON od.product_id = p.id WHERE od.order_id = :order_id';
+            $sql2 = 'SELECT oi.*, p.name as product_name_ref FROM order_items oi LEFT JOIN products p ON oi.product_id = p.id WHERE oi.order_id = :order_id';
             $stmt2 = $this->db->prepare($sql2);
             $stmt2->execute(['order_id' => $id]);
             $order['details'] = $stmt2->fetchAll(PDO::FETCH_ASSOC);
@@ -57,7 +50,7 @@ class Order {
         return $order;
     }
     public function updateStatus($id, $status) {
-        $stmt = $this->db->prepare('UPDATE orders SET status_pesanan = :status WHERE id = :id');
+        $stmt = $this->db->prepare('UPDATE orders SET status = :status WHERE id = :id');
         return $stmt->execute(['status' => $status, 'id' => $id]);
     }
     public function delete($id) {

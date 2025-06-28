@@ -23,24 +23,46 @@ class ProductController {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = [
                 'category_id' => $_POST['category_id'] ?? '',
-                'kode_produk' => $_POST['kode_produk'] ?? '',
-                'nama_produk' => $_POST['nama_produk'] ?? '',
-                'deskripsi' => $_POST['deskripsi'] ?? '',
-                'harga_jual' => $_POST['harga_jual'] ?? '',
-                'satuan' => $_POST['satuan'] ?? '',
-                'stok' => $_POST['stok'] ?? 0,
-                'gambar_produk' => $_POST['gambar_produk'] ?? ''
+                'name' => $_POST['name'] ?? '',
+                'description' => $_POST['description'] ?? '',
+                'price' => $_POST['price'] ?? '',
+                'stock' => $_POST['stock'] ?? 0,
+                'dimensions' => $_POST['dimensions'] ?? '',
+                'color' => $_POST['color'] ?? '',
+                'unit' => $_POST['unit'] ?? 'pcs',
+                'image' => ''
             ];
-            if (!$data['category_id'] || !$data['nama_produk'] || !$data['harga_jual'] || !$data['satuan']) {
+            // Handle image upload
+            if (isset($_FILES['image_file']) && $_FILES['image_file']['error'] === UPLOAD_ERR_OK) {
+                $file = $_FILES['image_file'];
+                $allowed = ['image/jpeg','image/png','image/gif','image/webp'];
+                if (!in_array($file['type'], $allowed)) {
+                    $error = 'Tipe file gambar tidak didukung!';
+                } elseif ($file['size'] > 2*1024*1024) {
+                    $error = 'Ukuran file gambar maksimal 2MB!';
+                } else {
+                    $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
+                    $newName = 'product_' . time() . '_' . rand(1000,9999) . '.' . $ext;
+                    $targetDir = '/public/images/';
+                    $targetPath = dirname(__DIR__,2) . $targetDir . $newName;
+                    $dbPath = '/proyek-1/public/images/' . $newName;
+                    if (move_uploaded_file($file['tmp_name'], $targetPath)) {
+                        $data['image'] = $dbPath;
+                    } else {
+                        $error = 'Gagal upload gambar!';
+                    }
+                }
+            }
+            if (!$data['category_id'] || !$data['name'] || !$data['price'] || !$data['unit']) {
                 $error = 'Kategori, Nama Produk, Harga, dan Satuan wajib diisi!';
-            } else {
+            }
+            if (!$error) {
                 $productModel = new Product();
                 $productModel->create($data);
                 header('Location: /proyek-1/public/?url=produk');
                 exit;
             }
         }
-        // Ambil kategori untuk dropdown
         $productModel = new Product();
         $categories = $productModel->getCategories();
         require_once dirname(__DIR__) . '/views/pages/product_form.php';
@@ -63,17 +85,45 @@ class ProductController {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = [
                 'category_id' => $_POST['category_id'] ?? '',
-                'kode_produk' => $_POST['kode_produk'] ?? '',
-                'nama_produk' => $_POST['nama_produk'] ?? '',
-                'deskripsi' => $_POST['deskripsi'] ?? '',
-                'harga_jual' => $_POST['harga_jual'] ?? '',
-                'satuan' => $_POST['satuan'] ?? '',
-                'stok' => $_POST['stok'] ?? 0,
-                'gambar_produk' => $_POST['gambar_produk'] ?? ''
+                'name' => $_POST['name'] ?? '',
+                'description' => $_POST['description'] ?? '',
+                'price' => $_POST['price'] ?? '',
+                'stock' => $_POST['stock'] ?? 0,
+                'dimensions' => $_POST['dimensions'] ?? '',
+                'color' => $_POST['color'] ?? '',
+                'unit' => $_POST['unit'] ?? 'pcs',
+                'image' => $product['image']
             ];
-            if (!$data['category_id'] || !$data['nama_produk'] || !$data['harga_jual'] || !$data['satuan']) {
+            // Handle image upload
+            if (isset($_FILES['image_file']) && $_FILES['image_file']['error'] === UPLOAD_ERR_OK) {
+                $file = $_FILES['image_file'];
+                $allowed = ['image/jpeg','image/png','image/gif','image/webp'];
+                if (!in_array($file['type'], $allowed)) {
+                    $error = 'Tipe file gambar tidak didukung!';
+                } elseif ($file['size'] > 2*1024*1024) {
+                    $error = 'Ukuran file gambar maksimal 2MB!';
+                } else {
+                    $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
+                    $newName = 'product_' . time() . '_' . rand(1000,9999) . '.' . $ext;
+                    $targetDir = '/public/images/';
+                    $targetPath = dirname(__DIR__,2) . $targetDir . $newName;
+                    $dbPath = '/proyek-1/public/images/' . $newName;
+                    if (move_uploaded_file($file['tmp_name'], $targetPath)) {
+                        // Delete old image if exists
+                        if (!empty($product['image'])) {
+                            $oldFile = dirname(__DIR__,2) . str_replace('/proyek-1','',$product['image']);
+                            if (file_exists($oldFile)) @unlink($oldFile);
+                        }
+                        $data['image'] = $dbPath;
+                    } else {
+                        $error = 'Gagal upload gambar!';
+                    }
+                }
+            }
+            if (!$data['category_id'] || !$data['name'] || !$data['price'] || !$data['unit']) {
                 $error = 'Kategori, Nama Produk, Harga, dan Satuan wajib diisi!';
-            } else {
+            }
+            if (!$error) {
                 $productModel->update($id, $data);
                 header('Location: /proyek-1/public/?url=produk');
                 exit;
@@ -92,6 +142,11 @@ class ProductController {
         $id = $_GET['id'] ?? null;
         if ($id) {
             $productModel = new Product();
+            $product = $productModel->findById($id);
+            if ($product && !empty($product['image'])) {
+                $oldFile = dirname(__DIR__, 2) . $product['image'];
+                if (file_exists($oldFile)) @unlink($oldFile);
+            }
             $productModel->delete($id);
         }
         header('Location: /proyek-1/public/?url=produk');

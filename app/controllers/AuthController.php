@@ -11,15 +11,15 @@ class AuthController {
         }
         // Jika POST, proses login
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $username = $_POST['username'] ?? '';
+            $email = $_POST['username'] ?? '';
             $password = $_POST['password'] ?? '';
             $userModel = new User();
-            $user = $userModel->findByUsername($username);
+            $user = $userModel->findByEmail($email);
             if ($user && password_verify($password, $user['password']) && $user['role'] === 'admin') {
                 $_SESSION['user'] = [
                     'id' => $user['id'],
-                    'nama_lengkap' => $user['nama_lengkap'],
-                    'username' => $user['username'],
+                    'name' => $user['name'],
+                    'email' => $user['email'],
                     'role' => $user['role']
                 ];
                 header('Location: /proyek-1/public/?url=admin-dashboard');

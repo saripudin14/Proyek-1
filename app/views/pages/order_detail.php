@@ -16,18 +16,18 @@
     </nav>
     <main class="p-8">
         <div class="bg-white rounded shadow p-6 max-w-3xl mx-auto">
-            <h1 class="text-2xl font-bold text-blue-700 mb-4">Invoice: <?= htmlspecialchars($order['nomor_invoice']) ?></h1>
+            <h1 class="text-2xl font-bold text-blue-700 mb-4">Order ID: <?= htmlspecialchars($order['id']) ?></h1>
             <div class="mb-4">
-                <div><b>Tanggal:</b> <?= htmlspecialchars($order['tanggal_pesanan']) ?></div>
-                <div><b>Customer:</b> <?= htmlspecialchars($order['customer_nama'] ?? '-') ?> (<?= htmlspecialchars($order['customer_email'] ?? '-') ?>)</div>
-                <div><b>Alamat:</b> <?= htmlspecialchars($order['alamat_pengiriman']) ?></div>
-                <div><b>Status:</b> <span class="font-semibold text-blue-700"><?= htmlspecialchars($order['status_pesanan']) ?></span></div>
+                <div><b>Tanggal:</b> <?= htmlspecialchars($order['created_at']) ?></div>
+                <div><b>User:</b> <?= htmlspecialchars($order['user_name'] ?? '-') ?> (<?= htmlspecialchars($order['user_email'] ?? '-') ?>)</div>
+                <div><b>Alamat Pengiriman:</b> <?= htmlspecialchars($order['shipping_address']) ?></div>
+                <div><b>Status:</b> <span class="font-semibold text-blue-700"><?= htmlspecialchars($order['status']) ?></span></div>
             </div>
             <form method="post" action="/proyek-1/public/?url=pesanan-status&id=<?= $order['id'] ?>" class="mb-4">
                 <label class="block mb-1 font-medium">Ubah Status Pesanan</label>
-                <select name="status_pesanan" class="border rounded px-3 py-2" required>
-                    <?php $statuses = ['pending','paid','processing','shipped','completed','cancelled']; foreach ($statuses as $s): ?>
-                        <option value="<?= $s ?>" <?= $order['status_pesanan']===$s?'selected':'' ?>><?= ucfirst($s) ?></option>
+                <select name="status" class="border rounded px-3 py-2" required>
+                    <?php $statuses = ['pending','paid','shipped','completed','cancelled']; foreach ($statuses as $s): ?>
+                        <option value="<?= $s ?>" <?= $order['status']===$s?'selected':'' ?>><?= ucfirst($s) ?></option>
                     <?php endforeach; ?>
                 </select>
                 <button type="submit" class="ml-2 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Update</button>
@@ -36,26 +36,24 @@
             <table class="min-w-full border text-sm mb-4">
                 <thead class="bg-gray-200">
                     <tr>
-                        <th class="border px-2 py-1">Kode</th>
                         <th class="border px-2 py-1">Nama Produk</th>
                         <th class="border px-2 py-1">Jumlah</th>
+                        <th class="border px-2 py-1">Satuan</th>
                         <th class="border px-2 py-1">Harga</th>
-                        <th class="border px-2 py-1">Subtotal</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($order['details'] as $d): ?>
                         <tr>
-                            <td class="border px-2 py-1"><?= htmlspecialchars($d['kode_produk']) ?></td>
-                            <td class="border px-2 py-1"><?= htmlspecialchars($d['nama_produk']) ?></td>
-                            <td class="border px-2 py-1 text-center"><?= $d['jumlah'] ?></td>
-                            <td class="border px-2 py-1">Rp <?= number_format($d['harga_saat_transaksi'],0,',','.') ?></td>
-                            <td class="border px-2 py-1">Rp <?= number_format($d['subtotal'],0,',','.') ?></td>
+                            <td class="border px-2 py-1"><?= htmlspecialchars($d['product_name']) ?></td>
+                            <td class="border px-2 py-1 text-center"><?= $d['quantity'] ?></td>
+                            <td class="border px-2 py-1 text-center"><?= htmlspecialchars($d['unit']) ?></td>
+                            <td class="border px-2 py-1">Rp <?= number_format($d['price'],0,',','.') ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
-            <div class="text-right font-bold">Total: Rp <?= number_format($order['total_harga'],0,',','.') ?></div>
+            <div class="text-right font-bold">Total: Rp <?= number_format($order['total'],0,',','.') ?></div>
         </div>
     </main>
 </body>

@@ -6,62 +6,96 @@
     <title><?= isset($product) ? 'Edit' : 'Tambah' ?> Produk</title>
     <link href="/proyek-1/public/css/output.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100 min-h-screen flex items-center justify-center">
-    <div class="bg-white shadow-md rounded p-8 w-full max-w-lg">
-        <h2 class="text-2xl font-bold mb-6 text-center text-blue-600">
+<body class="bg-gradient-to-br from-blue-50 via-white to-emerald-50 min-h-screen flex items-center justify-center p-4">
+    <div class="bg-white shadow-2xl rounded-2xl p-8 w-full max-w-2xl border border-blue-100 animate-fade-in">
+        <h2 class="text-3xl font-extrabold mb-8 text-center text-blue-700 tracking-tight drop-shadow">
             <?= isset($product) ? 'Edit' : 'Tambah' ?> Produk
         </h2>
         <?php if (!empty($error)): ?>
-            <div class="bg-red-100 text-red-700 px-4 py-2 rounded mb-4 text-center">
+            <div class="bg-red-100 text-red-700 px-4 py-2 rounded mb-6 text-center border border-red-200 animate-pulse">
                 <?= htmlspecialchars($error) ?>
             </div>
         <?php endif; ?>
-        <form method="post" class="space-y-4">
-            <div>
-                <label class="block mb-1 font-medium">Kategori</label>
-                <select name="category_id" class="w-full border rounded px-3 py-2" required>
-                    <option value="">-- Pilih Kategori --</option>
-                    <?php foreach ($categories as $cat): ?>
-                        <option value="<?= $cat['id'] ?>" <?= (isset($product) && $product['category_id'] == $cat['id']) ? 'selected' : '' ?>><?= htmlspecialchars($cat['nama_kategori']) ?></option>
-                    <?php endforeach; ?>
-                </select>
+        <form method="post" enctype="multipart/form-data" class="space-y-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="space-y-6">
+                    <div>
+                        <label class="block mb-1 font-semibold text-gray-700">Nama Produk</label>
+                        <input type="text" name="name" value="<?= $product['name'] ?? '' ?>" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 transition" required>
+                    </div>
+                    <div>
+                        <label class="block mb-1 mt-1 font-semibold text-gray-700">Kategori</label>
+                        <select name="category_id" class="w-full border border-gray-300 rounded-lg px-4 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 transition" required>
+                            <option value="">-- Pilih Kategori --</option>
+                            <?php foreach ($categories as $cat): ?>
+                                <option value="<?= $cat['id'] ?>" <?= (isset($product) && $product['category_id'] == $cat['id']) ? 'selected' : '' ?>><?= htmlspecialchars($cat['name']) ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block mb-1 mt-1 font-semibold text-gray-700">Harga</label>
+                            <input type="text" id="price-format" inputmode="numeric" pattern="[0-9.]*" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 transition" required>
+                            <input type="hidden" name="price" id="price" value="<?= $product['price'] ?? '' ?>">
+                        </div>
+                         <div>
+                            <label class="block mb-1 mt-1 font-semibold text-gray-700">Satuan</label>
+                            <select name="unit" class="w-full border border-gray-300 rounded-lg px-4 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 transition" required>
+                                <?php $units = ['pcs','pack','roll','kg','liter','other']; foreach ($units as $unit): ?>
+                                    <option value="<?= $unit ?>" <?= (isset($product) && $product['unit'] == $unit) ? 'selected' : '' ?>><?= $unit ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    </div>
+                    <div>
+                        <div>
+                            <label class="block mb-1 mt-1 font-semibold text-gray-700">Stok</label>
+                            <input type="number" name="stock" value="<?= $product['stock'] ?? 0 ?>" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 transition" required min="0">
+                        </div>
+                        <label class="block mb-1 mt-1 font-semibold text-gray-700">Dimensi</label>
+                        <input type="text" name="dimensions" value="<?= $product['dimensions'] ?? '' ?>" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 transition" placeholder="cth: 20x30cm">
+                    </div>
+                        <div>
+                            <label class="block mb-1 mt-1 font-semibold text-gray-700">Warna</label>
+                            <input type="text" name="color" value="<?= $product['color'] ?? '' ?>" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 transition" placeholder="cth: Biru, Putih">
+                        </div>
+                        
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        
+                    </div>
+                </div>
+                <div class="flex flex-col justify-start">
+                    <label class="block mb-1 font-semibold text-gray-700">Gambar Produk (opsional)</label>
+                    <input type="file" name="image_file" accept="image/*" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 transition">
+                    <?php if (!empty($product['image'])): ?>
+                        <img src="<?= htmlspecialchars($product['image']) ?>" alt="Gambar Produk" class="mt-3 max-h-40 rounded-lg shadow border border-gray-200 w-full object-contain">
+                    <?php endif; ?>
+                    <label class="block mb-1 mt-1 font-semibold text-gray-700">Deskripsi</label>
+                        <textarea name="description" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 transition" rows="3"><?= $product['description'] ?? '' ?></textarea>
+                </div>
             </div>
-            <div>
-                <label class="block mb-1 font-medium">Kode Produk</label>
-                <input type="text" name="kode_produk" value="<?= $product['kode_produk'] ?? '' ?>" class="w-full border rounded px-3 py-2">
-            </div>
-            <div>
-                <label class="block mb-1 font-medium">Nama Produk</label>
-                <input type="text" name="nama_produk" value="<?= $product['nama_produk'] ?? '' ?>" class="w-full border rounded px-3 py-2" required>
-            </div>
-            <div>
-                <label class="block mb-1 font-medium">Deskripsi</label>
-                <textarea name="deskripsi" class="w-full border rounded px-3 py-2"><?= $product['deskripsi'] ?? '' ?></textarea>
-            </div>
-            <div>
-                <label class="block mb-1 font-medium">Harga Jual</label>
-                <input type="number" name="harga_jual" value="<?= $product['harga_jual'] ?? '' ?>" class="w-full border rounded px-3 py-2" required>
-            </div>
-            <div>
-                <label class="block mb-1 font-medium">Satuan</label>
-                <input type="text" name="satuan" value="<?= $product['satuan'] ?? '' ?>" class="w-full border rounded px-3 py-2" required>
-            </div>
-            <div>
-                <label class="block mb-1 font-medium">Stok</label>
-                <input type="number" name="stok" value="<?= $product['stok'] ?? 0 ?>" class="w-full border rounded px-3 py-2" required>
-            </div>
-            <!-- Gambar produk opsional, bisa dikembangkan upload -->
-            <div>
-                <label class="block mb-1 font-medium">Gambar Produk (opsional, URL)</label>
-                <input type="text" name="gambar_produk" value="<?= $product['gambar_produk'] ?? '' ?>" class="w-full border rounded px-3 py-2">
-            </div>
-            <div class="flex justify-between">
-                <a href="/proyek-1/public/?url=produk" class="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500">Batal</a>
-                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 font-semibold">
-                    Simpan
-                </button>
+            <div class="flex flex-col md:flex-row justify-between gap-4 mt-8">
+                <a href="/proyek-1/public/?url=produk" class="bg-gray-400 text-white px-6 py-2 rounded-lg font-semibold hover:bg-gray-500 transition text-center">Batal</a>
+                <button type="submit" class="bg-blue-600 text-white px-8 py-2 rounded-lg font-bold shadow hover:bg-blue-700 transition w-full md:w-auto">Simpan</button>
             </div>
         </form>
     </div>
+    <script>
+    // Format harga otomatis ribuan
+    const priceInput = document.getElementById('price-format');
+    const priceHidden = document.getElementById('price');
+    // Set initial value if edit
+    if (priceHidden.value) {
+        priceInput.value = Number(priceHidden.value).toLocaleString('id-ID');
+    }
+    priceInput.addEventListener('input', function(e) {
+        let value = priceInput.value.replace(/[^\d]/g, '');
+        priceInput.value = value ? Number(value).toLocaleString('id-ID') : '';
+        priceHidden.value = value;
+    });
+    </script>
 </body>
 </html>

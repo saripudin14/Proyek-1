@@ -21,9 +21,8 @@
                 <thead class="bg-gray-200">
                     <tr>
                         <th class="border px-2 py-1">No</th>
-                        <th class="border px-2 py-1">Invoice</th>
                         <th class="border px-2 py-1">Tanggal</th>
-                        <th class="border px-2 py-1">Customer</th>
+                        <th class="border px-2 py-1">User</th>
                         <th class="border px-2 py-1">Total</th>
                         <th class="border px-2 py-1">Status</th>
                         <th class="border px-2 py-1">Aksi</th>
@@ -31,16 +30,15 @@
                 </thead>
                 <tbody>
                     <?php if (empty($orders)): ?>
-                        <tr><td colspan="7" class="text-center py-4">Belum ada pesanan.</td></tr>
+                        <tr><td colspan="6" class="text-center py-4">Belum ada pesanan.</td></tr>
                     <?php else: ?>
                         <?php foreach ($orders as $i => $o): ?>
                             <tr>
                                 <td class="border px-2 py-1 text-center"><?= $i+1 ?></td>
-                                <td class="border px-2 py-1"><?= htmlspecialchars($o['nomor_invoice']) ?></td>
-                                <td class="border px-2 py-1"><?= htmlspecialchars($o['tanggal_pesanan']) ?></td>
-                                <td class="border px-2 py-1"><?= htmlspecialchars($o['customer_nama'] ?? '-') ?></td>
-                                <td class="border px-2 py-1">Rp <?= number_format($o['total_harga'],0,',','.') ?></td>
-                                <td class="border px-2 py-1 text-center"><?= htmlspecialchars($o['status_pesanan']) ?></td>
+                                <td class="border px-2 py-1"><?= htmlspecialchars($o['created_at']) ?></td>
+                                <td class="border px-2 py-1"><?= htmlspecialchars($o['user_name'] ?? '-') ?> (<?= htmlspecialchars($o['user_email'] ?? '-') ?>)</td>
+                                <td class="border px-2 py-1">Rp <?= number_format($o['total'],0,',','.') ?></td>
+                                <td class="border px-2 py-1 text-center"><?= htmlspecialchars($o['status']) ?></td>
                                 <td class="border px-2 py-1 text-center">
                                     <a href="/proyek-1/public/?url=pesanan-detail&id=<?= $o['id'] ?>" class="text-blue-600 hover:underline mr-2">Detail</a>
                                     <a href="/proyek-1/public/?url=pesanan-hapus&id=<?= $o['id'] ?>" class="text-red-600 hover:underline" onclick="return confirm('Yakin hapus pesanan ini?')">Hapus</a>

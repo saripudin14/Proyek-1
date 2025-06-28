@@ -9,7 +9,7 @@ class OrderAdminController {
             exit;
         }
         $orderModel = new Order();
-        $orders = $orderModel->getAllWithCustomer();
+        $orders = $orderModel->getAllWithUser();
         require_once dirname(__DIR__) . '/views/pages/order_list.php';
     }
 
@@ -36,7 +36,7 @@ class OrderAdminController {
             exit;
         }
         $id = $_GET['id'] ?? null;
-        $status = $_POST['status_pesanan'] ?? null;
+        $status = $_POST['status'] ?? null;
         if ($id && $status) {
             $orderModel = new Order();
             $orderModel->updateStatus($id, $status);

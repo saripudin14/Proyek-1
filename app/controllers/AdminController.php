@@ -17,12 +17,12 @@ class AdminController {
         $orderModel = new Order();
         $stat_produk = count($productModel->getAll());
         $stat_kategori = count($categoryModel->getAll());
-        $orders = $orderModel->getAllWithCustomer();
+        $orders = $orderModel->getAllWithUser();
         $stat_pesanan = count($orders);
         $stat_total_penjualan = 0;
         foreach ($orders as $o) {
-            if (in_array($o['status_pesanan'], ['paid','processing','shipped','completed'])) {
-                $stat_total_penjualan += $o['total_harga'];
+            if (in_array($o['status'], ['paid','shipped','completed'])) {
+                $stat_total_penjualan += $o['total'];
             }
         }
         require_once dirname(__DIR__) . '/views/pages/admin_dashboard.php';

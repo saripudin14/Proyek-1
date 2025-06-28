@@ -24,26 +24,34 @@
                 <thead class="bg-gray-200">
                     <tr>
                         <th class="border px-2 py-1">No</th>
+                        <th class="border px-2 py-1">Gambar</th>
                         <th class="border px-2 py-1">Kategori</th>
-                        <th class="border px-2 py-1">Kode</th>
                         <th class="border px-2 py-1">Nama Produk</th>
                         <th class="border px-2 py-1">Harga</th>
                         <th class="border px-2 py-1">Stok</th>
+                        <th class="border px-2 py-1">Satuan</th>
                         <th class="border px-2 py-1">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php if (empty($products)): ?>
-                        <tr><td colspan="7" class="text-center py-4">Belum ada produk.</td></tr>
+                        <tr><td colspan="8" class="text-center py-4">Belum ada produk.</td></tr>
                     <?php else: ?>
                         <?php foreach ($products as $i => $p): ?>
                             <tr>
                                 <td class="border px-2 py-1 text-center"><?= $i+1 ?></td>
+                                <td class="border px-2 py-1 text-center">
+                                    <?php if (!empty($p['image'])): ?>
+                                        <img src="<?= htmlspecialchars($p['image']) ?>" alt="Gambar Produk" class="max-h-16 max-w-16 mx-auto rounded shadow">
+                                    <?php else: ?>
+                                        <span class="text-gray-400">-</span>
+                                    <?php endif; ?>
+                                </td>
                                 <td class="border px-2 py-1"><?= htmlspecialchars($p['category_id']) ?></td>
-                                <td class="border px-2 py-1"><?= htmlspecialchars($p['kode_produk']) ?></td>
-                                <td class="border px-2 py-1"><?= htmlspecialchars($p['nama_produk']) ?></td>
-                                <td class="border px-2 py-1">Rp <?= number_format($p['harga_jual'],0,',','.') ?></td>
-                                <td class="border px-2 py-1 text-center"><?= $p['stok'] ?></td>
+                                <td class="border px-2 py-1"><?= htmlspecialchars($p['name']) ?></td>
+                                <td class="border px-2 py-1">Rp <?= number_format($p['price'],0,',','.') ?></td>
+                                <td class="border px-2 py-1 text-center"><?= $p['stock'] ?></td>
+                                <td class="border px-2 py-1 text-center"><?= htmlspecialchars($p['unit']) ?></td>
                                 <td class="border px-2 py-1 text-center">
                                     <a href="/proyek-1/public/?url=produk-edit&id=<?= $p['id'] ?>" class="text-blue-600 hover:underline mr-2">Edit</a>
                                     <a href="/proyek-1/public/?url=produk-hapus&id=<?= $p['id'] ?>" class="text-red-600 hover:underline" onclick="return confirm('Yakin hapus produk ini?')">Hapus</a>

@@ -7,20 +7,21 @@ class Product {
         $this->db = Database::getInstance();
     }
     public function getAll() {
-        $stmt = $this->db->query('SELECT * FROM products ORDER BY nama_produk ASC');
+        $stmt = $this->db->query('SELECT * FROM products ORDER BY name ASC');
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     public function create($data) {
-        $stmt = $this->db->prepare('INSERT INTO products (category_id, kode_produk, nama_produk, deskripsi, harga_jual, satuan, stok, gambar_produk) VALUES (:category_id, :kode_produk, :nama_produk, :deskripsi, :harga_jual, :satuan, :stok, :gambar_produk)');
+        $stmt = $this->db->prepare('INSERT INTO products (category_id, name, description, price, stock, dimensions, color, unit, image) VALUES (:category_id, :name, :description, :price, :stock, :dimensions, :color, :unit, :image)');
         $stmt->execute([
             'category_id' => $data['category_id'],
-            'kode_produk' => $data['kode_produk'],
-            'nama_produk' => $data['nama_produk'],
-            'deskripsi' => $data['deskripsi'],
-            'harga_jual' => $data['harga_jual'],
-            'satuan' => $data['satuan'],
-            'stok' => $data['stok'],
-            'gambar_produk' => $data['gambar_produk']
+            'name' => $data['name'],
+            'description' => $data['description'],
+            'price' => $data['price'],
+            'stock' => $data['stock'],
+            'dimensions' => $data['dimensions'],
+            'color' => $data['color'],
+            'unit' => $data['unit'],
+            'image' => $data['image']
         ]);
         return $this->db->lastInsertId();
     }
@@ -30,16 +31,17 @@ class Product {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
     public function update($id, $data) {
-        $stmt = $this->db->prepare('UPDATE products SET category_id = :category_id, kode_produk = :kode_produk, nama_produk = :nama_produk, deskripsi = :deskripsi, harga_jual = :harga_jual, satuan = :satuan, stok = :stok, gambar_produk = :gambar_produk WHERE id = :id');
+        $stmt = $this->db->prepare('UPDATE products SET category_id = :category_id, name = :name, description = :description, price = :price, stock = :stock, dimensions = :dimensions, color = :color, unit = :unit, image = :image WHERE id = :id');
         return $stmt->execute([
             'category_id' => $data['category_id'],
-            'kode_produk' => $data['kode_produk'],
-            'nama_produk' => $data['nama_produk'],
-            'deskripsi' => $data['deskripsi'],
-            'harga_jual' => $data['harga_jual'],
-            'satuan' => $data['satuan'],
-            'stok' => $data['stok'],
-            'gambar_produk' => $data['gambar_produk'],
+            'name' => $data['name'],
+            'description' => $data['description'],
+            'price' => $data['price'],
+            'stock' => $data['stock'],
+            'dimensions' => $data['dimensions'],
+            'color' => $data['color'],
+            'unit' => $data['unit'],
+            'image' => $data['image'],
             'id' => $id
         ]);
     }
@@ -48,7 +50,7 @@ class Product {
         return $stmt->execute(['id' => $id]);
     }
     public function getCategories() {
-        $stmt = $this->db->query('SELECT * FROM categories ORDER BY nama_kategori ASC');
+        $stmt = $this->db->query('SELECT * FROM categories ORDER BY name ASC');
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

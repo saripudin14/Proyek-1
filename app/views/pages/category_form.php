@@ -19,11 +19,11 @@
         <form method="post" class="space-y-4">
             <div>
                 <label class="block mb-1 font-medium">Nama Kategori</label>
-                <input type="text" name="nama_kategori" value="<?= $category['nama_kategori'] ?? '' ?>" class="w-full border rounded px-3 py-2" required>
+                <input type="text" name="name" value="<?= $category['name'] ?? '' ?>" class="w-full border rounded px-3 py-2" required>
             </div>
             <div>
                 <label class="block mb-1 font-medium">Deskripsi</label>
-                <textarea name="deskripsi" class="w-full border rounded px-3 py-2"><?= $category['deskripsi'] ?? '' ?></textarea>
+                <textarea name="description" class="w-full border rounded px-3 py-2"><?= $category['description'] ?? '' ?></textarea>
             </div>
             <div class="flex justify-between">
                 <a href="/proyek-1/public/?url=kategori" class="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500">Batal</a>

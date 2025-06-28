@@ -1,7 +1,7 @@
 <?php
 return [
     'host' => 'localhost',
-    'database' => 'db_toko_plastik',
+    'database' => 'toko_plastik',
     'username' => 'root',
     'password' => '',
 ];

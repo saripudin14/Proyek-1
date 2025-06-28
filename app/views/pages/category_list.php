@@ -36,8 +36,8 @@
                         <?php foreach ($categories as $i => $cat): ?>
                             <tr>
                                 <td class="border px-2 py-1 text-center"><?= $i+1 ?></td>
-                                <td class="border px-2 py-1"><?= htmlspecialchars($cat['nama_kategori']) ?></td>
-                                <td class="border px-2 py-1"><?= htmlspecialchars($cat['deskripsi']) ?></td>
+                                <td class="border px-2 py-1"><?= htmlspecialchars($cat['name']) ?></td>
+                                <td class="border px-2 py-1"><?= htmlspecialchars($cat['description']) ?></td>
                                 <td class="border px-2 py-1 text-center">
                                     <a href="/proyek-1/public/?url=kategori-edit&id=<?= $cat['id'] ?>" class="text-blue-600 hover:underline mr-2">Edit</a>
                                     <a href="/proyek-1/public/?url=kategori-hapus&id=<?= $cat['id'] ?>" class="text-red-600 hover:underline" onclick="return confirm('Yakin hapus kategori ini?')">Hapus</a>

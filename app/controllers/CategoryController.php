@@ -22,10 +22,10 @@ class CategoryController {
         $error = null;
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = [
-                'nama_kategori' => $_POST['nama_kategori'] ?? '',
-                'deskripsi' => $_POST['deskripsi'] ?? ''
+                'name' => $_POST['name'] ?? '',
+                'description' => $_POST['description'] ?? ''
             ];
-            if (!$data['nama_kategori']) {
+            if (!$data['name']) {
                 $error = 'Nama kategori wajib diisi!';
             } else {
                 $categoryModel = new Category();
@@ -53,10 +53,10 @@ class CategoryController {
         $error = null;
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = [
-                'nama_kategori' => $_POST['nama_kategori'] ?? '',
-                'deskripsi' => $_POST['deskripsi'] ?? ''
+                'name' => $_POST['name'] ?? '',
+                'description' => $_POST['description'] ?? ''
             ];
-            if (!$data['nama_kategori']) {
+            if (!$data['name']) {
                 $error = 'Nama kategori wajib diisi!';
             } else {
                 $categoryModel->update($id, $data);

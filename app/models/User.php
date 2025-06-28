@@ -7,19 +7,19 @@ class User {
         $this->db = Database::getInstance();
     }
 
-    // Cari user berdasarkan username
-    public function findByUsername($username) {
-        $stmt = $this->db->prepare('SELECT * FROM users WHERE username = :username LIMIT 1');
-        $stmt->execute(['username' => $username]);
+    // Cari user berdasarkan email (bukan username)
+    public function findByEmail($email) {
+        $stmt = $this->db->prepare('SELECT * FROM users WHERE email = :email LIMIT 1');
+        $stmt->execute(['email' => $email]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     // Tambah user baru
     public function create($data) {
-        $stmt = $this->db->prepare('INSERT INTO users (nama_lengkap, username, password, role) VALUES (:nama_lengkap, :username, :password, :role)');
+        $stmt = $this->db->prepare('INSERT INTO users (name, email, password, role) VALUES (:name, :email, :password, :role)');
         return $stmt->execute([
-            'nama_lengkap' => $data['nama_lengkap'],
-            'username' => $data['username'],
+            'name' => $data['name'],
+            'email' => $data['email'],
             'password' => $data['password'], // Sudah di-hash
             'role' => $data['role']
         ]);

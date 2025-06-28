@@ -71,7 +71,7 @@
             <span class="tracking-wide drop-shadow font-extrabold text-xl">Admin Dashboard</span>
         </div>
         <div>
-            <span class="mr-4">Halo, <?= htmlspecialchars($user['nama_lengkap']) ?></span>
+            <span class="mr-4">Halo, <?= htmlspecialchars($user['name']) ?></span>
             <a href="/proyek-1/public/?url=logout" class="inline-flex items-center gap-2 bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white px-4 py-2 rounded shadow transition-all duration-200 font-semibold">
                 <i data-feather="log-out" class="w-5 h-5"></i> Logout
             </a>
@@ -79,7 +79,7 @@
     </nav>
     <main class="p-8 bg-gradient-to-br from-blue-50 to-blue-100 min-h-screen">
         <div class="max-w-6xl mx-auto">
-            <h1 class="text-3xl font-bold text-blue-800 mb-6 animate-fade-in">Selamat Datang, <?= htmlspecialchars($user['nama_lengkap']) ?>!</h1>
+            <h1 class="text-3xl font-bold text-blue-800 mb-6 animate-fade-in">Selamat Datang, <?= htmlspecialchars($user['name']) ?>!</h1>
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
                 <div class="bg-white rounded shadow p-6 flex flex-col items-center product-card animate-fade-in delay-100">
                     <div class="bg-blue-100 p-3 rounded-full mb-2"><i data-feather="box" class="w-6 h-6 text-blue-600"></i></div>
