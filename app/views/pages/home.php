@@ -109,7 +109,7 @@
                     <a href="#about" class="cta-btn inline-flex items-center gap-2 bg-sky-600 hover:bg-sky-700 text-white font-semibold py-3 px-8 rounded-lg transition duration-300 shadow-lg text-lg">
                         Tentang Kami <i class="fas fa-arrow-right"></i>
                     </a>
-                    <a href="product.html" class="cta-btn inline-flex items-center gap-2 border border-sky-600 text-sky-600 hover:bg-sky-50 font-semibold py-3 px-8 rounded-lg transition duration-300 bg-white/80 text-lg">
+                    <a href="?url=katalog" class="cta-btn inline-flex items-center gap-2 border border-sky-600 text-sky-600 hover:bg-sky-50 font-semibold py-3 px-8 rounded-lg transition duration-300 bg-white/80 text-lg">
                         Lihat Produk <i class="fas fa-shopping-cart"></i>
                     </a>
                 </div>

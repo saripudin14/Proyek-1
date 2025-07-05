@@ -78,6 +78,10 @@ class Router {
             require_once dirname(__DIR__) . '/controllers/HomeController.php';
             $controller = new HomeController();
             $controller->katalog();
+        } elseif ($url === 'produk-detail') {
+            require_once dirname(__DIR__) . '/controllers/HomeController.php';
+            $controller = new HomeController();
+            $controller->produkDetail();
         } else {
             http_response_code(404);
             echo '404 Not Found';

@@ -1,3 +1,4 @@
+<?php require_once __DIR__ . '/../../core/helpers.php'; ?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -26,6 +27,50 @@
         .delay-200 { animation-delay: 0.2s; }
         .delay-300 { animation-delay: 0.3s; }
         .delay-400 { animation-delay: 0.4s; }
+        /* Custom dropdown select style for kategori */
+        select[name="category"] {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background: #0e3a5e url('data:image/svg+xml;utf8,<svg fill="white" height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7.293 7.293a1 1 0 011.414 0L10 8.586l1.293-1.293a1 1 0 111.414 1.414l-2 2a1 1 0 01-1.414 0l-2-2a1 1 0 010-1.414z"/></svg>') no-repeat right 0.75rem center/1.2em auto;
+            color: #fff;
+            font-weight: 600;
+            border: none;
+            border-radius: 0.5rem;
+            padding-right: 2.5rem;
+            box-shadow: 0 4px 24px 0 rgba(0,0,0,0.10);
+            transition: box-shadow 0.2s, background 0.2s;
+        }
+        select[name="category"]:focus {
+            outline: none;
+            box-shadow: 0 6px 32px 0 rgba(59,130,246,0.18);
+            background-color: #155e75;
+        }
+        select[name="category"] option {
+            color: #222;
+            background: #f8fafc;
+            font-weight: 500;
+        }
+        select[name="category"] option:checked, select[name="category"] option[selected] {
+            background: #2563eb;
+            color: #fff;
+        }
+        /* Dropdown arrow for select */
+        .select-wrapper {
+            position: relative;
+            display: inline-block;
+            width: 180px;
+        }
+        .select-wrapper::after {
+            content: '\25BC';
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #fff;
+            pointer-events: none;
+            font-size: 0.9em;
+        }
     </style>
 </head>
 <body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
@@ -75,12 +120,14 @@
                     <!-- sorting/filter kategori -->
                     <div class="flex items-center gap-2 bg-sky-50 dark:bg-sky-900 border border-sky-100 dark:border-sky-800 rounded-lg px-3 py-2 shadow-sm">
                         <span class="text-sm text-gray-600 dark:text-gray-300 font-semibold mr-1"><i class="fas fa-filter mr-1"></i>Kategori</span>
-                        <select name="category" onchange="this.form.submit()" class="border-none bg-transparent text-sky-700 dark:text-sky-200 font-semibold focus:ring-0 focus:outline-none text-sm py-1 px-2 rounded">
-                            <option value="">Pilih Kategori</option>
-                            <?php if (!empty($categories)) foreach ($categories as $cat): ?>
-                                <option value="<?= htmlspecialchars($cat['id']) ?>" <?= (isset($_GET['category']) && $_GET['category'] == $cat['id']) ? 'selected' : '' ?>><?= htmlspecialchars($cat['name']) ?></option>
-                            <?php endforeach; ?>
-                        </select>
+                        <div class="select-wrapper">
+                            <select name="category" onchange="this.form.submit()" class="border-none bg-transparent text-sky-700 dark:text-sky-200 font-semibold focus:ring-0 focus:outline-none text-sm py-1 px-2 rounded">
+                                <option value="">Semua Kategori</option>
+                                <?php if (!empty($categories)) foreach ($categories as $cat): ?>
+                                    <option value="<?= htmlspecialchars($cat['id']) ?>" <?= (isset($_GET['category']) && $_GET['category'] == $cat['id']) ? 'selected' : '' ?>><?= htmlspecialchars($cat['name']) ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -88,35 +135,51 @@
         <!-- produk -->
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
             <?php foreach ($products as $p): ?>
-            <div class="product-card bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-all duration-300">
-                <div class="relative">
-                    <?php if (!empty($p['image'])): ?>
-                        <img src="<?= htmlspecialchars($p['image']) ?>" alt="<?= htmlspecialchars($p['name']) ?>" class="w-full h-48 object-cover">
-                    <?php else: ?>
-                        <div class="w-full h-48 flex items-center justify-center bg-gray-100 text-gray-400">Tidak ada gambar</div>
-                    <?php endif; ?>
-                </div>
-                <div class="p-4 flex flex-col gap-2">
-                    <h3 class="font-semibold text-gray-800 text-sm sm:text-base leading-snug">
-                        <?= htmlspecialchars($p['name']) ?>
-                    </h3>
-                    <p class="text-sm text-blue-600 font-bold leading-tight">Rp <?= number_format($p['price'],0,',','.') ?></p>
-                    <p class="text-sm text-gray-600 leading-tight">
-                        <span class="font-medium text-gray-700">Stok:</span> <?= $p['stock'] ?>
-                    </p>
-                    <div class="flex flex-wrap gap-2 mt-2">
-                        <?php if (!empty($p['category_name'])): ?>
-                            <span class="bg-blue-100 text-blue-700 text-xs px-3 py-1 rounded-full font-medium hover:bg-blue-200 transition"><?= htmlspecialchars($p['category_name']) ?></span>
+            <a href="?url=produk-detail&id=<?= $p['id'] ?>" class="block group">
+                <div class="product-card bg-white rounded-2xl shadow-lg border border-sky-100 hover:shadow-2xl hover:border-blue-400 transition-all duration-300 group overflow-hidden relative cursor-pointer">
+                    <div class="relative overflow-hidden">
+                        <?php if (!empty($p['image'])): ?>
+                            <img src="<?= htmlspecialchars($p['image']) ?>" alt="<?= htmlspecialchars($p['name']) ?>" class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105 group-hover:brightness-95">
+                        <?php else: ?>
+                            <div class="w-full h-48 flex items-center justify-center bg-gray-100 text-gray-400 text-lg">Tidak ada gambar</div>
                         <?php endif; ?>
                     </div>
-                    <div class="pt-1">
-                        <button class="w-full bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition flex items-center justify-center gap-2">
-                            Pesan
-                            <i class="fas fa-shopping-cart text-white text-sm"></i>
-                        </button>
+                    <div class="p-4 flex flex-col gap-2">
+                        <h3 class="font-bold text-gray-800 text-base sm:text-lg leading-snug group-hover:text-blue-700 transition-colors line-clamp-2 min-h-[2.5em]">
+                            <?= htmlspecialchars($p['name']) ?>
+                        </h3>
+                        <div class="flex items-center justify-between mt-1 mb-2">
+                            <span class="text-blue-600 font-extrabold text-lg">
+                                Rp <?= number_format($p['price'],0,',','.') ?><?= !empty($p['unit']) ? '/' . htmlspecialchars($p['unit']) : '' ?>
+                            </span>
+                            <span class="inline-flex items-center gap-1 bg-gradient-to-r from-emerald-200 to-emerald-400/80 text-emerald-900 font-bold px-3 py-1 rounded-full shadow-sm border border-emerald-300 text-xs">
+                                <svg class="w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2" fill="#d1fae5"/><path d="M3 7V5a2 2 0 012-2h14a2 2 0 012 2v2" stroke="#059669" stroke-width="2"/></svg>
+                                Stok: <?= $p['stock'] ?>
+                            </span>
+                        </div>
+                        <?php if (!empty($p['category_name'])): ?>
+                            <div class="mb-1">
+                                <span class="inline-block bg-blue-100 text-blue-700 text-xs px-3 py-1 rounded-full font-semibold shadow-sm">
+                                    <i class="fas fa-tag mr-1"></i><?= htmlspecialchars($p['category_name']) ?>
+                                </span>
+                            </div>
+                        <?php endif; ?>
+                        <?php if (!empty($p['color'])): ?>
+                            <?php $colorCode = getColorCode($p['color']); ?>
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="inline-block w-4 h-4 rounded-full border-2 border-emerald-200 shadow" style="background:<?= htmlspecialchars($colorCode) ?>;" title="<?= htmlspecialchars($p['color']) ?>"></span>
+                                <span class="text-gray-500 text-xs font-semibold"><?= htmlspecialchars($p['color']) ?></span>
+                            </div>
+                        <?php endif; ?>
+                        <div class="pt-3">
+                            <button class="w-full bg-gradient-to-r from-blue-600 to-sky-500 text-white px-4 py-2 rounded-lg text-sm font-bold shadow hover:from-blue-700 hover:to-sky-600 transition flex items-center justify-center gap-2 group-hover:scale-105 pointer-events-none">
+                                Pesan
+                                <i class="fas fa-shopping-cart text-white text-sm"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </a>
             <?php endforeach; ?>
         </div>
     </main>
