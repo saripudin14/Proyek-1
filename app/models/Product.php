@@ -53,4 +53,26 @@ class Product {
         $stmt = $this->db->query('SELECT * FROM categories ORDER BY name ASC');
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    /**
+     * Ambil produk dengan filter pencarian dan kategori (untuk katalog publik)
+     * @param string|null $q
+     * @param int|string|null $categoryId
+     * @return array
+     */
+    public function getFiltered($q = null, $categoryId = null) {
+        $sql = 'SELECT p.*, c.name as category_name FROM products p LEFT JOIN categories c ON p.category_id = c.id WHERE 1';
+        $params = [];
+        if ($q) {
+            $sql .= ' AND (p.name LIKE :q OR p.description LIKE :q)';
+            $params['q'] = '%' . $q . '%';
+        }
+        if ($categoryId) {
+            $sql .= ' AND p.category_id = :category_id';
+            $params['category_id'] = $categoryId;
+        }
+        $sql .= ' ORDER BY p.name ASC';
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

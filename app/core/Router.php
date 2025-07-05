@@ -74,6 +74,10 @@ class Router {
             require_once dirname(__DIR__) . '/controllers/OrderAdminController.php';
             $controller = new OrderAdminController();
             $controller->delete();
+        } elseif ($url === 'katalog') {
+            require_once dirname(__DIR__) . '/controllers/HomeController.php';
+            $controller = new HomeController();
+            $controller->katalog();
         } else {
             http_response_code(404);
             echo '404 Not Found';
