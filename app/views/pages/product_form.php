@@ -26,7 +26,7 @@
                     <div>
                         <label class="block mb-1 mt-1 font-semibold text-gray-700">Kategori</label>
                         <select name="category_id" class="w-full border border-gray-300 rounded-lg px-4 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 transition" required>
-                            <option value="">-- Pilih Kategori --</option>
+                            <option value="">Pilih Kategori</option>
                             <?php foreach ($categories as $cat): ?>
                                 <option value="<?= $cat['id'] ?>" <?= (isset($product) && $product['category_id'] == $cat['id']) ? 'selected' : '' ?>><?= htmlspecialchars($cat['name']) ?></option>
                             <?php endforeach; ?>
@@ -68,7 +68,7 @@
                     </div>
                 </div>
                 <div class="flex flex-col justify-start">
-                    <label class="block mb-1 font-semibold text-gray-700">Gambar Produk (opsional)</label>
+                    <label class="block mb-1 font-semibold text-gray-700">Gambar Produk (Wajib)</label>
                     <input type="file" name="image_file" accept="image/*" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 transition">
                     <?php if (!empty($product['image'])): ?>
                         <img src="<?= htmlspecialchars($product['image']) ?>" alt="Gambar Produk" class="mt-3 max-h-40 rounded-lg shadow border border-gray-200 w-full object-contain">
@@ -77,9 +77,9 @@
                         <textarea name="description" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 transition" rows="3"><?= $product['description'] ?? '' ?></textarea>
                 </div>
             </div>
-            <div class="flex flex-col md:flex-row justify-between gap-4 mt-8">
-                <a href="/proyek-1/public/?url=produk" class="bg-gray-400 text-white px-6 py-2 rounded-lg font-semibold hover:bg-gray-500 transition text-center">Batal</a>
-                <button type="submit" class="bg-blue-600 text-white px-8 py-2 rounded-lg font-bold shadow hover:bg-blue-700 transition w-full md:w-auto">Simpan</button>
+            <div class="flex flex-col md:flex-row gap-4 mt-8 justify-end items-center">
+                <a href="/proyek-1/public/?url=produk" class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded font-semibold shadow transition-all duration-200 flex items-center gap-2 md:w-auto w-full justify-center">Batal</a>
+                <button type="submit" class="bg-blue-600 text-white px-8 py-2 rounded-lg font-bold shadow hover:bg-blue-700 transition md:w-auto w-full">Simpan</button>
             </div>
         </form>
     </div>

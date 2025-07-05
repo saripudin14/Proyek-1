@@ -7,7 +7,7 @@ class Product {
         $this->db = Database::getInstance();
     }
     public function getAll() {
-        $stmt = $this->db->query('SELECT * FROM products ORDER BY name ASC');
+        $stmt = $this->db->query('SELECT p.*, c.name as category_name FROM products p LEFT JOIN categories c ON p.category_id = c.id ORDER BY p.name ASC');
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     public function create($data) {
