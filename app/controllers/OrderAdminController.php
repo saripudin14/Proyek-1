@@ -2,61 +2,61 @@
 require_once dirname(__DIR__) . '/models/Order.php';
 
 class OrderAdminController {
-    public function index() {
-        session_start();
+
+    public function __construct() {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
         if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
-            header('Location: /proyek-1/public/?url=login');
+            header('Location: ?url=login');
             exit;
         }
+    }
+
+    public function index() {
         $orderModel = new Order();
-        $orders = $orderModel->getAllWithUser();
-        require_once dirname(__DIR__) . '/views/pages/order_list.php';
+        // **PERBAIKAN**: Memanggil metode yang benar -> getAllWithCustomer()
+        $orders = $orderModel->getAllWithCustomer(); 
+        require_once dirname(__DIR__) . '/views/admin/order_list.php'; // Pastikan path ini benar
     }
 
     public function detail() {
-        session_start();
-        if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
-            header('Location: /proyek-1/public/?url=login');
-            exit;
-        }
         $id = $_GET['id'] ?? null;
-        $orderModel = new Order();
-        $order = $orderModel->findByIdWithDetails($id);
-        if (!$order) {
-            header('Location: /proyek-1/public/?url=pesanan');
+        if (!$id) {
+            header('Location: ?url=pesanan');
             exit;
         }
-        require_once dirname(__DIR__) . '/views/pages/order_detail.php';
+        $orderModel = new Order();
+        // **PERBAIKAN**: Memanggil metode yang benar -> findByIdWithCustomerDetails()
+        $order = $orderModel->findByIdWithCustomerDetails($id); 
+        
+        if (!$order) {
+            header('Location: ?url=pesanan');
+            exit;
+        }
+        require_once dirname(__DIR__) . '/views/admin/order_detail.php'; // Pastikan path ini benar
     }
 
     public function updateStatus() {
-        session_start();
-        if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
-            header('Location: /proyek-1/public/?url=login');
-            exit;
-        }
-        $id = $_GET['id'] ?? null;
+        $id = $_POST['id'] ?? null;
         $status = $_POST['status'] ?? null;
+        
         if ($id && $status) {
             $orderModel = new Order();
             $orderModel->updateStatus($id, $status);
         }
-        header('Location: /proyek-1/public/?url=pesanan-detail&id=' . $id);
+        
+        header('Location: ?url=pesanan-detail&id=' . $id);
         exit;
     }
 
     public function delete() {
-        session_start();
-        if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
-            header('Location: /proyek-1/public/?url=login');
-            exit;
-        }
         $id = $_GET['id'] ?? null;
         if ($id) {
             $orderModel = new Order();
             $orderModel->delete($id);
         }
-        header('Location: /proyek-1/public/?url=pesanan');
+        header('Location: ?url=pesanan');
         exit;
     }
 }

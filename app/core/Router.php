@@ -2,105 +2,134 @@
 class Router {
     public function dispatch() {
         $url = isset($_GET['url']) ? trim($_GET['url'], '/') : '';
-        if ($url === '' || $url === 'home') {
-            require_once dirname(__DIR__) . '/controllers/HomeController.php';
-            $controller = new HomeController();
-            $controller->index();
-        } elseif ($url === 'login') {
-            require_once dirname(__DIR__) . '/controllers/AuthController.php';
-            $controller = new AuthController();
-            $controller->login();
-        } elseif ($url === 'logout') {
-            require_once dirname(__DIR__) . '/controllers/AuthController.php';
-            $controller = new AuthController();
-            $controller->logout();
-        } elseif ($url === 'admin-dashboard') {
-            require_once dirname(__DIR__) . '/controllers/AdminController.php';
-            $controller = new AdminController();
-            $controller->dashboard();
-        } elseif ($url === 'order') {
-            require_once dirname(__DIR__) . '/controllers/OrderController.php';
-            $controller = new OrderController();
-            $controller->orderForm();
-        } elseif ($url === 'order-submit') {
-            require_once dirname(__DIR__) . '/controllers/OrderController.php';
-            $controller = new OrderController();
-            $controller->submitOrder();
-        } elseif ($url === 'produk') {
-            require_once dirname(__DIR__) . '/controllers/ProductController.php';
-            $controller = new ProductController();
-            $controller->index();
-        } elseif ($url === 'produk-tambah') {
-            require_once dirname(__DIR__) . '/controllers/ProductController.php';
-            $controller = new ProductController();
-            $controller->create();
-        } elseif ($url === 'produk-edit') {
-            require_once dirname(__DIR__) . '/controllers/ProductController.php';
-            $controller = new ProductController();
-            $controller->edit();
-        } elseif ($url === 'produk-hapus') {
-            require_once dirname(__DIR__) . '/controllers/ProductController.php';
-            $controller = new ProductController();
-            $controller->delete();
-        } elseif ($url === 'kategori') {
-            require_once dirname(__DIR__) . '/controllers/CategoryController.php';
-            $controller = new CategoryController();
-            $controller->index();
-        } elseif ($url === 'kategori-tambah') {
-            require_once dirname(__DIR__) . '/controllers/CategoryController.php';
-            $controller = new CategoryController();
-            $controller->create();
-        } elseif ($url === 'kategori-edit') {
-            require_once dirname(__DIR__) . '/controllers/CategoryController.php';
-            $controller = new CategoryController();
-            $controller->edit();
-        } elseif ($url === 'kategori-hapus') {
-            require_once dirname(__DIR__) . '/controllers/CategoryController.php';
-            $controller = new CategoryController();
-            $controller->delete();
-        } elseif ($url === 'pesanan') {
-            require_once dirname(__DIR__) . '/controllers/OrderAdminController.php';
-            $controller = new OrderAdminController();
-            $controller->index();
-        } elseif ($url === 'pesanan-detail') {
-            require_once dirname(__DIR__) . '/controllers/OrderAdminController.php';
-            $controller = new OrderAdminController();
-            $controller->detail();
-        } elseif ($url === 'pesanan-status') {
-            require_once dirname(__DIR__) . '/controllers/OrderAdminController.php';
-            $controller = new OrderAdminController();
-            $controller->updateStatus();
-        } elseif ($url === 'pesanan-hapus') {
-            require_once dirname(__DIR__) . '/controllers/OrderAdminController.php';
-            $controller = new OrderAdminController();
-            $controller->delete();
-        } elseif ($url === 'katalog') {
-            require_once dirname(__DIR__) . '/controllers/HomeController.php';
-            $controller = new HomeController();
-            $controller->katalog();
-        } elseif ($url === 'produk-detail') {
-            require_once dirname(__DIR__) . '/controllers/HomeController.php';
-            $controller = new HomeController();
-            $controller->produkDetail();
-        } elseif ($url === 'cart-add') {
-            require_once dirname(__DIR__) . '/controllers/CartController.php';
-            $controller = new CartController();
-            $controller->add();
-        } elseif ($url === 'cart') {
-            require_once dirname(__DIR__) . '/controllers/CartController.php';
-            $controller = new CartController();
-            $controller->index();
-        } elseif ($url === 'cart-remove') {
-            require_once dirname(__DIR__) . '/controllers/CartController.php';
-            $controller = new CartController();
-            $controller->remove();
-        } elseif ($url === 'cart-clear') {
-            require_once dirname(__DIR__) . '/controllers/CartController.php';
-            $controller = new CartController();
-            $controller->clear();
-        } else {
-            http_response_code(404);
-            echo '404 Not Found';
+
+        switch ($url) {
+            // --- Rute Halaman Utama ---
+            case '':
+            case 'home':
+                require_once dirname(__DIR__) . '/controllers/HomeController.php';
+                (new HomeController())->index();
+                break;
+            case 'katalog':
+                require_once dirname(__DIR__) . '/controllers/HomeController.php';
+                (new HomeController())->katalog();
+                break;
+            case 'produk-detail':
+                require_once dirname(__DIR__) . '/controllers/HomeController.php';
+                (new HomeController())->produkDetail();
+                break;
+
+            // --- Rute Keranjang Belanja ---
+            case 'cart':
+                require_once dirname(__DIR__) . '/controllers/CartController.php';
+                (new CartController())->index();
+                break;
+            case 'cart-add':
+                require_once dirname(__DIR__) . '/controllers/CartController.php';
+                (new CartController())->add();
+                break;
+            case 'cart-remove':
+                require_once dirname(__DIR__) . '/controllers/CartController.php';
+                (new CartController())->remove();
+                break;
+            case 'cart-clear':
+                require_once dirname(__DIR__) . '/controllers/CartController.php';
+                (new CartController())->clear();
+                break;
+            case 'cart-ajax-update':
+                require_once dirname(__DIR__) . '/controllers/CartController.php';
+                (new CartController())->handleAjaxUpdate();
+                break;
+
+            // --- Rute Pemesanan (Order) ---
+            case 'order':
+                require_once dirname(__DIR__) . '/controllers/OrderController.php';
+                (new OrderController())->orderForm();
+                break;
+            case 'order-submit':
+                require_once dirname(__DIR__) . '/controllers/OrderController.php';
+                (new OrderController())->submitOrder();
+                break;
+            case 'order-success':
+                require_once dirname(__DIR__) . '/controllers/OrderController.php';
+                (new OrderController())->orderSuccess();
+                break;
+
+            // --- Rute Autentikasi ---
+            case 'login':
+                require_once dirname(__DIR__) . '/controllers/AuthController.php';
+                (new AuthController())->login();
+                break;
+            case 'logout':
+                require_once dirname(__DIR__) . '/controllers/AuthController.php';
+                (new AuthController())->logout();
+                break;
+
+            // --- Rute Admin ---
+            case 'admin-dashboard':
+                 require_once dirname(__DIR__) . '/controllers/AdminController.php';
+                 (new AdminController())->dashboard();
+                 break;
+            
+            // Rute Produk (Admin)
+            case 'produk':
+                require_once dirname(__DIR__) . '/controllers/ProductController.php';
+                (new ProductController())->index();
+                break;
+            case 'produk-tambah':
+                require_once dirname(__DIR__) . '/controllers/ProductController.php';
+                (new ProductController())->create();
+                break;
+            case 'produk-edit':
+                require_once dirname(__DIR__) . '/controllers/ProductController.php';
+                (new ProductController())->edit();
+                break;
+            case 'produk-hapus':
+                require_once dirname(__DIR__) . '/controllers/ProductController.php';
+                (new ProductController())->delete();
+                break;
+
+            // Rute Pesanan (Admin)
+            case 'pesanan':
+                require_once dirname(__DIR__) . '/controllers/OrderAdminController.php';
+                (new OrderAdminController())->index();
+                break;
+             case 'pesanan-detail':
+                require_once dirname(__DIR__) . '/controllers/OrderAdminController.php';
+                (new OrderAdminController())->detail();
+                break;
+            case 'pesanan-status':
+                require_once dirname(__DIR__) . '/controllers/OrderAdminController.php';
+                (new OrderAdminController())->updateStatus();
+                break;
+            case 'pesanan-hapus':
+                require_once dirname(__DIR__) . '/controllers/OrderAdminController.php';
+                (new OrderAdminController())->delete();
+                break;
+
+            // Rute Kategori (Admin)
+            case 'kategori':
+                require_once dirname(__DIR__) . '/controllers/CategoryController.php';
+                (new CategoryController())->index();
+                break;
+            case 'kategori-tambah':
+                require_once dirname(__DIR__) . '/controllers/CategoryController.php';
+                (new CategoryController())->create();
+                break;
+            case 'kategori-edit':
+                require_once dirname(__DIR__) . '/controllers/CategoryController.php';
+                (new CategoryController())->edit();
+                break;
+            case 'kategori-hapus':
+                require_once dirname(__DIR__) . '/controllers/CategoryController.php';
+                (new CategoryController())->delete();
+                break;
+
+            default:
+                http_response_code(404);
+                // Sebaiknya buat halaman 404.php yang lebih informatif
+                echo '404 Not Found'; 
+                break;
         }
     }
 }

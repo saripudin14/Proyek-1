@@ -82,16 +82,6 @@
             <a href="#" class="block text-base font-semibold text-sky-700 dark:text-white hover:text-sky-600 dark:hover:text-sky-300 py-2">Home</a>
             <a href="#about" class="nav-link-underline block text-base font-semibold text-gray-700 dark:text-gray-200 hover:text-sky-600 dark:hover:text-sky-300 py-2 transition-colors duration-300">Tentang</a>
             <a href="?url=katalog" class="nav-link-underline block text-base font-semibold text-gray-700 dark:text-gray-200 hover:text-sky-600 dark:hover:text-sky-300 py-2 transition-colors duration-300">Produk</a>
-            <div class="pt-3 flex gap-3">
-                <button class="relative p-1 text-gray-400 hover:text-sky-600 dark:hover:text-sky-300">
-                    <i class="fas fa-shopping-cart text-lg"></i>
-                    <span class="absolute -top-1 -right-1 px-1.5 py-0.5 text-xs font-bold text-white bg-sky-600 rounded-full">3</span>
-                </button>
-                <button id="theme-toggle-mobile" class="p-1 text-gray-400 hover:text-sky-600 dark:hover:text-sky-300">
-                    <i class="fas fa-moon text-lg dark:hidden"></i>
-                    <i class="fas fa-sun text-lg hidden dark:inline"></i>
-                </button>
-            </div>
         </div>
     </nav>
     <!-- Hero Section -->
