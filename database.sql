@@ -66,13 +66,15 @@ CREATE TABLE cart_items (
 -- ORDERS TABLE
 CREATE TABLE orders (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
+    user_id INT,
+    customer_id INT,
     total DECIMAL(12,2) NOT NULL,
     status ENUM('pending', 'paid', 'shipped', 'completed', 'cancelled') DEFAULT 'pending',
     shipping_address TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
+    FOREIGN KEY (customer_id) REFERENCES customers(id) ON DELETE SET NULL
 );
 
 -- ORDER ITEMS TABLE

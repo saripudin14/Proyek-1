@@ -6,12 +6,12 @@ class Order {
     public function __construct() {
         $this->db = Database::getInstance();
     }
-    // Membuat order baru (hanya untuk user yang sudah login, user_id wajib)
+    // Membuat order baru (untuk customer guest, gunakan customer_id)
     public function createOrder($data) {
         // Insert ke orders
-        $stmt = $this->db->prepare('INSERT INTO orders (user_id, total, status, shipping_address) VALUES (:user_id, :total, :status, :shipping_address)');
+        $stmt = $this->db->prepare('INSERT INTO orders (customer_id, total, status, shipping_address) VALUES (:customer_id, :total, :status, :shipping_address)');
         $stmt->execute([
-            'user_id' => $data['user_id'],
+            'customer_id' => $data['customer_id'],
             'total' => $data['total'],
             'status' => $data['status'],
             'shipping_address' => $data['shipping_address']

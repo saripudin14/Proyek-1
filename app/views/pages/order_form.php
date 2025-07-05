@@ -37,17 +37,23 @@
                 <textarea name="alamat" class="w-full border rounded px-3 py-2" required></textarea>
             </div>
             <div>
-                <label class="block mb-1 font-medium">Produk</label>
-                <select name="product_id" class="w-full border rounded px-3 py-2" required>
-                    <option value="">-- Pilih Produk --</option>
-                    <?php foreach ($products as $p): ?>
-                        <option value="<?= $p['id'] ?>"><?= htmlspecialchars($p['nama_produk']) ?> (<?= number_format($p['harga_jual'],0,',','.') ?>)</option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <div>
-                <label class="block mb-1 font-medium">Jumlah</label>
-                <input type="number" name="jumlah" min="1" value="1" class="w-full border rounded px-3 py-2" required>
+                <label class="block mb-1 font-medium">Produk yang Dipesan</label>
+                <div class="bg-gray-50 border rounded p-3 mb-2">
+                    <?php if (!empty($cart)): ?>
+                        <ul class="divide-y divide-gray-200">
+                        <?php foreach ($cart as $item): ?>
+                            <li class="py-2 flex items-center gap-3">
+                                <?php if (!empty($item['image'])): ?>
+                                    <img src="<?= htmlspecialchars($item['image']) ?>" alt="" class="w-10 h-10 object-cover rounded">
+                                <?php endif; ?>
+                                <span class="font-semibold text-gray-700 flex-1"><?= htmlspecialchars($item['name']) ?></span>
+                                <span class="text-gray-500 text-sm">x<?= $item['qty'] ?></span>
+                                <span class="text-gray-700 font-bold">Rp <?= number_format($item['price'],0,',','.') ?></span>
+                            </li>
+                        <?php endforeach; ?>
+                        </ul>
+                    <?php endif; ?>
+                </div>
             </div>
             <button type="submit" class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 font-semibold">Order Sekarang</button>
         </form>

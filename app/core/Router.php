@@ -82,6 +82,22 @@ class Router {
             require_once dirname(__DIR__) . '/controllers/HomeController.php';
             $controller = new HomeController();
             $controller->produkDetail();
+        } elseif ($url === 'cart-add') {
+            require_once dirname(__DIR__) . '/controllers/CartController.php';
+            $controller = new CartController();
+            $controller->add();
+        } elseif ($url === 'cart') {
+            require_once dirname(__DIR__) . '/controllers/CartController.php';
+            $controller = new CartController();
+            $controller->index();
+        } elseif ($url === 'cart-remove') {
+            require_once dirname(__DIR__) . '/controllers/CartController.php';
+            $controller = new CartController();
+            $controller->remove();
+        } elseif ($url === 'cart-clear') {
+            require_once dirname(__DIR__) . '/controllers/CartController.php';
+            $controller = new CartController();
+            $controller->clear();
         } else {
             http_response_code(404);
             echo '404 Not Found';

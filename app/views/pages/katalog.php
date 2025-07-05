@@ -1,4 +1,6 @@
-<?php require_once __DIR__ . '/../../core/helpers.php'; ?>
+<?php
+session_start();
+require_once __DIR__ . '/../../core/helpers.php'; ?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -90,6 +92,56 @@
                     <a href="/proyek-1/public/#about" class="nav-link-underline text-gray-500 dark:text-gray-300 hover:text-sky-600 dark:hover:text-sky-300 px-3 py-2 text-base font-semibold transition-colors duration-300">Tentang</a>
                     <a href="?url=katalog" class="nav-link-underline text-gray-500 dark:text-gray-300 hover:text-sky-600 dark:hover:text-sky-300 px-3 py-2 text-base font-semibold transition-colors duration-300">Produk</a>
                 </div>
+                <!-- Keranjang -->
+                <div class="relative ml-auto flex items-center">
+                    <button id="cart-btn" class="relative text-2xl text-sky-600 hover:text-sky-800 transition focus:outline-none">
+                        <i class="fas fa-shopping-cart"></i>
+                        <?php $cartCount = isset($_SESSION['cart']) ? array_sum(array_column($_SESSION['cart'], 'qty')) : 0; ?>
+                        <?php if ($cartCount > 0): ?>
+                        <span class="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full px-1.5 py-0.5 font-bold shadow"> <?= $cartCount ?> </span>
+                        <?php endif; ?>
+                    </button>
+                    <!-- Popup Cart Backdrop -->
+                    <div id="cart-backdrop" class="hidden fixed inset-0 bg-black/30 z-40"></div>
+                    <!-- Popup Cart -->
+                    <div id="cart-popup" class="hidden absolute right-0 mt-3 w-80 bg-white border border-sky-200 rounded-2xl shadow-2xl z-50 animate-fade-in ring-2 ring-sky-200" style="left:auto; right:0; top:48px;">
+                        <div id="cart-popup-header" class="p-4 border-b font-bold text-sky-700 flex items-center justify-between bg-gradient-to-r from-sky-50 to-sky-100 rounded-t-2xl select-none">
+                            <span class="flex items-center gap-2"><i class="fas fa-shopping-cart text-sky-500"></i> Keranjang</span>
+                            <button id="close-cart-popup" class="text-gray-400 hover:text-red-500 text-lg"><i class="fas fa-times"></i></button>
+                        </div>
+                        <div class="p-4 max-h-64 overflow-y-auto bg-white">
+                            <?php if (!empty($_SESSION['cart'])): ?>
+                                <ul class="divide-y divide-gray-100">
+                                <?php foreach ($_SESSION['cart'] as $item): ?>
+                                    <li class="py-2 flex items-center gap-3 group">
+                                        <?php if (!empty($item['image'])): ?>
+                                            <img src="<?= htmlspecialchars($item['image']) ?>" alt="" class="w-12 h-12 object-cover rounded-lg border border-sky-100 shadow-sm">
+                                        <?php endif; ?>
+                                        <div class="flex-1">
+                                            <div class="font-semibold text-gray-800 text-sm line-clamp-1"><?= htmlspecialchars($item['name']) ?></div>
+                                            <div class="text-xs text-gray-500">x<?= $item['qty'] ?> &bull; Rp <?= number_format($item['price'],0,',','.') ?></div>
+                                        </div>
+                                        <a href="?url=cart-remove&product_id=<?= $item['id'] ?>" class="text-red-400 hover:text-red-600 transition text-base ml-2" title="Hapus"><i class="fas fa-trash"></i></a>
+                                    </li>
+                                <?php endforeach; ?>
+                                </ul>
+                            <?php else: ?>
+                                <div class="text-gray-400 text-center py-8 flex flex-col items-center gap-2">
+                                    <i class="fas fa-shopping-basket text-3xl mb-2"></i>
+                                    Keranjang kosong.
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        <div class="p-4 border-t flex justify-between items-center bg-gradient-to-r from-sky-50 to-sky-100 rounded-b-2xl">
+                            <a href="?url=cart" class="bg-sky-600 hover:bg-sky-700 text-white px-4 py-2 rounded-lg font-bold text-sm shadow flex items-center gap-2">
+                                <i class="fas fa-info-circle"></i> Info Keranjang
+                            </a>
+                            <a href="?url=order" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-bold text-sm shadow flex items-center gap-2">
+                                <i class="fas fa-shopping-bag"></i> Checkout
+                            </a>
+                        </div>
+                    </div>
+                </div>
                 <!-- Mobile menu button -->
                 <div class="sm:hidden">
                     <button id="mobile-menu-toggle" class="p-2 text-2xl text-gray-500 dark:text-gray-300">
@@ -133,10 +185,10 @@
             </div>
         </div>
         <!-- produk -->
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             <?php foreach ($products as $p): ?>
-            <a href="?url=produk-detail&id=<?= $p['id'] ?>" class="block group">
-                <div class="product-card bg-white rounded-2xl shadow-lg border border-sky-100 hover:shadow-2xl hover:border-blue-400 transition-all duration-300 group overflow-hidden relative cursor-pointer">
+            <div class="product-card bg-white rounded-2xl shadow-lg border border-sky-100 hover:shadow-2xl hover:border-blue-400 transition-all duration-300 group overflow-hidden relative flex flex-col h-full">
+                <a href="?url=produk-detail&id=<?= $p['id'] ?>" class="block">
                     <div class="relative overflow-hidden">
                         <?php if (!empty($p['image'])): ?>
                             <img src="<?= htmlspecialchars($p['image']) ?>" alt="<?= htmlspecialchars($p['name']) ?>" class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105 group-hover:brightness-95">
@@ -144,42 +196,42 @@
                             <div class="w-full h-48 flex items-center justify-center bg-gray-100 text-gray-400 text-lg">Tidak ada gambar</div>
                         <?php endif; ?>
                     </div>
-                    <div class="p-4 flex flex-col gap-2">
-                        <h3 class="font-bold text-gray-800 text-base sm:text-lg leading-snug group-hover:text-blue-700 transition-colors line-clamp-2 min-h-[2.5em]">
-                            <?= htmlspecialchars($p['name']) ?>
-                        </h3>
-                        <div class="flex items-center justify-between mt-1 mb-2">
-                            <span class="text-blue-600 font-extrabold text-lg">
-                                Rp <?= number_format($p['price'],0,',','.') ?><?= !empty($p['unit']) ? '/' . htmlspecialchars($p['unit']) : '' ?>
-                            </span>
-                            <span class="inline-flex items-center gap-1 bg-gradient-to-r from-emerald-200 to-emerald-400/80 text-emerald-900 font-bold px-3 py-1 rounded-full shadow-sm border border-emerald-300 text-xs">
-                                <svg class="w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2" fill="#d1fae5"/><path d="M3 7V5a2 2 0 012-2h14a2 2 0 012 2v2" stroke="#059669" stroke-width="2"/></svg>
-                                Stok: <?= $p['stock'] ?>
+                </a>
+                <div class="p-4 flex flex-col gap-2 flex-1">
+                    <h3 class="font-bold text-gray-800 text-base sm:text-lg leading-snug group-hover:text-blue-700 transition-colors line-clamp-2 min-h-[2.5em]">
+                        <?= htmlspecialchars($p['name']) ?>
+                    </h3>
+                    <div class="flex items-center justify-between mt-1 mb-2">
+                        <span class="text-blue-600 font-extrabold text-lg">
+                            Rp <?= number_format($p['price'],0,',','.') ?><?= !empty($p['unit']) ? '/' . htmlspecialchars($p['unit']) : '' ?>
+                        </span>
+                        <span class="inline-flex items-center gap-1 bg-gradient-to-r from-emerald-200 to-emerald-400/80 text-emerald-900 font-bold px-3 py-1 rounded-full shadow-sm border border-emerald-300 text-xs">
+                            <svg class="w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2" fill="#d1fae5"/><path d="M3 7V5a2 2 0 012-2h14a2 2 0 012 2v2" stroke="#059669" stroke-width="2"/></svg>
+                            Stok: <?= $p['stock'] ?>
+                        </span>
+                    </div>
+                    <?php if (!empty($p['category_name'])): ?>
+                        <div class="mb-1">
+                            <span class="inline-block bg-blue-100 text-blue-700 text-xs px-3 py-1 rounded-full font-semibold shadow-sm">
+                                <i class="fas fa-tag mr-1"></i><?= htmlspecialchars($p['category_name']) ?>
                             </span>
                         </div>
-                        <?php if (!empty($p['category_name'])): ?>
-                            <div class="mb-1">
-                                <span class="inline-block bg-blue-100 text-blue-700 text-xs px-3 py-1 rounded-full font-semibold shadow-sm">
-                                    <i class="fas fa-tag mr-1"></i><?= htmlspecialchars($p['category_name']) ?>
-                                </span>
-                            </div>
-                        <?php endif; ?>
-                        <?php if (!empty($p['color'])): ?>
-                            <?php $colorCode = getColorCode($p['color']); ?>
-                            <div class="flex items-center gap-2 mb-1">
-                                <span class="inline-block w-4 h-4 rounded-full border-2 border-emerald-200 shadow" style="background:<?= htmlspecialchars($colorCode) ?>;" title="<?= htmlspecialchars($p['color']) ?>"></span>
-                                <span class="text-gray-500 text-xs font-semibold"><?= htmlspecialchars($p['color']) ?></span>
-                            </div>
-                        <?php endif; ?>
-                        <div class="pt-3">
-                            <button class="w-full bg-gradient-to-r from-blue-600 to-sky-500 text-white px-4 py-2 rounded-lg text-sm font-bold shadow hover:from-blue-700 hover:to-sky-600 transition flex items-center justify-center gap-2 group-hover:scale-105 pointer-events-none">
-                                Pesan
-                                <i class="fas fa-shopping-cart text-white text-sm"></i>
-                            </button>
+                    <?php endif; ?>
+                    <?php if (!empty($p['color'])): ?>
+                        <?php $colorCode = getColorCode($p['color']); ?>
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="inline-block w-4 h-4 rounded-full border-2 border-emerald-200 shadow" style="background:<?= htmlspecialchars($colorCode) ?>;" title="<?= htmlspecialchars($p['color']) ?>"></span>
+                            <span class="text-gray-500 text-xs font-semibold"><?= htmlspecialchars($p['color']) ?></span>
                         </div>
+                    <?php endif; ?>
+                    <div class="pt-3 mt-auto">
+                        <a href="?url=cart-add&product_id=<?= $p['id'] ?>" class="w-full bg-gradient-to-r from-blue-600 to-sky-500 text-white px-4 py-2 rounded-lg text-sm font-bold shadow hover:from-blue-700 hover:to-sky-600 transition flex items-center justify-center gap-2 group-hover:scale-105" onclick="event.preventDefault(); addToCart(<?= $p['id'] ?>);">
+                            Tambah ke Keranjang
+                            <i class="fas fa-shopping-cart text-white text-sm"></i>
+                        </a>
                     </div>
                 </div>
-            </a>
+            </div>
             <?php endforeach; ?>
         </div>
     </main>
@@ -226,5 +278,45 @@
         </div>
     </footer>
     <script src="/proyek-1/public/js/product.js"></script>
+    <script>
+    // Cart popup logic
+    const cartBtn = document.getElementById('cart-btn');
+    const cartPopup = document.getElementById('cart-popup');
+    const cartBackdrop = document.getElementById('cart-backdrop');
+    const closeCartPopup = document.getElementById('close-cart-popup');
+    if(cartBtn && cartPopup) {
+        cartBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            cartPopup.classList.toggle('hidden');
+            if(cartBackdrop) cartBackdrop.classList.toggle('hidden');
+        });
+        if(closeCartPopup) {
+            closeCartPopup.addEventListener('click', function(e) {
+                cartPopup.classList.add('hidden');
+                if(cartBackdrop) cartBackdrop.classList.add('hidden');
+            });
+        }
+        if(cartBackdrop) {
+            cartBackdrop.addEventListener('click', function(e) {
+                cartPopup.classList.add('hidden');
+                cartBackdrop.classList.add('hidden');
+            });
+        }
+        document.addEventListener('keydown', function(e) {
+            if(e.key === 'Escape') {
+                cartPopup.classList.add('hidden');
+                if(cartBackdrop) cartBackdrop.classList.add('hidden');
+            }
+        });
+    }
+
+    function addToCart(productId) {
+        fetch(`?url=cart-add&product_id=${productId}`, { credentials: 'same-origin' })
+            .then(res => res.text())
+            .then(() => {
+                location.reload();
+            });
+    }
+    </script>
 </body>
 </html>

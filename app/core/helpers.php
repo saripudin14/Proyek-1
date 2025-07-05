@@ -37,9 +37,6 @@ function getColorCode($colorName) {
         'lavender' => '#e0e7ff',
         'peach' => '#fdba74',
         'mocca' => '#bfa181',
-        'silver' => '#d1d5db',
-        'gold' => '#f59e42',
-        // tambahkan sesuai kebutuhan
     ];
     $key = strtolower(trim($colorName));
     return $map[$key] ?? $colorName;

@@ -121,9 +121,9 @@
                 </div>
                 <div class="flex gap-2 mt-6">
                     <a href="?url=katalog" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold px-5 py-2 rounded-lg shadow transition flex items-center gap-2"><i class="fas fa-arrow-left"></i> Kembali</a>
-                    <button class="bg-gradient-to-r from-blue-600 to-sky-500 text-white px-6 py-2 rounded-lg text-base font-bold shadow hover:from-blue-700 hover:to-sky-600 transition flex items-center gap-2 pointer-events-none">
-                        Pesan Produk <i class="fas fa-shopping-cart"></i>
-                    </button>
+                    <a href="?url=cart-add&product_id=<?= $product['id'] ?>" class="bg-gradient-to-r from-blue-600 to-sky-500 text-white px-6 py-2 rounded-lg text-base font-bold shadow hover:from-blue-700 hover:to-sky-600 transition flex items-center gap-2">
+                        Tambah ke Keranjang <i class="fas fa-shopping-cart"></i>
+                    </a>
                 </div>
             </div>
         </div>
