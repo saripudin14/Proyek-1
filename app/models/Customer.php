@@ -14,24 +14,24 @@ class Customer {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * PERBAIKAN FINAL: Menggunakan 'name' dan 'phone' sesuai database.
+     */
     public function createNoPassword($data) {
-        $sql = "INSERT INTO customers (nama, email, no_telepon, alamat) VALUES (:nama, :email, :no_telepon, :alamat)";
+        $sql = "INSERT INTO customers (name, email, phone, address) VALUES (:name, :email, :phone, :address)";
         $stmt = $this->db->prepare($sql);
+        
         $success = $stmt->execute([
-            'nama' => $data['nama'],
+            'name' => $data['name'],
             'email' => $data['email'],
-            'no_telepon' => $data['no_telepon'],
-            'alamat' => $data['alamat']
+            'phone' => $data['phone'],
+            'address' => $data['address']
         ]);
+
         return $success ? $this->db->lastInsertId() : false;
     }
 
-    /**
-     * ❗️ METODE BARU YANG DITAMBAHKAN ❗️
-     * Menghitung jumlah semua pelanggan.
-     */
     public function countAll() {
-        // Menjalankan query untuk menghitung semua baris di tabel customers
         return $this->db->query('SELECT COUNT(*) FROM customers')->fetchColumn();
     }
 }

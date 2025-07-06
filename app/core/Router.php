@@ -3,6 +3,7 @@ class Router {
     public function dispatch() {
         $url = isset($_GET['url']) ? trim($_GET['url'], '/') : '';
 
+        // Menggunakan switch-case untuk menangani semua rute
         switch ($url) {
             // --- Rute Halaman Utama ---
             case '':
@@ -28,10 +29,10 @@ class Router {
                 require_once dirname(__DIR__) . '/controllers/CartController.php';
                 (new CartController())->add();
                 break;
-            case 'cart-remove':
-                require_once dirname(__DIR__) . '/controllers/CartController.php';
-                (new CartController())->remove();
-                break;
+            // case 'cart-remove':
+            //     require_once dirname(__DIR__) . '/controllers/CartController.php';
+            //     (new CartController())->remove();
+            //     break;
             case 'cart-clear':
                 require_once dirname(__DIR__) . '/controllers/CartController.php';
                 (new CartController())->clear();
@@ -127,7 +128,6 @@ class Router {
 
             default:
                 http_response_code(404);
-                // Sebaiknya buat halaman 404.php yang lebih informatif
                 echo '404 Not Found'; 
                 break;
         }

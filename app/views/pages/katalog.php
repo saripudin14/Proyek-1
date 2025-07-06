@@ -222,9 +222,11 @@ require_once __DIR__ . '/../../core/helpers.php'; ?>
                                                 <?php endif; ?>
                                                 <div class="flex-1">
                                                     <div class="font-semibold text-gray-800 text-sm line-clamp-1">
-                                                        <?= htmlspecialchars($item['name']) ?></div>
+                                                        <?= htmlspecialchars($item['name']) ?>
+                                                    </div>
                                                     <div class="text-xs text-gray-500">x<?= $item['qty'] ?> &bull; Rp
-                                                        <?= number_format($item['price'], 0, ',', '.') ?></div>
+                                                        <?= number_format($item['price'], 0, ',', '.') ?>
+                                                    </div>
                                                 </div>
                                                 <a href="?url=cart-remove&product_id=<?= $item['id'] ?>"
                                                     class="text-red-400 hover:text-red-600 transition text-base ml-2"
@@ -272,110 +274,117 @@ require_once __DIR__ . '/../../core/helpers.php'; ?>
         </div>
     </nav>
     <main class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300 mx-auto px-4 py-8">
-    <div class="flex flex-col md:flex-row gap-6">
-        <div class="flex-1">
-            <form method="get" action="" class="flex flex-col sm:flex-row justify-center items-center gap-4 mb-6 w-full">
-                <input type="hidden" name="url" value="katalog">
-                <div class="w-full sm:w-auto flex items-center gap-2">
-                    <div class="relative w-full sm:w-64">
-                        <input type="text" name="q" value="<?= htmlspecialchars($_GET['q'] ?? '') ?>"
-                            placeholder="Cari produk..."
-                            class="border border-sky-200 focus:border-sky-400 focus:ring-2 focus:ring-sky-200 rounded-lg px-4 py-2 text-sm w-full transition placeholder-gray-400 bg-white shadow-sm" />
-                        <button type="submit" class="absolute right-3 top-1/2 -translate-y-1/2 text-sky-400"><i
-                                class="fas fa-search"></i></button>
+        <div class="flex flex-col md:flex-row gap-6">
+            <div class="flex-1">
+                <form method="get" action=""
+                    class="flex flex-col sm:flex-row justify-center items-center gap-4 mb-6 w-full">
+                    <input type="hidden" name="url" value="katalog">
+                    <div class="w-full sm:w-auto flex items-center gap-2">
+                        <div class="relative w-full sm:w-64">
+                            <input type="text" name="q" value="<?= htmlspecialchars($_GET['q'] ?? '') ?>"
+                                placeholder="Cari produk..."
+                                class="border border-sky-200 focus:border-sky-400 focus:ring-2 focus:ring-sky-200 rounded-lg px-4 py-2 text-sm w-full transition placeholder-gray-400 bg-white shadow-sm" />
+                            <button type="submit" class="absolute right-3 top-1/2 -translate-y-1/2 text-sky-400"><i
+                                    class="fas fa-search"></i></button>
+                        </div>
                     </div>
-                </div>
-                <div
-                    class="flex items-center gap-2 bg-sky-50 dark:bg-sky-900 border border-sky-100 dark:border-sky-800 rounded-lg px-3 py-2 shadow-sm">
-                    <span class="text-sm text-gray-600 dark:text-gray-300 font-semibold mr-1"><i
-                            class="fas fa-filter mr-1"></i>Kategori</span>
-                    <div class="select-wrapper">
-                        <select name="category" onchange="this.form.submit()"
-                            class="border-none bg-transparent text-sky-700 dark:text-sky-200 font-semibold focus:ring-0 focus:outline-none text-sm py-1 px-2 rounded">
-                            <option value="">Semua Kategori</option>
-                            <?php if (!empty($categories))
-                                foreach ($categories as $cat): ?>
-                                    <option value="<?= htmlspecialchars($cat['id']) ?>" <?= (isset($_GET['category']) && $_GET['category'] == $cat['id']) ? 'selected' : '' ?>>
-                                        <?= htmlspecialchars($cat['name']) ?></option>
-                                <?php endforeach; ?>
-                        </select>
+                    <div
+                        class="flex items-center gap-2 bg-sky-50 dark:bg-sky-900 border border-sky-100 dark:border-sky-800 rounded-lg px-3 py-2 shadow-sm">
+                        <span class="text-sm text-gray-600 dark:text-gray-300 font-semibold mr-1"><i
+                                class="fas fa-filter mr-1"></i>Kategori</span>
+                        <div class="select-wrapper">
+                            <select name="category" onchange="this.form.submit()"
+                                class="border-none bg-transparent text-sky-700 dark:text-sky-200 font-semibold focus:ring-0 focus:outline-none text-sm py-1 px-2 rounded">
+                                <option value="">Semua Kategori</option>
+                                <?php if (!empty($categories))
+                                    foreach ($categories as $cat): ?>
+                                        <option value="<?= htmlspecialchars($cat['id']) ?>" <?= (isset($_GET['category']) && $_GET['category'] == $cat['id']) ? 'selected' : '' ?>>
+                                            <?= htmlspecialchars($cat['name']) ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                            </select>
+                        </div>
                     </div>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-        <?php foreach ($products as $p): ?>
-            <div
-                class="product-card bg-white rounded-2xl shadow-lg border border-sky-100 hover:shadow-2xl hover:border-blue-400 transition-all duration-300 group overflow-hidden relative flex flex-col h-full">
-                <a href="?url=produk-detail&id=<?= $p['id'] ?>" class="block">
-                    <div class="relative overflow-hidden">
-                        <?php if (!empty($p['image'])): ?>
-                            <img src="<?= htmlspecialchars($p['image']) ?>" alt="<?= htmlspecialchars($p['name']) ?>"
-                                class="w-full h-36 sm:h-48 object-cover transition-transform duration-300 group-hover:scale-105">
-                        <?php else: ?>
-                            <div class="w-full h-36 sm:h-48 flex items-center justify-center bg-gray-100 text-gray-400 text-sm">
-                                Tidak ada gambar</div>
-                        <?php endif; ?>
-                    </div>
-                </a>
-                <div class="p-3 sm:p-4 flex flex-col gap-2 flex-1">
-                    <h3
-                        class="font-bold text-gray-800 text-sm sm:text-base leading-snug group-hover:text-blue-700 transition-colors line-clamp-2 min-h-[2.5em]">
-                        <?= htmlspecialchars($p['name']) ?>
-                    </h3>
-                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mt-1 mb-2">
-                        <span class="text-blue-600 font-extrabold text-base sm:text-lg">
-                            Rp <?= number_format($p['price'], 0, ',', '.') ?> <?= !empty($p['unit']) ? '<span class="text-gray-500 text-xs sm:text-sm">/' . htmlspecialchars($p['unit']) . '</span>' : '' ?>
-                        </span>
-                        <span
-                            class="mt-1 sm:mt-0 inline-flex items-center gap-1 bg-gradient-to-r from-emerald-200 to-emerald-400/80 text-emerald-900 font-bold px-2 py-0.5 sm:px-3 sm:py-1 rounded-full shadow-sm border border-emerald-300 text-[10px] sm:text-xs self-start">
-                            <svg class="w-3 h-3 sm:w-4 sm:h-4 text-emerald-700" fill="none" stroke="currentColor" stroke-width="2"
-                                viewBox="0 0 24 24">
-                                <rect x="3" y="7" width="18" height="13" rx="2" fill="#d1fae5" />
-                                <path d="M3 7V5a2 2 0 012-2h14a2 2 0 012 2v2" stroke="#059669" stroke-width="2" />
-                            </svg>
-                            Stok: <?= $p['stock'] ?>
-                        </span>
-                    </div>
-                    
-                    <div class="text-xs sm:text-sm text-gray-600 space-y-2 my-1">
-                        <?php if (!empty($p['category_name'])): ?>
-                            <div class="flex items-center gap-2">
-                                <span class="font-semibold text-gray-700 w-14 shrink-0">Kategori</span>
-                                 <span>:</span>
-                                <span class="inline-flex items-center gap-1.5 bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full">
-                                    <i class="fas fa-tag text-blue-600 opacity-80"></i>
-                                    <?= htmlspecialchars($p['category_name']) ?>
-                                </span>
-                            </div>
-                        <?php endif; ?>
-                        
-                        <?php if (!empty($p['color'])): ?>
-                            <div class="flex items-center gap-2">
-                                <span class="font-semibold text-gray-700 w-14 shrink-0">Warna</span>
-                                <span>:</span>
-                                <?php $colorCode = getColorCode($p['color']); ?>
-                                <span class="inline-block w-4 h-4 rounded-full border border-gray-300 shadow-sm" style="background:<?= htmlspecialchars($colorCode) ?>;" title="<?= htmlspecialchars($p['color']) ?>"></span>
-                                <span class="text-gray-500 font-medium"><?= htmlspecialchars($p['color']) ?></span>
-                            </div>
-                        <?php endif; ?>
-                    </div>
-
-                    <div class="pt-3 mt-auto">
-                        <a href="?url=cart-add&product_id=<?= $p['id'] ?>"
-                            class="w-full bg-gradient-to-r from-blue-600 to-sky-500 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-[11px] sm:text-sm font-bold shadow hover:from-blue-700 hover:to-sky-600 transition flex items-center justify-center gap-2"
-                            onclick="event.preventDefault(); addToCart(<?= $p['id'] ?>);">
-                            <span>Tambah ke Keranjang</span>
-                            <i class="fas fa-shopping-cart text-white text-[11px] sm:text-sm"></i>
-                        </a>
-                    </div>
-                </div>
+                </form>
             </div>
-        <?php endforeach; ?>
-    </div>
-</main>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+            <?php foreach ($products as $p): ?>
+                <div
+                    class="product-card bg-white rounded-2xl shadow-lg border border-sky-100 hover:shadow-2xl hover:border-blue-400 transition-all duration-300 group overflow-hidden relative flex flex-col h-full">
+                    <a href="?url=produk-detail&id=<?= $p['id'] ?>" class="block">
+                        <div class="relative overflow-hidden">
+                            <?php if (!empty($p['image'])): ?>
+                                <img src="<?= htmlspecialchars($p['image']) ?>" alt="<?= htmlspecialchars($p['name']) ?>"
+                                    class="w-full h-36 sm:h-48 object-cover transition-transform duration-300 group-hover:scale-105">
+                            <?php else: ?>
+                                <div
+                                    class="w-full h-36 sm:h-48 flex items-center justify-center bg-gray-100 text-gray-400 text-sm">
+                                    Tidak ada gambar</div>
+                            <?php endif; ?>
+                        </div>
+                    </a>
+                    <div class="p-3 sm:p-4 flex flex-col gap-2 flex-1">
+                        <h3
+                            class="font-bold text-gray-800 text-sm sm:text-base leading-snug group-hover:text-blue-700 transition-colors line-clamp-2 min-h-[2.5em]">
+                            <?= htmlspecialchars($p['name']) ?>
+                        </h3>
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mt-1 mb-2">
+                            <span class="text-blue-600 font-extrabold text-base sm:text-lg">
+                                Rp <?= number_format($p['price'], 0, ',', '.') ?>
+                                <?= !empty($p['unit']) ? '<span class="text-gray-500 text-xs sm:text-sm">/' . htmlspecialchars($p['unit']) . '</span>' : '' ?>
+                            </span>
+                            <span
+                                class="mt-1 sm:mt-0 inline-flex items-center gap-1 bg-gradient-to-r from-emerald-200 to-emerald-400/80 text-emerald-900 font-bold px-2 py-0.5 sm:px-3 sm:py-1 rounded-full shadow-sm border border-emerald-300 text-[10px] sm:text-xs self-start">
+                                <svg class="w-3 h-3 sm:w-4 sm:h-4 text-emerald-700" fill="none" stroke="currentColor"
+                                    stroke-width="2" viewBox="0 0 24 24">
+                                    <rect x="3" y="7" width="18" height="13" rx="2" fill="#d1fae5" />
+                                    <path d="M3 7V5a2 2 0 012-2h14a2 2 0 012 2v2" stroke="#059669" stroke-width="2" />
+                                </svg>
+                                Stok: <?= $p['stock'] ?>
+                            </span>
+                        </div>
+
+                        <div class="text-xs sm:text-sm text-gray-600 space-y-2 my-1">
+                            <?php if (!empty($p['category_name'])): ?>
+                                <div class="flex items-center gap-2">
+                                    <span class="font-semibold text-gray-700 w-14 shrink-0">Kategori</span>
+                                    <span>:</span>
+                                    <span
+                                        class="inline-flex items-center gap-1.5 bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full">
+                                        <i class="fas fa-tag text-blue-600 opacity-80"></i>
+                                        <?= htmlspecialchars($p['category_name']) ?>
+                                    </span>
+                                </div>
+                            <?php endif; ?>
+
+                            <?php if (!empty($p['color'])): ?>
+                                <div class="flex items-center gap-2">
+                                    <span class="font-semibold text-gray-700 w-14 shrink-0">Warna</span>
+                                    <span>:</span>
+                                    <?php $colorCode = getColorCode($p['color']); ?>
+                                    <span class="inline-block w-4 h-4 rounded-full border border-gray-300 shadow-sm"
+                                        style="background:<?= htmlspecialchars($colorCode) ?>;"
+                                        title="<?= htmlspecialchars($p['color']) ?>"></span>
+                                    <span class="text-gray-500 font-medium"><?= htmlspecialchars($p['color']) ?></span>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+
+                        <div class="pt-3 mt-auto">
+                            <a href="?url=cart-add&product_id=<?= $p['id'] ?>"
+                                class="w-full bg-gradient-to-r from-blue-600 to-sky-500 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-[11px] sm:text-sm font-bold shadow hover:from-blue-700 hover:to-sky-600 transition flex items-center justify-center gap-2"
+                                onclick="event.preventDefault(); addToCart(<?= $p['id'] ?>);">
+                                <span>Tambah ke Keranjang</span>
+                                <i class="fas fa-shopping-cart text-white text-[11px] sm:text-sm"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </main>
     <!-- Footer Section -->
     <footer class="bg-sky-800 text-white mt-12">
         <div class="container mx-auto px-4 py-12">

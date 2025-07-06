@@ -1,3 +1,9 @@
+<?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+$cart = $_SESSION['cart'] ?? [];
+?>
 <!DOCTYPE html>
 <html lang="id">
 
@@ -5,18 +11,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Keranjang Belanja</title>
-    <link href="/proyek-1/public/css/output.css" rel="stylesheet">
-    <meta name="description"
-        content="Supplier produk plastik berkualitas, harga grosir, pelayanan ramah, dan pengiriman cepat.">
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@preline/preline@2.0.0/dist/preline.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* CSS Anda tetap di sini, tidak ada perubahan */
         .nav-link-underline {
             position: relative;
         }
-
         .nav-link-underline::after {
             content: '';
             position: absolute;
@@ -29,30 +29,34 @@
             background-color: #0ea5e9;
             transition: transform 0.3s ease-out;
         }
-
         .nav-link-underline:hover::after {
             transform: translateX(-50%) scaleX(1);
         }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .hero-bg {
+            background-image: linear-gradient(rgba(2,132,199,0.7),rgba(2,132,199,0.7)), url('https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
         }
-
-        .animate-fade-in {
-            animation: fadeIn 0.8s ease-out forwards;
+        .glass {
+            background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(6px);
+            border-radius: 1rem;
+            box-shadow: 0 8px 32px 0 rgba(31,38,135,0.15);
+        }
+        .feature-icon {
+            background: linear-gradient(135deg, #0ea5e9 60%, #38bdf8 100%);
+        }
+        .cta-btn {
+            box-shadow: 0 4px 14px 0 rgba(14,165,233,0.15);
+        }
+        .cta-btn:hover {
+            box-shadow: 0 8px 24px 0 rgba(14,165,233,0.25);
         }
     </style>
 </head>
 
-<body class="bg-gradient-to-br from-sky-50 to-white dark:from-gray-900 dark:to-gray-950 min-h-screen font-sans">
+<body class="bg-gray-50 dark:bg-gray-900 min-h-screen font-sans">
+
     <nav
         class="bg-white/90 dark:bg-gray-800/90 shadow-sm sticky top-0 z-50 backdrop-blur-md border-b border-sky-100 dark:border-gray-700">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -92,64 +96,47 @@
                 class="nav-link-underline block text-base font-semibold text-gray-700 dark:text-gray-200 hover:text-sky-600 dark:hover:text-sky-300 py-2 transition-colors duration-300">Produk</a>
         </div>
     </nav>
-
-    <div class="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8 animate-fade-in">
-        <h2 class="text-3xl font-extrabold mb-8 text-center text-sky-700 dark:text-sky-300 drop-shadow-lg">Keranjang
-            Belanja</h2>
+    <main class="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-extrabold mb-8 text-center text-sky-700 dark:text-sky-300">Keranjang Belanja</h2>
 
         <div id="cart-content">
-            <?php if (empty($cart)): ?>
-                <div id="empty-cart-message"
-                    class="bg-yellow-100/80 text-yellow-900 px-6 py-8 rounded-2xl text-center shadow-lg animate-fade-in flex flex-col items-center gap-4">
-                    <i class="fas fa-shopping-cart text-5xl text-yellow-500"></i>
-                    <div>
-                        <h3 class="font-bold text-lg">Keranjang Anda masih kosong</h3>
-                        <p class="text-sm text-yellow-800">Ayo jelajahi katalog kami untuk menemukan produk menarik!</p>
-                    </div>
-                    <a href="?url=katalog"
-                        class="mt-4 inline-flex items-center gap-2 bg-sky-600 hover:bg-sky-700 text-white px-5 py-2 rounded-lg font-bold shadow-lg transition-transform hover:scale-105">
-                        <i class="fas fa-store"></i> Kembali ke Katalog
-                    </a>
+
+            <div id="empty-cart-message"
+                class="<?= empty($cart) ? '' : 'hidden' ?> bg-yellow-100/80 text-yellow-900 px-6 py-8 rounded-2xl text-center shadow-lg animate-fade-in flex flex-col items-center gap-4">
+                <i class="fas fa-shopping-cart text-5xl text-yellow-500"></i>
+                <div>
+                    <h3 class="font-bold text-lg">Keranjang Anda masih kosong</h3>
+                    <p class="text-sm text-yellow-800">Ayo jelajahi katalog kami untuk menemukan produk menarik!</p>
                 </div>
-            <?php else: ?>
-                <div id="cart-container" class="space-y-6">
+                <a href="?url=katalog"
+                    class="mt-4 inline-flex items-center gap-2 bg-sky-600 hover:bg-sky-700 text-white px-5 py-2 rounded-lg font-bold shadow-lg transition-transform hover:scale-105">
+                    <i class="fas fa-store"></i> Kembali ke Katalog
+                </a>
+            </div>
 
-                    <div
-                        class="hidden md:grid md:grid-cols-10 gap-4 font-bold text-sky-700 dark:text-sky-300 border-b-2 border-sky-100 dark:border-gray-700 pb-3 text-sm">
-                        <div class="col-span-4">Produk</div>
-                        <div class="col-span-2 text-center">Harga Satuan</div>
-                        <div class="col-span-2 text-center">Jumlah</div>
-                        <div class="col-span-2 text-right">Subtotal</div>
-                    </div>
-
-                    <div id="cart-body" class="space-y-4">
-                        <?php $total = 0;
-                        foreach ($cart as $item):
+            <div id="cart-container" class="<?= empty($cart) ? 'hidden' : '' ?>">
+                <div id="cart-body" class="space-y-4">
+                    <?php $total = 0;
+                    if (!empty($cart)): ?>
+                        <?php foreach ($cart as $item):
                             $subtotal = $item['price'] * $item['qty'];
                             $total += $subtotal; ?>
-
                             <div id="cart-row-<?= $item['id'] ?>"
-                                class="bg-white dark:bg-gray-800/50 p-4 rounded-2xl shadow-lg border border-sky-100 dark:border-gray-700 flex flex-col md:flex-row md:items-center gap-4">
-
+                                class="bg-white dark:bg-gray-800/50 p-4 rounded-2xl shadow-lg border border-sky-100 dark:border-gray-700 flex flex-col md:flex-row md:items-center gap-4 transition-opacity duration-300">
                                 <div class="flex-grow-[4] flex items-center gap-4">
-                                    <?php if (!empty($item['image'])): ?>
-                                        <img src="<?= htmlspecialchars($item['image']) ?>" alt=""
-                                            class="w-20 h-20 object-cover rounded-xl shadow-md border border-gray-200 dark:border-gray-700">
-                                    <?php endif; ?>
+                                    <img src="<?= htmlspecialchars($item['image'] ?? '/proyek-1/public/images/placeholder.png') ?>"
+                                        alt="<?= htmlspecialchars($item['name']) ?>"
+                                        class="w-20 h-20 object-cover rounded-xl shadow-md border border-gray-200 dark:border-gray-700">
                                     <div class="flex-1">
                                         <span
                                             class="font-bold text-slate-800 dark:text-sky-100 text-base line-clamp-2"><?= htmlspecialchars($item['name']) ?></span>
-                                        <div class="md:hidden text-gray-500 dark:text-gray-400 font-medium text-sm mt-1">
-                                            Rp <?= number_format($item['price'], 0, ',', '.') ?>
-                                        </div>
+                                        <div class="md:hidden text-gray-500 dark:text-gray-400 font-medium text-sm mt-1">Rp
+                                            <?= number_format($item['price'], 0, ',', '.') ?></div>
                                     </div>
                                 </div>
-
                                 <div
                                     class="hidden md:block flex-grow-[2] text-sky-700 dark:text-sky-300 font-semibold text-center">
-                                    Rp <?= number_format($item['price'], 0, ',', '.') ?>
-                                </div>
-
+                                    Rp <?= number_format($item['price'], 0, ',', '.') ?></div>
                                 <div
                                     class="flex-grow-[2] flex items-center justify-between md:justify-center border-t md:border-none pt-4 md:pt-0">
                                     <span class="md:hidden font-semibold text-gray-600 dark:text-gray-300">Jumlah:</span>
@@ -164,7 +151,6 @@
                                             data-id="<?= $item['id'] ?>" data-action="increment">+</button>
                                     </div>
                                 </div>
-
                                 <div
                                     class="flex-grow-[2] flex items-center justify-between border-t md:border-none pt-4 md:pt-0">
                                     <span class="md:hidden font-semibold text-gray-600 dark:text-gray-300">Subtotal:</span>
@@ -172,7 +158,6 @@
                                         class="font-bold text-sky-800 dark:text-sky-200 text-lg">Rp
                                         <?= number_format($subtotal, 0, ',', '.') ?></span>
                                 </div>
-
                                 <button type="button"
                                     class="cart-update-btn self-end md:self-center text-red-500/80 dark:text-red-400/80 hover:text-red-600 dark:hover:text-red-500 text-xs font-semibold flex items-center gap-1"
                                     data-id="<?= $item['id'] ?>" data-action="remove">
@@ -180,24 +165,28 @@
                                 </button>
                             </div>
                         <?php endforeach; ?>
-                    </div>
+                    <?php endif; ?>
+                </div>
 
-                    <div
-                        class="flex flex-col md:flex-row justify-between items-center mt-8 gap-4 pt-4 border-t-2 border-sky-100 dark:border-gray-700">
-                        <div class="text-xl font-bold text-sky-700 dark:text-sky-300 order-1 md:order-2 text-right">
-                            <span>Total Belanja:</span>
-                            <span id="grand-total" class="text-2xl ml-2">Rp <?= number_format($total, 0, ',', '.') ?></span>
-                        </div>
-                        <div class="w-full md:w-auto order-2 md:order-3">
-                            <a href="?url=order"
-                                class="w-full text-center inline-flex items-center justify-center gap-2 bg-sky-600 hover:bg-sky-700 text-white px-8 py-3 rounded-lg font-bold shadow-lg transition-transform hover:scale-105"><i
-                                    class="fas fa-credit-card"></i> Lanjut ke Checkout</a>
-                        </div>
+                <div
+                    class="flex flex-col md:flex-row justify-between items-center mt-8 gap-4 pt-4 border-t-2 border-sky-100 dark:border-gray-700">
+                    <div class="text-xl font-bold text-sky-700 dark:text-sky-300 order-1 md:order-2 text-right">
+                        <span>Total Belanja:</span>
+                        <span id="grand-total" class="text-2xl ml-2">Rp
+                            <?= number_format($total ?? 0, 0, ',', '.') ?></span>
+                    </div>
+                    <div class="w-full md:w-auto order-2 md:order-1 flex gap-3">
+                        <a href="?url=cart-clear"
+                            class="w-full text-center inline-flex items-center justify-center gap-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 px-5 py-2 rounded-lg font-semibold shadow transition"><i
+                                class="fas fa-trash"></i> Kosongkan</a>
+                        <a href="?url=order"
+                            class="w-full text-center inline-flex items-center justify-center gap-2 bg-sky-600 hover:bg-sky-700 text-white px-6 py-2 rounded-lg font-bold shadow-lg transition-transform hover:scale-105"><i
+                                class="fas fa-credit-card"></i> Checkout</a>
                     </div>
                 </div>
-            <?php endif; ?>
+            </div>
         </div>
-    </div>
+    </main>
 
     <footer class="bg-sky-800 text-white">
         <div class="container mx-auto px-4 py-12">
@@ -277,20 +266,14 @@
 
             async function updateCart(productId, action, button) {
                 try {
-                    // ❗️❗️❗️ INILAH PERUBAHANNYA ❗️❗️❗️
-                    const response = await fetch('?url=cart-ajax-update', { // Menggunakan URL dari Router
+                    const response = await fetch('?url=cart-ajax-update', {
                         method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            product_id: productId,
-                            action: action
-                        })
+                        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                        body: JSON.stringify({ product_id: productId, action: action })
                     });
 
                     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
                     const data = await response.json();
                     if (data.success) {
                         updateCartUI(data);
@@ -299,37 +282,51 @@
                     }
                 } catch (error) {
                     console.error('Error updating cart:', error);
-                    alert('Terjadi kesalahan koneksi. Silakan coba lagi.');
+                    alert('Terjadi kesalahan koneksi.');
                 } finally {
                     if (button) button.disabled = false;
                 }
             }
 
             function updateCartUI(data) {
-                const productId = data.product_id;
-
+                // Jika item dihapus, animasikan dan hapus dari DOM
                 if (data.item_removed) {
-                    const row = document.getElementById(`cart-row-${productId}`);
+                    const row = document.getElementById(`cart-row-${data.product_id}`);
                     if (row) {
                         row.style.transition = 'opacity 0.3s ease';
                         row.style.opacity = '0';
-                        setTimeout(() => row.remove(), 300);
+                        setTimeout(() => {
+                            row.remove();
+                            // SETELAH item dihapus, baru periksa apakah totalnya nol
+                            if (data.new_total === 0) {
+                                showEmptyCartView();
+                            }
+                        }, 300);
                     }
                 } else {
-                    const quantityEl = document.getElementById(`quantity-${productId}`);
-                    const subtotalEl = document.getElementById(`subtotal-${productId}`);
+                    // Jika hanya update jumlah, perbarui angkanya
+                    const quantityEl = document.getElementById(`quantity-${data.product_id}`);
+                    const subtotalEl = document.getElementById(`subtotal-${data.product_id}`);
                     if (quantityEl) quantityEl.textContent = data.new_qty;
                     if (subtotalEl) subtotalEl.textContent = formatRupiah(data.new_subtotal);
                 }
 
+                // Selalu update total keseluruhan
                 const grandTotalEl = document.getElementById('grand-total');
                 if (grandTotalEl) grandTotalEl.textContent = formatRupiah(data.new_total);
+            }
 
-                // Cek jika keranjang menjadi kosong
-                const cartBody = document.getElementById('cart-body');
-                if (cartBody && cartBody.childElementCount <= 1 && data.item_removed) {
-                    document.getElementById('cart-container').classList.add('hidden');
-                    document.getElementById('empty-cart-message').classList.remove('hidden');
+            function showEmptyCartView() {
+                const cartContainer = document.getElementById('cart-container');
+                const emptyMessage = document.getElementById('empty-cart-message');
+
+                if (cartContainer) {
+                    cartContainer.style.transition = 'opacity 0.5s ease';
+                    cartContainer.style.opacity = '0';
+                    setTimeout(() => {
+                        cartContainer.classList.add('hidden');
+                        if (emptyMessage) emptyMessage.classList.remove('hidden');
+                    }, 500); // Jeda agar transisi terlihat
                 }
             }
         });
@@ -363,7 +360,6 @@
             });
         });
     </script>
-
 </body>
 
 </html>

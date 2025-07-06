@@ -49,13 +49,13 @@ class AdminController {
      * Fungsi bantuan untuk menghitung total penjualan dari pesanan yang selesai.
      */
     private function calculateTotalSales($orders) {
-        $total = 0;
-        foreach ($orders as $order) {
-            // Hanya hitung pesanan yang statusnya 'completed' atau 'shipped' (sesuaikan jika perlu)
-            if (in_array($order['status'], ['completed', 'shipped', 'delivered'])) {
-                $total += $order['total'];
-            }
+    $total = 0;
+    foreach ($orders as $order) {
+        // PERBAIKAN: Menghitung pesanan yang statusnya Lunas, Dikirim, atau Selesai
+        if (in_array($order['status'], ['Lunas', 'Dikirim', 'Selesai'])) {
+            $total += $order['total'];
         }
-        return $total;
     }
+    return $total;
+}
 }

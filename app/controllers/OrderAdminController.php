@@ -1,25 +1,30 @@
 <?php
+// Pastikan memuat model yang diperlukan
 require_once dirname(__DIR__) . '/models/Order.php';
 
+// Pastikan nama kelas persis seperti ini: OrderAdminController
 class OrderAdminController {
 
     public function __construct() {
+        // Memulai sesi dan memeriksa role admin untuk semua fungsi
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
         if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
-            header('Location: ?url=login');
+            header('Location: ?url=login&error=Akses ditolak');
             exit;
         }
     }
 
+    // Menampilkan daftar semua pesanan
     public function index() {
         $orderModel = new Order();
-        // **PERBAIKAN**: Memanggil metode yang benar -> getAllWithCustomer()
         $orders = $orderModel->getAllWithCustomer(); 
-        require_once dirname(__DIR__) . '/views/admin/order_list.php'; // Pastikan path ini benar
+        // Pastikan path view ini benar
+        require_once dirname(__DIR__) . '/views/pages/order_list.php';
     }
 
+    // Menampilkan detail satu pesanan
     public function detail() {
         $id = $_GET['id'] ?? null;
         if (!$id) {
@@ -27,16 +32,17 @@ class OrderAdminController {
             exit;
         }
         $orderModel = new Order();
-        // **PERBAIKAN**: Memanggil metode yang benar -> findByIdWithCustomerDetails()
         $order = $orderModel->findByIdWithCustomerDetails($id); 
         
         if (!$order) {
             header('Location: ?url=pesanan');
             exit;
         }
-        require_once dirname(__DIR__) . '/views/admin/order_detail.php'; // Pastikan path ini benar
+        // Pastikan path view ini benar
+        require_once dirname(__DIR__) . '/views/pages/order_detail.php';
     }
 
+    // Memperbarui status pesanan
     public function updateStatus() {
         $id = $_POST['id'] ?? null;
         $status = $_POST['status'] ?? null;
@@ -50,6 +56,7 @@ class OrderAdminController {
         exit;
     }
 
+    // Menghapus pesanan
     public function delete() {
         $id = $_GET['id'] ?? null;
         if ($id) {

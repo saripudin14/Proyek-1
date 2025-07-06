@@ -39,11 +39,10 @@ class Order {
     }
     
     /**
-     * PERBAIKAN: Mengganti c.nama_lengkap menjadi c.name
+     * PERBAIKAN: Menambahkan 'c.phone as customer_phone' untuk mengambil nomor telepon.
      */
     public function getAllWithCustomer() {
-        // Mengubah 'c.nama_lengkap' menjadi 'c.name'
-        $sql = 'SELECT o.*, c.name as customer_name, c.email as customer_email 
+        $sql = 'SELECT o.*, c.name as customer_name, c.email as customer_email, c.phone as customer_phone
                 FROM orders o 
                 LEFT JOIN customers c ON o.customer_id = c.id 
                 ORDER BY o.created_at DESC';
@@ -51,12 +50,8 @@ class Order {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * PERBAIKAN: Mengganti c.nama_lengkap menjadi c.name
-     */
     public function findByIdWithCustomerDetails($id) {
-        // Mengubah 'c.nama_lengkap' menjadi 'c.name'
-        $sql = 'SELECT o.*, c.name as customer_name, c.email as customer_email, c.no_telepon as customer_phone
+        $sql = 'SELECT o.*, c.name as customer_name, c.email as customer_email, c.phone as customer_phone
                 FROM orders o 
                 LEFT JOIN customers c ON o.customer_id = c.id 
                 WHERE o.id = :id';
