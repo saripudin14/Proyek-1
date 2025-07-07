@@ -4,9 +4,6 @@ require_once dirname(__DIR__) . '/models/Product.php';
 
 class CartController {
 
-    /**
-     * Menampilkan halaman keranjang belanja.
-     */
     public function index() {
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
@@ -15,9 +12,6 @@ class CartController {
         require_once dirname(__DIR__) . '/views/pages/cart.php';
     }
 
-    /**
-     * Menambahkan item ke keranjang (untuk tombol di halaman katalog/detail).
-     */
     public function add() {
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
@@ -33,7 +27,6 @@ class CartController {
                 if (!isset($_SESSION['cart'])) {
                     $_SESSION['cart'] = [];
                 }
-
                 if (isset($_SESSION['cart'][$product_id])) {
                     $_SESSION['cart'][$product_id]['qty'] += $qty;
                 } else {
@@ -48,14 +41,31 @@ class CartController {
                 }
             }
         }
-        // Redirect kembali ke halaman sebelumnya atau ke keranjang
+        // Redirect kembali ke halaman sebelumnya
+        header('Location: ' . ($_SERVER['HTTP_REFERER'] ?? '?url=cart'));
+        exit;
+    }
+
+    /**
+     * FUNGSI YANG HILANG - KINI DITAMBAHKAN KEMBALI
+     * Menangani penghapusan item dari link biasa (seperti di popup).
+     */
+    public function remove() {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+        
+        $product_id = isset($_GET['product_id']) ? intval($_GET['product_id']) : 0;
+        
+        if ($product_id > 0 && isset($_SESSION['cart'][$product_id])) {
+            unset($_SESSION['cart'][$product_id]);
+        }
+        
+        // Arahkan pengguna kembali ke halaman tempat mereka mengklik tombol hapus
         header('Location: ' . ($_SERVER['HTTP_REFERER'] ?? '?url=cart'));
         exit;
     }
     
-    /**
-     * Metode yang menangani semua update dari halaman keranjang (AJAX).
-     */
     public function handleAjaxUpdate() {
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
@@ -72,7 +82,6 @@ class CartController {
         $action = $input['action'];
         $itemRemoved = false;
 
-        // Lakukan aksi pada item di keranjang
         if (isset($_SESSION['cart'][$productId])) {
             switch ($action) {
                 case 'increment':
@@ -92,23 +101,19 @@ class CartController {
             }
         }
 
-        // **LOGIKA PENTING**: Hitung ulang total DARI AWAL setelah perubahan.
         $total = 0;
-        $subtotal = 0;
-        $newQty = 0;
-        
-        foreach ($_SESSION['cart'] as $id => $item) {
+        foreach ($_SESSION['cart'] as $item) {
             $total += $item['price'] * $item['qty'];
         }
 
-        // Dapatkan data subtotal dan qty baru khusus untuk item yang diubah (jika masih ada)
+        $subtotal = 0;
+        $newQty = 0;
         if (isset($_SESSION['cart'][$productId])) {
             $item = $_SESSION['cart'][$productId];
             $subtotal = $item['price'] * $item['qty'];
             $newQty = $item['qty'];
         }
 
-        // Siapkan dan kirim respons JSON yang akurat
         echo json_encode([
             'success'       => true,
             'product_id'    => $productId,
@@ -120,9 +125,6 @@ class CartController {
         exit;
     }
 
-    /**
-     * Mengosongkan seluruh keranjang.
-     */
     public function clear() {
         if (session_status() == PHP_SESSION_NONE) {
             session_start();

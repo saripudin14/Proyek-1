@@ -29,10 +29,10 @@ class Router {
                 require_once dirname(__DIR__) . '/controllers/CartController.php';
                 (new CartController())->add();
                 break;
-            // case 'cart-remove':
-            //     require_once dirname(__DIR__) . '/controllers/CartController.php';
-            //     (new CartController())->remove();
-            //     break;
+            case 'cart-remove':
+                require_once dirname(__DIR__) . '/controllers/CartController.php';
+                (new CartController())->remove();
+                break;
             case 'cart-clear':
                 require_once dirname(__DIR__) . '/controllers/CartController.php';
                 (new CartController())->clear();
