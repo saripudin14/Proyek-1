@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jul 05, 2025 at 04:49 PM
+-- Generation Time: Jul 08, 2025 at 08:52 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.22
 
@@ -20,34 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `toko_plastik`
 --
-
--- --------------------------------------------------------
-
---
--- Table structure for table `carts`
---
-
-CREATE TABLE `carts` (
-  `id` int NOT NULL,
-  `user_id` int NOT NULL,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `cart_items`
---
-
-CREATE TABLE `cart_items` (
-  `id` int NOT NULL,
-  `cart_id` int NOT NULL,
-  `product_id` int NOT NULL,
-  `quantity` int NOT NULL,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -69,7 +41,8 @@ CREATE TABLE `categories` (
 
 INSERT INTO `categories` (`id`, `name`, `description`, `created_at`, `updated_at`) VALUES
 (1, 'Plastik', 'test', '2025-06-28 19:21:23', '2025-06-28 19:21:23'),
-(2, 'test', 'test doang', '2025-07-05 04:38:29', '2025-07-05 04:38:29');
+(3, 'Kardus', 'ini kardus', '2025-07-05 17:25:34', '2025-07-05 17:25:34'),
+(4, 'test', 'test doang', '2025-07-06 03:23:49', '2025-07-06 03:23:49');
 
 -- --------------------------------------------------------
 
@@ -86,6 +59,14 @@ CREATE TABLE `customers` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Dumping data for table `customers`
+--
+
+INSERT INTO `customers` (`id`, `name`, `email`, `phone`, `address`, `created_at`) VALUES
+(1, 'Saripudin', 'saripudin@gmail.com', '081779046661', 'malas', '2025-07-06 03:03:15'),
+(2, 'Udin', 'm.arifrivaldi141105@gmail.com', '081382626096', 'Jalanin aja dulu', '2025-07-06 04:35:13');
+
 -- --------------------------------------------------------
 
 --
@@ -95,13 +76,22 @@ CREATE TABLE `customers` (
 CREATE TABLE `orders` (
   `id` int NOT NULL,
   `customer_id` int DEFAULT NULL,
-  `user_id` int NOT NULL,
+  `user_id` int DEFAULT NULL,
   `total` decimal(12,2) NOT NULL,
-  `status` enum('pending','paid','shipped','completed','cancelled') DEFAULT 'pending',
+  `status` enum('Belum Dibayar','Lunas','Dikirim','Selesai','Batal') DEFAULT 'Belum Dibayar',
   `shipping_address` text,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`id`, `customer_id`, `user_id`, `total`, `status`, `shipping_address`, `created_at`, `updated_at`) VALUES
+(1, 1, NULL, '100000.00', 'Lunas', 'malas', '2025-07-06 03:18:27', '2025-07-06 06:09:34'),
+(2, 2, NULL, '2100000.00', 'Lunas', 'Jalanin aja dulu', '2025-07-06 04:35:13', '2025-07-06 06:05:39'),
+(3, 2, NULL, '2100000.00', 'Selesai', 'jalanin aja dulu bro', '2025-07-08 07:08:23', '2025-07-08 07:09:00');
 
 -- --------------------------------------------------------
 
@@ -120,6 +110,17 @@ CREATE TABLE `order_items` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `order_items`
+--
+
+INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `product_name`, `price`, `quantity`, `unit`, `created_at`, `updated_at`) VALUES
+(1, 1, 3, 'Panci', '100000.00', 1, 'kg', '2025-07-06 03:18:27', '2025-07-06 03:18:27'),
+(2, 2, 4, 'Rotom', '2000000.00', 1, 'roll', '2025-07-06 04:35:13', '2025-07-06 04:35:13'),
+(3, 2, 3, 'Panci', '100000.00', 1, 'kg', '2025-07-06 04:35:13', '2025-07-06 04:35:13'),
+(4, 3, 3, 'Panci', '100000.00', 1, 'kg', '2025-07-08 07:08:23', '2025-07-08 07:08:23'),
+(5, 3, 4, 'Rotom', '2000000.00', 1, 'roll', '2025-07-08 07:08:23', '2025-07-08 07:08:23');
 
 -- --------------------------------------------------------
 
@@ -147,21 +148,8 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `category_id`, `name`, `description`, `price`, `stock`, `dimensions`, `color`, `unit`, `image`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Panci', 'test', '15000.00', 120, '', 'Putih', 'pcs', '/proyek-1/public/images/product_1751138886_1791.jpg', '2025-06-28 19:28:06', '2025-07-05 07:35:41'),
-(2, 2, 'Rotom', 'test', '1000.00', 100, '20x30 cm', 'Biru', 'roll', '/proyek-1/public/images/product_1751139756_1363.jpg', '2025-06-28 19:42:36', '2025-07-05 07:34:00');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `product_images`
---
-
-CREATE TABLE `product_images` (
-  `id` int NOT NULL,
-  `product_id` int NOT NULL,
-  `image_path` varchar(255) NOT NULL,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+(3, 3, 'Panci', 'test', '100000.00', 30, '17x12 cm', 'Hijau', 'kg', '/proyek-1/public/images/products/product_1751737889.jpg', '2025-07-05 17:51:29', '2025-07-05 17:51:48'),
+(4, 3, 'Rotom', 'test', '2000000.00', 80, '20x30 cm', 'Kuning', 'roll', '/proyek-1/public/images/products/product_1751776436.jpg', '2025-07-06 04:33:56', '2025-07-06 04:33:56');
 
 -- --------------------------------------------------------
 
@@ -191,21 +179,6 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`, `phone`, `address`, `rol
 --
 -- Indexes for dumped tables
 --
-
---
--- Indexes for table `carts`
---
-ALTER TABLE `carts`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`);
-
---
--- Indexes for table `cart_items`
---
-ALTER TABLE `cart_items`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `cart_id` (`cart_id`),
-  ADD KEY `product_id` (`product_id`);
 
 --
 -- Indexes for table `categories`
@@ -243,13 +216,6 @@ ALTER TABLE `products`
   ADD KEY `category_id` (`category_id`);
 
 --
--- Indexes for table `product_images`
---
-ALTER TABLE `product_images`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `product_id` (`product_id`);
-
---
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -261,52 +227,34 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT for table `carts`
---
-ALTER TABLE `carts`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `cart_items`
---
-ALTER TABLE `cart_items`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `product_images`
---
-ALTER TABLE `product_images`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -317,19 +265,6 @@ ALTER TABLE `users`
 --
 -- Constraints for dumped tables
 --
-
---
--- Constraints for table `carts`
---
-ALTER TABLE `carts`
-  ADD CONSTRAINT `carts_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `cart_items`
---
-ALTER TABLE `cart_items`
-  ADD CONSTRAINT `cart_items_ibfk_1` FOREIGN KEY (`cart_id`) REFERENCES `carts` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `cart_items_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `orders`
@@ -350,12 +285,6 @@ ALTER TABLE `order_items`
 --
 ALTER TABLE `products`
   ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `product_images`
---
-ALTER TABLE `product_images`
-  ADD CONSTRAINT `product_images_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
