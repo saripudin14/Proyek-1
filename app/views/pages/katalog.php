@@ -188,18 +188,76 @@ require_once __DIR__ . '/../../core/helpers.php'; ?>
                         class="nav-link-underline text-gray-500 dark:text-gray-300 hover:text-sky-600 dark:hover:text-sky-300 px-3 py-2 text-base font-semibold transition-colors duration-300">Produk</a>
                 </div>
 
-                <div class="flex items-center gap-3 sm:gap-4">
+                <div class="flex items-center gap-3 sm:gap-4 ml-auto">
+
                     <div class="relative flex items-center">
                         <button id="cart-btn"
-                            class="relative text-2xl text-sky-600 hover:text-sky-800 transition focus:outline-none">
+                            class="relative text-2xl text-sky-600 hover:text-sky-800 transition focus:outline-none"
+                            title="Keranjang Belanja">
                             <i class="fas fa-shopping-cart"></i>
                             <?php $cartCount = isset($_SESSION['cart']) ? array_sum(array_column($_SESSION['cart'], 'qty')) : 0; ?>
                             <?php if ($cartCount > 0): ?>
                                 <span
                                     class="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full px-1.5 py-0.5 font-bold shadow">
-                                    <?= $cartCount ?> </span>
+                                    <?= $cartCount ?>
+                                </span>
                             <?php endif; ?>
                         </button>
+                    </div>
+
+                    <div class="relative flex items-center">
+                        <button id="guide-btn"
+                            class="text-2xl text-sky-600 hover:text-sky-800 transition focus:outline-none"
+                            title="Panduan Belanja">
+                            <i class="fas fa-book-open"></i>
+                        </button>
+
+                        <div id="guide-backdrop" class="hidden fixed inset-0 bg-black/30 z-40"></div>
+                        <div id="guide-popup"
+                            class="hidden absolute right-0 mt-3 w-80 bg-white dark:bg-gray-800 border border-sky-200 dark:border-sky-700 rounded-2xl shadow-2xl z-50 animate-fade-in"
+                            style="left:auto; right:0; top:48px;">
+                            <div class="flex items-center justify-between p-4 border-b dark:border-gray-700">
+                                <h3 class="text-lg font-bold text-sky-700 dark:text-sky-300 flex items-center gap-2">
+                                    <i class="fas fa-shopping-basket"></i> Panduan Belanja
+                                </h3>
+                                <button id="close-guide-popup"
+                                    class="text-gray-400 hover:text-red-500 text-xl">&times;</button>
+                            </div>
+                            <div class="p-4">
+                                <ol class="list-decimal list-inside space-y-3 text-sm text-gray-600 dark:text-gray-300">
+                                    <li>
+                                        <span class="font-semibold text-gray-800 dark:text-white">Cari & Pilih
+                                            Produk</span><br>
+                                        Jelajahi produk kami melalui halaman "Produk" atau gunakan fitur pencarian. Klik
+                                        pada produk untuk melihat detailnya.
+                                    </li>
+                                    <li>
+                                        <span class="font-semibold text-gray-800 dark:text-white">Tambah ke
+                                            Keranjang</span><br>
+                                        Pada halaman produk, klik tombol "Tambah ke Keranjang" untuk memasukkan produk
+                                        ke dalam daftar belanja Anda.
+                                    </li>
+                                    <li>
+                                        <span class="font-semibold text-gray-800 dark:text-white">Cek Keranjang
+                                            Belanja</span><br>
+                                        Klik ikon keranjang <i class="fas fa-shopping-cart"></i> di pojok kanan atas
+                                        untuk melihat ringkasan pesanan. Untuk mengubah jumlah atau menghapus produk, buka halaman <i class="fas fa-info-circle"></i> Info Keranjang.
+                                    </li>
+                                    <li>
+                                        <span class="font-semibold text-gray-800 dark:text-white">Lanjutkan ke
+                                            Checkout</span><br>
+                                        Jika sudah sesuai, klik tombol "Checkout". Anda akan diminta untuk mengisi nama,
+                                        alamat pengiriman, dan nomor telepon.
+                                    </li>
+                                    <li>
+                                        <span class="font-semibold text-gray-800 dark:text-white">Selesaikan
+                                            Pesanan</span><br>
+                                        Periksa kembali semua informasi. Klik "Buat Pesanan" untuk menyelesaikan. Anda
+                                        akan menerima detail pembayaran setelahnya.
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
                         <div id="cart-backdrop" class="hidden fixed inset-0 bg-black/30 z-40"></div>
                         <div id="cart-popup"
                             class="hidden absolute right-0 mt-3 w-80 bg-white border border-sky-200 rounded-2xl shadow-2xl z-50 animate-fade-in ring-2 ring-sky-200"
@@ -254,7 +312,6 @@ require_once __DIR__ . '/../../core/helpers.php'; ?>
                             </div>
                         </div>
                     </div>
-
                     <div class="sm:hidden">
                         <button id="mobile-menu-toggle" class="p-2 text-2xl text-gray-500 dark:text-gray-300">
                             <i id="menu-icon" class="fas fa-bars"></i>
@@ -262,6 +319,7 @@ require_once __DIR__ . '/../../core/helpers.php'; ?>
                     </div>
                 </div>
             </div>
+        </div>
         </div>
         <div id="mobile-menu"
             class="sm:hidden hidden px-4 pb-4 bg-white/95 dark:bg-gray-800/95 rounded-b-lg shadow animate-fade-in">
@@ -507,6 +565,45 @@ require_once __DIR__ . '/../../core/helpers.php'; ?>
             btn.addEventListener('click', () => {
                 html.classList.toggle('dark');
             });
+        });
+
+        // --- Logika untuk Pop-up Panduan (Gunakan kode ini) ---
+        const guideBtn = document.getElementById('guide-btn');
+        const guidePopup = document.getElementById('guide-popup');
+        const guideBackdrop = document.getElementById('guide-backdrop');
+        const closeGuidePopup = document.getElementById('close-guide-popup');
+        if (guideBtn && guidePopup) {
+            guideBtn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                guidePopup.classList.toggle('hidden');
+                if (guideBackdrop) guideBackdrop.classList.toggle('hidden');
+            });
+            if (closeGuidePopup) {
+                closeGuidePopup.addEventListener('click', function (e) {
+                    guidePopup.classList.add('hidden');
+                    if (guideBackdrop) guideBackdrop.classList.add('hidden');
+                });
+            }
+            if (guideBackdrop) {
+                guideBackdrop.addEventListener('click', function (e) {
+                    guidePopup.classList.add('hidden');
+                    guideBackdrop.classList.add('hidden');
+                });
+            }
+        }
+
+        // Menutup kedua pop-up dengan tombol Escape
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                if (cartPopup && !cartPopup.classList.contains('hidden')) {
+                    cartPopup.classList.add('hidden');
+                    if (cartBackdrop) cartBackdrop.classList.add('hidden');
+                }
+                if (guidePopup && !guidePopup.classList.contains('hidden')) {
+                    guidePopup.classList.add('hidden');
+                    if (guideBackdrop) guideBackdrop.classList.add('hidden');
+                }
+            }
         });
     </script>
 </body>
