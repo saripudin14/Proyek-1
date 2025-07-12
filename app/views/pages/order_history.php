@@ -15,7 +15,7 @@
                     <p class="text-gray-500">Daftar semua pesanan yang telah selesai.</p>
                 </div>
                 <a href="?url=pesanan"
-                    class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 font-semibold shadow transition-all duration-200 text-lg flex items-center gap-2 group">
+                    class="inline-block bg-green-600 text-white px-6 py-3 rounded-lg font-semibold shadow transition-all duration-200 text-lg flex items-center gap-2 group">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
                     </svg>
