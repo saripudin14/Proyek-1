@@ -2,7 +2,7 @@
 require_once dirname(__DIR__) . '/models/Order.php';
 require_once dirname(__DIR__) . '/models/Product.php';
 require_once dirname(__DIR__) . '/models/Customer.php';
-require_once dirname(__DIR__) . '/models/Category.php'; // Tambahkan ini
+require_once dirname(__DIR__) . '/models/Category.php';
 
 class AdminController {
 

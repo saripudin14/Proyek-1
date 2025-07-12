@@ -14,7 +14,7 @@
         
         <div class="text-center mb-8">
              <a href="?url=home" class="text-3xl font-extrabold text-sky-600 dark:text-sky-300 tracking-tight">
-                Paris Plastik
+                 Paris Plastik
              </a>
             <h2 class="text-xl mt-2 font-bold text-gray-600 dark:text-gray-300">Admin Login</h2>
         </div>
@@ -49,6 +49,7 @@
                 Login
             </button>
         </form>
+
     </div>
 
 </body>

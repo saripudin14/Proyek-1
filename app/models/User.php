@@ -7,20 +7,27 @@ class User {
         $this->db = Database::getInstance();
     }
 
-    // Cari user berdasarkan email (bukan username)
+    // Cari user berdasarkan email
     public function findByEmail($email) {
         $stmt = $this->db->prepare('SELECT * FROM users WHERE email = :email LIMIT 1');
         $stmt->execute(['email' => $email]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    // Tambah user baru
+    // Tambah user baru (SUDAH DIPERBARUI dengan alamat)
     public function create($data) {
-        $stmt = $this->db->prepare('INSERT INTO users (name, email, password, role) VALUES (:name, :email, :password, :role)');
+        // 1. Query INSERT sekarang menyertakan kolom `address`
+        $stmt = $this->db->prepare(
+            'INSERT INTO users (name, email, password, phone, address, role) VALUES (:name, :email, :password, :phone, :address, :role)'
+        );
+        
+        // 2. Eksekusi dengan data `address`
         return $stmt->execute([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => $data['password'], // Sudah di-hash
+            'password' => $data['password'],
+            'phone' => $data['phone'],
+            'address' => $data['address'], // Data alamat ditambahkan di sini
             'role' => $data['role']
         ]);
     }

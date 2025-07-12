@@ -65,6 +65,12 @@ class Router {
                 require_once dirname(__DIR__) . '/controllers/AuthController.php';
                 (new AuthController())->logout();
                 break;
+            
+            // RUTE BARU UNTUK REGISTRASI ADMIN
+            case 'register':
+                require_once dirname(__DIR__) . '/controllers/AuthController.php';
+                (new AuthController())->register();
+                break;
 
             // --- Rute Admin ---
             case 'admin-dashboard':
