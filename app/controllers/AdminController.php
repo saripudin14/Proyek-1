@@ -20,42 +20,48 @@ class AdminController {
     public function dashboard() {
         $orderModel = new Order();
         $productModel = new Product();
-        $customerModel = new Customer();
-        $categoryModel = new Category(); // Buat instance Category
+        $categoryModel = new Category();
 
-        // Mengambil data untuk ditampilkan di tabel
-        $orders = $orderModel->getAllWithCustomer();
+        // --- PERBAIKAN DI SINI ---
+        // 1. Ambil pesanan yang belum selesai untuk statistik "Pesanan Aktif"
+        $uncompleted_orders = $orderModel->getUncompletedOrders();
         
-        // **PERBAIKAN**: Menghitung semua data statistik yang dibutuhkan oleh view
-        $user = $_SESSION['user']; // 1. Mengambil data user dari sesi
+        // 2. Ambil pesanan yang sudah selesai
+        $completed_orders = $orderModel->getCompletedOrders();
         
-        // 2. Statistik Total Penjualan
-        $stat_total_penjualan = $this->calculateTotalSales($orders);
+        // 3. Gabungkan keduanya untuk statistik total penjualan
+        $all_orders = array_merge($uncompleted_orders, $completed_orders);
+        
+        // Mengambil data user dari sesi
+        $user = $_SESSION['user']; 
+        
+        // Statistik Total Penjualan (dihitung dari semua pesanan)
+        $stat_total_penjualan = $this->calculateTotalSales($all_orders);
 
-        // 3. Statistik Jumlah Pesanan
-        $stat_pesanan = count($orders);
+        // Statistik Jumlah Pesanan (sekarang hanya menghitung pesanan aktif)
+        $stat_pesanan = count($uncompleted_orders);
 
-        // 4. Statistik Jumlah Produk
+        // Statistik Jumlah Produk
         $stat_produk = $productModel->countAll();
 
-        // 5. Statistik Jumlah Kategori
-        $stat_kategori = $categoryModel->countAll(); // Membutuhkan metode countAll() di Category.php
+        // Statistik Jumlah Kategori
+        $stat_kategori = $categoryModel->countAll();
         
         // Memuat file view
         require_once dirname(__DIR__) . '/views/pages/admin_dashboard.php';
     }
 
     /**
-     * Fungsi bantuan untuk menghitung total penjualan dari pesanan yang selesai.
+     * Fungsi bantuan untuk menghitung total penjualan dari pesanan.
      */
     private function calculateTotalSales($orders) {
-    $total = 0;
-    foreach ($orders as $order) {
-        // PERBAIKAN: Menghitung pesanan yang statusnya Lunas, Dikirim, atau Selesai
-        if (in_array($order['status'], ['Lunas', 'Dikirim', 'Selesai'])) {
-            $total += $order['total'];
+        $total = 0;
+        foreach ($orders as $order) {
+            // Hanya hitung pesanan yang statusnya Lunas, Dikirim, atau Selesai
+            if (in_array($order['status'], ['Lunas', 'Dikirim', 'Selesai'])) {
+                $total += $order['total'];
+            }
         }
+        return $total;
     }
-    return $total;
-}
 }

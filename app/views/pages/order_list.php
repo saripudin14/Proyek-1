@@ -28,6 +28,15 @@
             <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-8">
                 <h1 class="text-3xl font-bold text-green-800">Daftar Pesanan</h1>
             </div>
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-800">Manajemen Pesanan</h1>
+                </div>
+                <a href="?url=pesanan-riwayat"
+                    class="inline-block bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 font-semibold shadow transition-all duration-200 text-lg flex items-center gap-2 group">
+                    Lihat Riwayat Pesanan
+                </a>
+            </div>
             <div class="overflow-x-auto rounded-lg shadow">
                 <table class="min-w-full text-sm bg-white rounded-lg">
                     <thead class="bg-green-100 text-green-800">

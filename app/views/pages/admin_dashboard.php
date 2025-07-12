@@ -18,8 +18,8 @@
 
                 <div class="flex items-center gap-4">
                     <a href="?url=register"
-                        class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-semibold shadow-md transition-all duration-200 flex items-center gap-2">
-                        <i data-feather="user-plus" class="w-5 h-5"></i>
+                        class="bg-blue-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-semibold shadow-md transition-all duration-200 flex items-center gap-2">
+                        <i data-feather ="user-plus" class="w-5 h-5"></i>
                         Tambah Admin
                     </a>
                     <a href="/proyek-1/public/?url=logout"

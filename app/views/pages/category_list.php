@@ -22,7 +22,7 @@
         <div class="bg-white rounded-xl shadow-lg p-8 max-w-5xl mx-auto">
             <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-8">
                 <h1 class="text-3xl font-bold text-green-800">Daftar Kategori</h1>
-                <a href="/proyek-1/public/?url=kategori-tambah" class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 font-semibold shadow transition-all duration-200 text-lg flex items-center gap-2 group">
+                <a href="/proyek-1/public/?url=kategori-tambah" class="inline-block bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 font-semibold shadow transition-all duration-200 text-lg flex items-center gap-2 group">
                     <span class="inline-flex items-center justify-center bg-white/80 group-hover:bg-white text-blue-600 group-hover:text-blue-700 rounded-full w-8 h-8 shadow transition-all duration-200">
                     </span>
                     <span>+ Tambah Kategori</span>

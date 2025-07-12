@@ -113,6 +113,11 @@ class Router {
                 require_once dirname(__DIR__) . '/controllers/OrderAdminController.php';
                 (new OrderAdminController())->delete();
                 break;
+            // RUTE BARU UNTUK RIWAYAT PESANAN
+            case 'pesanan-riwayat':
+                require_once dirname(__DIR__) . '/controllers/OrderAdminController.php';
+                (new OrderAdminController())->history();
+                break;
 
             // Rute Kategori (Admin)
             case 'kategori':

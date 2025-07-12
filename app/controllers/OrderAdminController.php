@@ -16,12 +16,21 @@ class OrderAdminController {
         }
     }
 
-    // Menampilkan daftar semua pesanan
+    // Menampilkan daftar semua pesanan (yang belum selesai)
     public function index() {
         $orderModel = new Order();
-        $orders = $orderModel->getAllWithCustomer(); 
-        // Pastikan path view ini benar
+        // Mengambil pesanan yang statusnya BUKAN 'Selesai'
+        $orders = $orderModel->getUncompletedOrders(); 
         require_once dirname(__DIR__) . '/views/pages/order_list.php';
+    }
+
+    // --- FUNGSI BARU UNTUK RIWAYAT PESANAN ---
+    public function history() {
+        $orderModel = new Order();
+        // Mengambil pesanan yang statusnya 'Selesai'
+        $orders = $orderModel->getCompletedOrders();
+        // Memuat file view baru untuk riwayat
+        require_once dirname(__DIR__) . '/views/pages/order_history.php';
     }
 
     // Menampilkan detail satu pesanan
@@ -38,7 +47,6 @@ class OrderAdminController {
             header('Location: ?url=pesanan');
             exit;
         }
-        // Pastikan path view ini benar
         require_once dirname(__DIR__) . '/views/pages/order_detail.php';
     }
 
