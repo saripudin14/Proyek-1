@@ -38,23 +38,23 @@ class Order {
         ]);
     }
     
-    // FUNGSI BARU: Mengambil pesanan yang BELUM selesai
+    // DIPERBARUI: Mengambil pesanan yang statusnya BUKAN 'Selesai' ATAU 'Batal'
     public function getUncompletedOrders() {
         $sql = "SELECT o.*, c.name as customer_name, c.email as customer_email, c.phone as customer_phone
                 FROM orders o 
                 LEFT JOIN customers c ON o.customer_id = c.id 
-                WHERE o.status != 'Selesai'
+                WHERE o.status NOT IN ('Selesai', 'Batal')
                 ORDER BY o.created_at DESC";
         $stmt = $this->db->query($sql);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // FUNGSI BARU: Mengambil pesanan yang SUDAH selesai
+    // DIPERBARUI: Mengambil pesanan yang statusnya 'Selesai' ATAU 'Batal'
     public function getCompletedOrders() {
         $sql = "SELECT o.*, c.name as customer_name, c.email as customer_email, c.phone as customer_phone
                 FROM orders o 
                 LEFT JOIN customers c ON o.customer_id = c.id 
-                WHERE o.status = 'Selesai'
+                WHERE o.status IN ('Selesai', 'Batal')
                 ORDER BY o.created_at DESC";
         $stmt = $this->db->query($sql);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
