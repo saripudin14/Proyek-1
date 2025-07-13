@@ -30,7 +30,7 @@
             transform: translateX(-50%) scaleX(1);
         }
         .hero-bg {
-            background-image: linear-gradient(rgba(2,132,199,0.7),rgba(2,132,199,0.7)), url('https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-image: linear-gradient(rgba(2,132,199,0.7),rgba(2,132,199,0.7)), url('https://raw.githubusercontent.com/saripudin14/img/refs/heads/main/Paris%20plastik%20(2).jpeg');
             background-size: cover;
             background-position: center;
         }
@@ -116,7 +116,7 @@
             <div class="flex flex-col md:flex-row items-center justify-between gap-10">
                 <div class="w-full md:w-1/2 mb-8 md:mb-0 animate-fade-in delay-100">
                     <div class="relative rounded-xl overflow-hidden shadow-xl">
-                        <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Toko Plastik" class="w-full h-72 object-cover object-center">
+                        <img src="https://raw.githubusercontent.com/saripudin14/img/refs/heads/main/Paris%20plastik%20(1).jpeg" alt="Toko Plastik" class="w-full h-72 object-cover object-center">
                         <div class="absolute inset-0 bg-gradient-to-t from-sky-900/40 to-transparent"></div>
                     </div>
                 </div>
