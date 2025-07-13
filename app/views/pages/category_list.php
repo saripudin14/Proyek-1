@@ -1,77 +1,126 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daftar Kategori</title>
-    <link href="/proyek-1/public/css/output.css" rel="stylesheet">
+    <title>Manajemen Kategori - Paris Plastik</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
 </head>
-<body class="bg-gray-100 min-h-screen">
-    <nav class="bg-green-600 p-4 text-white flex justify-between items-center">
-        <div class="font-bold text-lg">Manajemen Kategori</div>
-        <div class="flex items-center gap-2">
-            <a href="/proyek-1/public/?url=admin-dashboard" class="inline-flex items-center gap-2 bg-blue-100 hover:bg-blue-200 text-blue-700 font-semibold px-4 py-2 rounded shadow transition-all duration-200">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125h3.75c.621 0 1.125-.504 1.125-1.125V15.375c0-.621.504-1.125 1.125-1.125h1.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621.504 1.125 1.125 1.125h3.75c.621 0 1.125-.504 1.125-1.125V9.75" />
-                </svg>
-                Dashboard
-            </a>
-        </div>
-    </nav>
-    <main class="p-8 bg-gradient-to-br from-green-100 via-green-50 to-green-200 min-h-screen">
-        <div class="bg-white rounded-xl shadow-lg p-8 max-w-5xl mx-auto">
-            <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-8">
-                <h1 class="text-3xl font-bold text-green-800">Daftar Kategori</h1>
-                <a href="/proyek-1/public/?url=kategori-tambah" class="inline-block bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 font-semibold shadow transition-all duration-200 text-lg flex items-center gap-2 group">
-                    <span class="inline-flex items-center justify-center bg-white/80 group-hover:bg-white text-blue-600 group-hover:text-blue-700 rounded-full w-8 h-8 shadow transition-all duration-200">
-                    </span>
-                    <span>+ Tambah Kategori</span>
+<body class="bg-gray-100 dark:bg-gray-900 antialiased">
+
+    <div x-data="{ sidebarOpen: false }" class="flex min-h-screen">
+        
+        <aside 
+            :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
+            class="w-64 bg-white dark:bg-gray-800 shadow-lg fixed inset-y-0 left-0 z-50 flex-shrink-0 transform transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0 lg:shadow-md">
+            
+            <div class="p-6 text-center border-b border-gray-200 dark:border-gray-700">
+                <a href="?url=admin-dashboard" class="text-2xl font-extrabold text-sky-600 dark:text-sky-300">
+                    Paris Plastik
+                </a>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1 tracking-wider">ADMIN PANEL</p>
+            </div>
+            
+            <div class="p-4">
+                <nav class="space-y-2">
+                    <a href="?url=admin-dashboard" class="flex items-center gap-3 px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                        <i class="fas fa-tachometer-alt fa-fw"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="?url=produk" class="flex items-center gap-3 px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                        <i class="fas fa-box fa-fw"></i>
+                        <span>Produk</span>
+                    </a>
+                    <a href="?url=kategori" class="flex items-center gap-3 px-4 py-2 text-white bg-sky-600 rounded-lg shadow">
+                        <i class="fas fa-tags fa-fw"></i>
+                        <span>Kategori</span>
+                    </a>
+                    <a href="?url=pesanan" class="flex items-center gap-3 px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                        <i class="fas fa-shopping-cart fa-fw"></i>
+                        <span>Pesanan Aktif</span>
+                    </a>
+                    <a href="?url=pesanan-riwayat" class="flex items-center gap-3 px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                        <i class="fas fa-history fa-fw"></i>
+                        <span>Riwayat Pesanan</span>
+                    </a>
+                </nav>
+            </div>
+
+            <div class="p-4 mt-auto border-t border-gray-200 dark:border-gray-700 space-y-2">
+                 <a href="?url=logout" class="flex items-center justify-center gap-3 w-full bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-colors">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
                 </a>
             </div>
-            <div class="overflow-x-auto rounded-lg shadow">
-                <table class="min-w-full text-sm bg-white rounded-lg">
-                    <thead class="bg-green-100 text-green-800">
-                        <tr>
-                            <th class="px-4 py-2 font-bold text-center border border-green-200 uppercase tracking-wide text-green-900">No</th>
-                            <th class="px-4 py-2 font-bold text-center border border-green-200 uppercase tracking-wide text-green-900">Nama Kategori</th>
-                            <th class="px-4 py-2 font-bold text-center border border-green-200 uppercase tracking-wide text-green-900">Deskripsi</th>
-                            <th class="px-4 py-2 font-bold text-center border border-green-200 uppercase tracking-wide text-green-900">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php if (empty($categories)): ?>
-                            <tr><td colspan="4" class="text-center py-8 text-gray-400">Belum ada kategori.</td></tr>
-                        <?php else: ?>
-                            <?php foreach ($categories as $i => $cat): ?>
-                                <tr class="hover:bg-green-50 transition">
-                                    <td class="px-4 py-2 text-center align-middle font-semibold text-green-900 border border-green-100 bg-green-50"><?= $i+1 ?></td>
-                                    <td class="px-4 py-2 text-center align-middle font-semibold text-green-800 border border-green-100 bg-green-50"><?= htmlspecialchars($cat['name']) ?></td>
-                                    <td class="px-4 py-2 text-center align-middle text-green-700 border border-green-100 bg-green-50"><?= htmlspecialchars($cat['description']) ?></td>
-                                    <td class="px-4 py-2 text-center align-middle border border-green-100 bg-green-50">
-                                        <div class="flex justify-center gap-2">
-                                            <a href="/proyek-1/public/?url=kategori-edit&id=<?= $cat['id'] ?>" class="inline-flex items-center gap-1 bg-green-100 text-green-700 hover:bg-green-200 px-3 py-1 rounded font-semibold shadow-sm transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-green-400">
-                                                <!-- Heroicons/Outline Pencil Square -->
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
-                                                </svg>
-                                                <span>Edit</span>
-                                            </a>
-                                            <a href="/proyek-1/public/?url=kategori-hapus&id=<?= $cat['id'] ?>" class="inline-flex items-center gap-1 bg-red-100 text-red-700 hover:bg-red-200 px-3 py-1 rounded font-semibold shadow-sm transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-red-400" onclick="return confirm('Yakin hapus kategori ini?')">
-                                                <!-- Heroicons/Outline Trash -->
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
-                                                </svg>
-                                                <span>Hapus</span>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        <?php endif; ?>
-                    </tbody>
-                </table>
+        </aside>
+
+        <div x-show="sidebarOpen" @click="sidebarOpen = false" class="fixed inset-0 bg-black opacity-50 z-40 lg:hidden"></div>
+
+        <main class="flex-1 p-4 lg:p-8">
+            <header class="flex justify-between items-center mb-8">
+                <div>
+                    <h1 class="text-2xl lg:text-3xl font-bold text-gray-800 dark:text-white">Manajemen Kategori</h1>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Kelola semua kategori produk Anda.</p>
+                </div>
+                <div class="flex items-center gap-4">
+                     <a href="?url=kategori-tambah" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-colors flex items-center gap-2">
+                        <i class="fas fa-plus"></i>
+                        <span class="hidden sm:inline">Tambah Kategori</span>
+                    </a>
+                    <button @click="sidebarOpen = !sidebarOpen" class="lg:hidden p-2 rounded-md text-gray-500 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </header>
+            
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full text-sm">
+                        <thead class="bg-gray-100 dark:bg-gray-700">
+                            <tr>
+                                <th class="px-6 py-3 text-left font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">No</th>
+                                <th class="px-6 py-3 text-left font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Nama Kategori</th>
+                                <th class="px-6 py-3 text-left font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Deskripsi</th>
+                                <th class="px-6 py-3 text-center font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                            <?php if (empty($categories)): ?>
+                                <tr><td colspan="4" class="text-center py-8 text-gray-400">Belum ada kategori.</td></tr>
+                            <?php else: ?>
+                                <?php foreach ($categories as $i => $cat): ?>
+                                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+                                        <td class="px-6 py-4 whitespace-nowrap text-gray-900 dark:text-gray-100 font-medium"><?= $i+1 ?></td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-gray-800 dark:text-gray-200 font-semibold"><?= htmlspecialchars($cat['name']) ?></td>
+                                        <td class="px-6 py-4 text-gray-500 dark:text-gray-400">
+                                            <?= !empty($cat['description']) ? htmlspecialchars($cat['description']) : '-' ?>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-center">
+                                            <div class="flex justify-center items-center gap-2">
+                                                <a href="?url=kategori-edit&id=<?= $cat['id'] ?>" class="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600" title="Edit">
+                                                    <i class="fas fa-pencil-alt"></i>
+                                                </a>
+                                                <a href="?url=kategori-hapus&id=<?= $cat['id'] ?>" class="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600" onclick="return confirm('Yakin hapus kategori ini?')" title="Hapus">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
-    </main>
+        </main>
+    </div>
+
 </body>
 </html>

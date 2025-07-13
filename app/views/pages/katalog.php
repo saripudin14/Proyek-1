@@ -352,7 +352,7 @@ require_once __DIR__ . '/../../core/helpers.php'; ?>
                                 class="fas fa-filter mr-1"></i>Kategori</span>
                         <div class="select-wrapper">
                             <select name="category" onchange="this.form.submit()"
-                                class="border-none bg-transparent text-sky-700 dark:text-sky-200 font-semibold focus:ring-0 focus:outline-none text-sm py-1 px-2 rounded">
+                                class="border-none bg-transparent text-sky-700 dark:text-sky-200 font-semibold focus:ring-0 focus:outline-none text-sm py-1 px-3 rounded">
                                 <option value="">Semua Kategori</option>
                                 <?php if (!empty($categories))
                                     foreach ($categories as $cat): ?>

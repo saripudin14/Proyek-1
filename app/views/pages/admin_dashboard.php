@@ -1,81 +1,128 @@
 <!DOCTYPE html>
-<html lang="id">
-
+<html lang="id" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Admin</title>
-    <link href="/proyek-1/public/css/output.css" rel="stylesheet">
-    <script src="https://unpkg.com/feather-icons"></script>
+    <title>Dashboard Admin - Paris Plastik</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
 </head>
+<body class="bg-gray-100 dark:bg-gray-900 antialiased">
 
-<body class="bg-gray-100 min-h-screen">
-    <main class="p-8 bg-gradient-to-br from-blue-50 to-blue-100 min-h-screen">
-        <div class="max-w-6xl mx-auto">
-            <div class="flex justify-between items-center mb-8">
-                <h1 class="text-3xl font-bold text-blue-800 animate-fade-in">Selamat Datang,
-                    <?= htmlspecialchars($user['name']) ?>!</h1>
+    <div x-data="{ sidebarOpen: false }" class="flex min-h-screen">
+        
+        <aside 
+            :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
+            class="w-64 bg-white dark:bg-gray-800 shadow-lg fixed inset-y-0 left-0 z-50 flex-shrink-0 transform transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0 lg:shadow-md">
+            
+            <div class="p-6 text-center border-b border-gray-200 dark:border-gray-700">
+                <a href="?url=admin-dashboard" class="text-2xl font-extrabold text-sky-600 dark:text-sky-300">
+                    Paris Plastik
+                </a>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1 tracking-wider">ADMIN PANEL</p>
+            </div>
+            
+            <div class="p-4">
+                <div class="text-center mb-6">
+                    <div class="w-20 h-20 rounded-full bg-sky-100 dark:bg-sky-900 mx-auto flex items-center justify-center mb-2 border-4 border-white dark:border-gray-700">
+                        <i class="fas fa-user-shield text-4xl text-sky-500"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-800 dark:text-white"><?= htmlspecialchars($user['name']) ?></h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400"><?= htmlspecialchars($user['email']) ?></p>
+                </div>
 
-                <div class="flex items-center gap-4">
-                    <a href="?url=register"
-                        class="bg-blue-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-semibold shadow-md transition-all duration-200 flex items-center gap-2">
-                        <i data-feather ="user-plus" class="w-5 h-5"></i>
-                        Tambah Admin
+                <nav class="space-y-2">
+                    <a href="?url=produk" class="flex items-center gap-3 px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                        <i class="fas fa-box fa-fw"></i>
+                        <span>Produk</span>
                     </a>
-                    <a href="/proyek-1/public/?url=logout"
-                        class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-semibold shadow-md transition-all duration-200 flex items-center gap-2">
-                        <i data-feather="log-out" class="w-5 h-5"></i>
-                        Logout
+                    <a href="?url=kategori" class="flex items-center gap-3 px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                        <i class="fas fa-tags fa-fw"></i>
+                        <span>Kategori</span>
                     </a>
+                    <a href="?url=pesanan" class="flex items-center gap-3 px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                        <i class="fas fa-shopping-cart fa-fw"></i>
+                        <span>Pesanan Aktif</span>
+                    </a>
+                    <a href="?url=pesanan-riwayat" class="flex items-center gap-3 px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                        <i class="fas fa-history fa-fw"></i>
+                        <span>Riwayat Pesanan</span>
+                    </a>
+                </nav>
+            </div>
+
+            <div class="p-4 mt-auto border-t border-gray-200 dark:border-gray-700 space-y-2">
+                 <a href="?url=register" class="flex items-center justify-center gap-3 w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-colors">
+                    <i class="fas fa-user-plus"></i>
+                    <span>Tambah Admin</span>
+                </a>
+                <a href="?url=logout" class="flex items-center justify-center gap-3 w-full mt-2 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-colors">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <div x-show="sidebarOpen" @click="sidebarOpen = false" class="fixed inset-0 bg-black opacity-50 z-40 lg:hidden"></div>
+
+        <main class="flex-1 p-4 lg:p-8">
+            <header class="flex justify-between items-center mb-8">
+                <h1 class="text-3xl font-bold text-gray-800 dark:text-white">Dashboard</h1>
+                <button @click="sidebarOpen = !sidebarOpen" class="lg:hidden p-2 rounded-md text-gray-500 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </header>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 flex items-center gap-6 transition-transform hover:-translate-y-2">
+                    <div class="bg-blue-100 dark:bg-blue-900 p-5 rounded-full">
+                        <i class="fas fa-box text-3xl text-blue-500"></i>
+                    </div>
+                    <div>
+                        <p class="text-base text-gray-500 dark:text-gray-400">Total Produk</p>
+                        <p class="text-4xl font-bold text-gray-800 dark:text-white"><?= $stat_produk ?></p>
+                    </div>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 flex items-center gap-6 transition-transform hover:-translate-y-2">
+                    <div class="bg-green-100 dark:bg-green-900 p-5 rounded-full">
+                        <i class="fas fa-tags text-3xl text-green-500"></i>
+                    </div>
+                    <div>
+                        <p class="text-base text-gray-500 dark:text-gray-400">Total Kategori</p>
+                        <p class="text-3xl font-bold text-gray-800 dark:text-white"><?= $stat_kategori ?></p>
+                    </div>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 flex items-center gap-6 transition-transform hover:-translate-y-2">
+                    <div class="bg-yellow-100 dark:bg-yellow-900 p-5 rounded-full">
+                        <i class="fas fa-truck text-3xl text-yellow-500"></i>
+                    </div>
+                    <div>
+                        <p class="text-base text-gray-500 dark:text-gray-400">Pesanan Aktif</p>
+                        <p class="text-3xl font-bold text-gray-800 dark:text-white"><?= $stat_pesanan ?></p>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 flex items-center gap-6 transition-transform hover:-translate-y-2">
+                    <div class="bg-purple-100 dark:bg-purple-900 p-5 rounded-full">
+                        <i class="fas fa-dollar-sign text-3xl text-purple-500"></i>
+                    </div>
+                    <div>
+                        <p class="text-base text-gray-500 dark:text-gray-400">Total Penjualan</p>
+                        <p class="text-4xl font-bold text-gray-800 dark:text-white">Rp <?= number_format($stat_total_penjualan, 0, ',', '.') ?></p>
+                    </div>
                 </div>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-                <div
-                    class="bg-white rounded shadow p-6 flex flex-col items-center product-card animate-fade-in delay-100">
-                    <div class="bg-blue-100 p-3 rounded-full mb-2"><i data-feather="box"
-                            class="w-6 h-6 text-blue-600"></i></div>
-                    <div class="text-2xl font-bold text-blue-700">Produk</div>
-                    <div class="text-3xl font-extrabold text-blue-800 my-2"><?= $stat_produk ?></div>
-                    <div class="text-gray-500">Manajemen Produk</div>
-                    <a href="/proyek-1/public/?url=produk"
-                        class="mt-3 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded font-semibold shadow transition-all duration-200 nav-link-underline">Lihat
-                        Produk</a>
-                </div>
-                <div
-                    class="bg-white rounded shadow p-6 flex flex-col items-center product-card animate-fade-in delay-200">
-                    <div class="bg-green-100 p-3 rounded-full mb-2"><i data-feather="layers"
-                            class="w-6 h-6 text-green-600"></i></div>
-                    <div class="text-2xl font-bold text-green-700">Kategori</div>
-                    <div class="text-3xl font-extrabold text-green-800 my-2"><?= $stat_kategori ?></div>
-                    <div class="text-gray-500">Manajemen Kategori</div>
-                    <a href="/proyek-1/public/?url=kategori"
-                        class="mt-3 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded font-semibold shadow transition-all duration-200">Lihat
-                        Kategori</a>
-                </div>
-                <div
-                    class="bg-white rounded shadow p-6 flex flex-col items-center product-card animate-fade-in delay-300">
-                    <div class="bg-green-100 p-3 rounded-full mb-2"><i data-feather="shopping-cart"
-                            class="w-6 h-6 text-green-600"></i></div>
-                    <div class="text-2xl font-bold text-green-700">Pesanan</div>
-                    <div class="text-3xl font-extrabold text-green-800 my-2"><?= $stat_pesanan ?></div>
-                    <div class="text-gray-500">Manajemen Pesanan</div>
-                    <a href="/proyek-1/public/?url=pesanan"
-                        class="mt-3 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded font-semibold shadow transition-all duration-200">Lihat
-                        Pesanan</a>
-                </div>
-                <div
-                    class="bg-white rounded shadow p-6 flex flex-col items-center product-card animate-fade-in delay-400">
-                    <div class="bg-purple-100 p-3 rounded-full mb-2"><i data-feather="bar-chart-2"
-                            class="w-6 h-6 text-purple-600"></i></div>
-                    <div class="text-2xl font-bold text-purple-700">Penjualan</div>
-                    <div class="text-3xl font-extrabold text-purple-800 my-2">Rp
-                        <?= number_format($stat_total_penjualan, 0, ',', '.') ?></div>
-                    <div class="text-gray-500">Total Penjualan</div>
-                </div>
-            </div>
-        </div>
-    </main>
-    <script>feather.replace()</script>
+        </main>
+    </div>
+
 </body>
-
 </html>
