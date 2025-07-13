@@ -249,12 +249,6 @@ require_once __DIR__ . '/../../core/helpers.php'; ?>
                                         Jika sudah sesuai, klik tombol "Checkout". Anda akan diminta untuk mengisi nama,
                                         alamat pengiriman, dan nomor telepon.
                                     </li>
-                                    <li>
-                                        <span class="font-semibold text-gray-800 dark:text-white">Selesaikan
-                                            Pesanan</span><br>
-                                        Periksa kembali semua informasi. Klik "Buat Pesanan" untuk menyelesaikan. Anda
-                                        akan menerima detail pembayaran setelahnya.
-                                    </li>
                                 </ol>
                             </div>
                         </div>
