@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jul 13, 2025 at 02:54 AM
+-- Generation Time: Jul 20, 2025 at 03:10 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.22
 
@@ -40,8 +40,12 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`id`, `name`, `description`, `created_at`, `updated_at`) VALUES
-(1, 'Plastik', 'test', '2025-06-28 19:21:23', '2025-06-28 19:21:23'),
-(3, 'Kardus', 'ini kardus', '2025-07-05 17:25:34', '2025-07-05 17:25:34');
+(5, 'Kantong', 'Wadah tipis dan fleksibel yang terbuat dari plastik, digunakan untuk membawa atau menyimpan berbagai barang seperti makanan, minuman, atau barang belanjaan.', '2025-07-13 04:13:45', '2025-07-13 04:50:50'),
+(6, 'Alat Makan/Minum', 'Alat yang digunakan untuk menyajikan dan menikmati makanan dan minuman. ', '2025-07-13 04:33:28', '2025-07-13 04:33:28'),
+(7, 'Kertas', 'Lembaran tipis yang terbuat dari serat tumbuhan, seperti kayu, dan diproses menjadi lembaran yang dapat digunakan untuk berbagai keperluan seperti menulis, mencetak, dan menggambar', '2025-07-13 04:50:41', '2025-07-13 04:50:41'),
+(8, 'Wadah Makanan', 'Segala jenis tempat atau wadah yang digunakan untuk menyimpan, mengemas, atau mengangkut makanan. ', '2025-07-13 04:59:00', '2025-07-13 04:59:00'),
+(9, 'Tali', 'Untaian bahan yang dipilin atau dikepang menjadi satu untuk membentuk suatu benda yang lebih kuat dan fleksibel, biasanya digunakan untuk mengikat, menarik, atau menggantung sesuatu. ', '2025-07-13 05:24:13', '2025-07-13 05:24:13'),
+(10, 'Tisu', 'Sejenis kertas tipis dan ringan yang umumnya terbuat dari serat atau bubur kayu. ', '2025-07-13 06:22:42', '2025-07-13 06:22:42');
 
 -- --------------------------------------------------------
 
@@ -64,8 +68,8 @@ CREATE TABLE `customers` (
 
 INSERT INTO `customers` (`id`, `name`, `email`, `phone`, `address`, `created_at`) VALUES
 (1, 'Saripudin', 'saripudin@gmail.com', '081779046661', 'malas', '2025-07-06 03:03:15'),
-(2, 'Udin', 'm.arifrivaldi141105@gmail.com', '081382626096', 'Jalanin aja dulu', '2025-07-06 04:35:13'),
-(3, 'Mia', 'mia@gmail.com', '081382626096', 'jalanin aja dulu', '2025-07-13 02:27:00');
+(4, 'Mia', 'mia@gmail.com', '081382626096', 'Jalanin aja dulu', '2025-07-13 06:25:05'),
+(5, 'Ipun', 'ipun@gmail.com', '081382626096', 'Jalan Pisangan Lama 2', '2025-07-13 06:36:51');
 
 -- --------------------------------------------------------
 
@@ -88,9 +92,11 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `customer_id`, `total`, `status`, `shipping_address`, `created_at`, `updated_at`) VALUES
-(2, 2, '2100000.00', 'Selesai', 'Jalanin aja dulu', '2025-07-06 04:35:13', '2025-07-12 06:37:52'),
-(3, 2, '2100000.00', 'Selesai', 'jalanin aja dulu bro', '2025-07-08 07:08:23', '2025-07-08 07:09:00'),
-(6, 3, '2000000.00', 'Lunas', 'Jalanin aja dulu sob', '2025-07-13 02:53:44', '2025-07-13 02:53:59');
+(7, 1, '85000.00', 'Lunas', 'Jalanin aja dulu', '2025-07-13 06:01:50', '2025-07-13 06:25:25'),
+(8, 4, '10000.00', 'Selesai', 'Jalanin aja dulu', '2025-07-13 06:25:05', '2025-07-13 06:37:33'),
+(9, 5, '42000.00', 'Batal', 'Jalan Pisangan Lama 2', '2025-07-13 06:36:51', '2025-07-19 10:55:50'),
+(10, 5, '25000.00', 'Batal', 'jalanin aja dulu', '2025-07-19 02:29:06', '2025-07-19 10:56:02'),
+(11, 5, '17000.00', 'Lunas', 'jalanin aja dulu', '2025-07-19 10:55:19', '2025-07-19 10:56:25');
 
 -- --------------------------------------------------------
 
@@ -115,11 +121,15 @@ CREATE TABLE `order_items` (
 --
 
 INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `product_name`, `price`, `quantity`, `unit`, `created_at`, `updated_at`) VALUES
-(2, 2, 4, 'Rotom', '2000000.00', 1, 'roll', '2025-07-06 04:35:13', '2025-07-06 04:35:13'),
-(3, 2, 3, 'Panci', '100000.00', 1, 'kg', '2025-07-06 04:35:13', '2025-07-06 04:35:13'),
-(4, 3, 3, 'Panci', '100000.00', 1, 'kg', '2025-07-08 07:08:23', '2025-07-08 07:08:23'),
-(5, 3, 4, 'Rotom', '2000000.00', 1, 'roll', '2025-07-08 07:08:23', '2025-07-08 07:08:23'),
-(8, 6, 4, 'Rotom', '2000000.00', 1, 'roll', '2025-07-13 02:53:44', '2025-07-13 02:53:44');
+(9, 7, 10, 'Gelas Cap Wayang', '8000.00', 1, 'pack', '2025-07-13 06:01:50', '2025-07-13 06:01:50'),
+(10, 7, 5, 'Kantong Plastik Cap Tiger', '25000.00', 1, 'pack', '2025-07-13 06:01:50', '2025-07-13 06:01:50'),
+(11, 7, 6, 'Kantong Plastik Cap Tiger', '17000.00', 1, 'pack', '2025-07-13 06:01:50', '2025-07-13 06:01:50'),
+(12, 7, 12, 'Kotak Makan Thinwall', '35000.00', 1, 'pack', '2025-07-13 06:01:50', '2025-07-13 06:01:50'),
+(13, 8, 16, 'Tisu Multi', '10000.00', 1, 'pcs', '2025-07-13 06:25:05', '2025-07-13 06:25:05'),
+(14, 9, 17, 'Paper Cup', '12000.00', 1, 'pack', '2025-07-13 06:36:51', '2025-07-13 06:36:51'),
+(15, 9, 13, 'Sterofoam Makanan', '30000.00', 1, 'pack', '2025-07-13 06:36:51', '2025-07-13 06:36:51'),
+(16, 10, 5, 'Kantong Plastik Cap Tiger', '25000.00', 1, 'pack', '2025-07-19 02:29:06', '2025-07-19 02:29:06'),
+(17, 11, 6, 'Kantong Plastik Cap Tiger', '17000.00', 1, 'pack', '2025-07-19 10:55:19', '2025-07-19 10:55:19');
 
 -- --------------------------------------------------------
 
@@ -147,8 +157,18 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `category_id`, `name`, `description`, `price`, `stock`, `dimensions`, `color`, `unit`, `image`, `created_at`, `updated_at`) VALUES
-(3, 3, 'Panci', 'test', '100000.00', 30, '17x12 cm', 'Hijau', 'kg', '/proyek-1/public/images/products/product_1751737889.jpg', '2025-07-05 17:51:29', '2025-07-05 17:51:48'),
-(4, 3, 'Rotom', 'test', '2000000.00', 80, '20x30 cm', 'Kuning', 'roll', '/proyek-1/public/images/products/product_1751776436.jpg', '2025-07-06 04:33:56', '2025-07-06 04:33:56');
+(5, 5, 'Kantong Plastik Cap Tiger', 'Kantong Plastik Kresek HdPe\r\n\r\nMerk : Tiger\r\nWarna : Merah\r\nHarga : Rp 50,000;/Pak, Beli banyak lebih Murah.\r\nBerat Barang per 1 pak : 1 kg\r\nUkuran Lebar : 50 Cm X 70Cm\r\nPenggumaan : Cocok untuk Segala Keperluan Pengepakkan, Terutama bagi Pengusaha Loundry, Pakaian, Dll', '25000.00', 1000, '50x70 cm', 'Merah', 'pack', '/proyek-1/public/images/products/product_1752380156.jpg', '2025-07-13 04:15:56', '2025-07-13 05:20:39'),
+(6, 5, 'Kantong Plastik Cap Tiger', 'Berat Bersih : 300 grams\r\nIsi : sekitar 86 lembar\r\n\r\nKantong Plastik Kresek Tiger Bening, berbahan HDPE murni dengan qualitas prima sehingga menghasilkan kantong plastik yang kuat, elastis, higienis, tidak mudah bocor dan tahan lama.', '17000.00', 1000, '24x38 cm', 'Bening', 'pack', '/proyek-1/public/images/products/product_1752380535.jpg', '2025-07-13 04:22:15', '2025-07-13 05:21:08'),
+(7, 5, 'Kantong Plastik Cap Tomat', 'Plastik PE merk Tomat\r\nUkuran = 4 x 23 cm\r\nBerat = 250 gram\r\nisi -/+250 lembar\r\n\r\nFungsi dari Kantong Plastik PE sebagai :\r\n• Kantong Plastik membungkus cairan khususnya jenis minyak dan santan.\r\n• Kantong Plastik membungkus barang padat dan berat.\r\n• Kantong Plastik khusus es cair atau es batu.\r\n• Kantong Plastik untuk mengisi sampah dalam jumlah banyak.', '10000.00', 700, '4x12 cm', 'Bening', 'pack', '/proyek-1/public/images/products/product_1752380712.jpg', '2025-07-13 04:25:12', '2025-07-13 05:21:39'),
+(10, 6, 'Gelas Cap Wayang', 'Gelas Plastik Wayang 220 ml\r\n- 1 pack isi 50 Pcs\r\n\r\nTinggi 9,5cm\r\n\r\nHigienis sebagai wadah makanan dan minuman. Serta dapat digunakan untuk panas ataupun dingin', '8000.00', 800, '220 ml', 'Bening', 'pack', '/proyek-1/public/images/products/product_1752381908.jpg', '2025-07-13 04:45:08', '2025-07-13 05:20:20'),
+(11, 7, 'Kertas Nasi Cap Hebat', 'merk hebat\r\nuk 25x35\r\n1 pak isi 250 lbr', '20000.00', 900, '25x35 cm', 'Coklat', 'pack', '/proyek-1/public/images/products/product_1752382346.jpg', '2025-07-13 04:52:26', '2025-07-13 05:21:57'),
+(12, 8, 'Kotak Makan Thinwall', 'Bahan PP Foodgrade Original\r\nTahan di bawah suhu 18 Derajat Celcius\r\nTahan terhadap suhu Panas Microwave/oven dan kukus 100c\r\nKemasan Khusus untuk Makanan\r\nKetahanan yang baik terhadap lemak, stabil terhadap suhu tinggi dan cukup mengkilap\r\n\r\nPanjang bawah 14.5cm\r\nLebar bawah 9.5cm\r\nTebal 0.45mm\r\n\r\nBisa digunakan untuk :\r\nKotak nasi\r\nBox Sayur\r\nBekal Box Makanan', '35000.00', 200, '650 ml', 'Bening', 'pack', '/proyek-1/public/images/products/product_1752382869.jpg', '2025-07-13 05:01:09', '2025-07-13 05:22:04'),
+(13, 8, 'Sterofoam Makanan', 'Ready Stock - Styrofoam / Sterofoam Makanan\r\n- Untuk bubur / bakmie / makanan lainnya\r\n- Isi 100 pcs\r\n- Harga per roll isi 100 pcs\r\n- Ukuran 18cm x 12.5cm', '30000.00', 100, '18x12 cm', 'Putih', 'pack', '/proyek-1/public/images/products/product_1752383180.jpg', '2025-07-13 05:06:20', '2025-07-13 05:06:20'),
+(14, 9, 'Tali Rafia Cap Ladon', 'Spesifikasi:\r\n-Bahan = Grade K2\r\n-Kualitas Tali = Tebal & Kuat Tidak Mudah Putus\r\n-Warna = Hitam', '15000.00', 600, '', 'Hitam', 'roll', '/proyek-1/public/images/products/product_1752384428.jpg', '2025-07-13 05:27:08', '2025-07-13 05:34:19'),
+(15, 8, 'Kardus Nasi', 'Spesifikasi:\r\n~Bahan kardus tebal\r\n~Kuat dan tidak mudah penyok ketika di tumpuk\r\nKeterangan\r\n~Cocok untuk wadah/tempat snack dan nasi\r\n~Cocok untuk yang mempunyai usaha catering.\r\n~Biasa digunakan untuk dus nasi hajatan ataupun kegiatan travel.', '50000.00', 100, '25x25 cm', 'Putih', 'pack', '/proyek-1/public/images/products/product_1752384824.jpg', '2025-07-13 05:33:44', '2025-07-13 05:33:44'),
+(16, 10, 'Tisu Multi', 'Tisu serbaguna yang terbuat dari 100% serat kayu alami berkualitas, menghasilkan tisu yang higienis, lembut, dan kuat. Tisu ini cocok untuk berbagai kebutuhan keluarga, seperti membersihkan wajah, tangan, atau permukaan. Multi Tissue diproses secara higienis dan seringkali tidak mengandung pewarna, parfum, atau bahan kimia tambahan.', '10000.00', 500, '', '', 'pcs', '/proyek-1/public/images/products/product_1752387867.jpg', '2025-07-13 06:24:27', '2025-07-13 06:24:27'),
+(17, 6, 'Paper Cup', 'Paper Cup 9oz Gelas Kertas Kopi Motif\r\n\r\nSpesifikasi Cup :\r\n- Diameter atas 7.5cm\r\n- Diameter bawah 5 cm\r\n- Tinggi Cup 8.8 cm', '12000.00', 300, '', '', 'pack', '/proyek-1/public/images/products/product_1752388295.jpg', '2025-07-13 06:31:35', '2025-07-13 06:31:35'),
+(18, 6, 'Sedotan CSA', 'sedotan minuman isi 189 batang', '10000.00', 200, '', '', 'pack', '/proyek-1/public/images/products/product_1752388497.jpg', '2025-07-13 06:34:57', '2025-07-13 06:34:57');
 
 -- --------------------------------------------------------
 
@@ -230,31 +250,31 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `users`
